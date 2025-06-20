@@ -8,7 +8,7 @@ footer { background: #0d47a1; color: white; text-align: center; padding: 10px; }
 table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #fff; }
 th, td { text-align: left; padding: 8px; border: 1px solid #ccc; }
 body {
-  background-image: url('background.jpeg');
+  background-image: url('background.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
