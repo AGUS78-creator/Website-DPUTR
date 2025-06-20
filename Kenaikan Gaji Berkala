@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Kenaikan Gaji Berkala</title>
+  <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+  <header>
+    <h1>Kenaikan Gaji Berkala</h1>
+  </header>
+
+  <main>
+    <p>Informasi mengenai syarat, jadwal, dan dokumen untuk kenaikan gaji berkala akan ditampilkan di sini.</p>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Sistem Kepegawaian | By Agus</p>
+  </footer>
+</body>
+</html>
