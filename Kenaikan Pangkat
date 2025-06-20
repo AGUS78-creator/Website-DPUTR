@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Kenaikan Pangkat</title>
+  <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+  <header>
+    <h1>Kenaikan Pangkat</h1>
+  </header>
+
+  <main>
+    <p>Halaman ini berisi panduan dan ketentuan untuk proses kenaikan pangkat pegawai.</p>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Sistem Kepegawaian | By Agus</p>
+  </footer>
+</body>
+</html>
