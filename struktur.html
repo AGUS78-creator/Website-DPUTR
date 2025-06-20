@@ -18,48 +18,52 @@
       text-align: center;
       padding: 20px;
     }
-    .struktur-container {
+    .tree {
       display: flex;
-      flex-direction: column;
+      justify-content: center;
       align-items: center;
-      margin: 40px auto;
+      flex-direction: column;
       padding: 20px;
-    }
-    .node {
-      border: 2px solid #028090;
-      padding: 10px 15px;
-      border-radius: 8px;
-      background-color: white;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      text-align: center;
-      margin: 10px;
     }
     .level {
       display: flex;
       justify-content: center;
+      margin-top: 30px;
       flex-wrap: wrap;
       position: relative;
-      margin-top: 30px;
     }
-    .line {
+    .node {
+      background-color: white;
+      border: 2px solid #028090;
+      padding: 10px 15px;
+      margin: 10px;
+      border-radius: 8px;
+      text-align: center;
+      min-width: 200px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+    .node::before {
+      content: "";
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
       width: 2px;
       height: 20px;
-      background: #028090;
-      margin: 0 auto;
+      background-color: #028090;
     }
-    .connector {
+    .level:first-child .node::before {
+      display: none;
+    }
+    .horizontal-line {
       width: 100%;
       height: 2px;
       background: #028090;
       position: absolute;
       top: 0;
       left: 0;
-    }
-    h2 {
-      background-color: #028090;
-      color: white;
-      padding: 10px;
-      border-radius: 4px;
+      z-index: -1;
     }
   </style>
 </head>
@@ -68,24 +72,36 @@
     <h1>Struktur Organisasi DPUTR Kabupaten Purwakarta</h1>
   </header>
 
-  <div class="struktur-container">
-    <div class="node">Kepala Dinas: RYAN OKTAVIA, ST, MM, MT</div>
-
-    <div class="line"></div>
-    <div class="connector"></div>
+  <div class="tree">
+    <div class="level">
+      <div class="node">Kepala Dinas: RYAN OKTAVIA, ST, MM, MT</div>
+    </div>
 
     <div class="level">
       <div class="node">Sekretaris: LALAN SUHERLAN, ST, MM</div>
+    </div>
+
+    <div class="level">
+      <div class="node">Kasubag Umum & Kepegawaian: ASTRI SETIAWATI, SE</div>
+      <div class="node">Kasubag Keuangan: FAHRUDIN, SE</div>
+      <div class="node">Kelompok JF: WIDDY, AGUS HILMAN, SIP</div>
+      <div class="node">Kelompok JP</div>
+    </div>
+
+    <div class="level">
       <div class="node">Bidang Pembangunan: DINA CAHYADI, ST</div>
       <div class="node">Bidang Pemeliharaan: DHENI SURYADIPRANA, ST</div>
       <div class="node">Bidang SDA: RAHMAT AMIN</div>
       <div class="node">Bidang Tata Bangunan: MUHTAR</div>
       <div class="node">Bidang Penataan Ruang: ANDI AGUNG<br>Kasi: SATIA NORMAN</div>
+    </div>
+
+    <div class="level">
       <div class="node">UPTD Wil. Purwakarta: KARMANTO<br>TU: TUTUR</div>
       <div class="node">UPTD Wil. Plered: CECEP<br>TU: DADANG SUHARA</div>
       <div class="node">UPTD Wil. Wanayasa: ELI SOPIANTI<br>TU: FITRIANI NUR</div>
       <div class="node">UPTD Wil. Jatiluhur: EMPEP<br>TU: -</div>
-      <div class="node">UPTD Peralatan: ASEP BADRU<br>TU: SURADI, ST</div>
+      <div class="node">UPTD Peralatan & Perbengkelan: ASEP BADRU<br>TU: SURADI, ST</div>
     </div>
   </div>
 
@@ -94,4 +110,3 @@
   </footer>
 </body>
 </html>
-
