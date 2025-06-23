@@ -1,10 +1,14 @@
-body { font-family: Arial, sans-serif; margin: 0; padding: 0;
-background-image: 
-url('background-baru.jpeg');
-background-size: cover;
-background-repeat: no-repeat;
-background-attachment: fixed;
-background-position: center;}
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-image: url('background-baru.jpeg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+}
+
 header { background: #0d47a1; color: white; padding: 20px; text-align: center; }
 nav { background: #1976d2; display: flex; justify-content: center; flex-wrap: wrap; }
 nav a { color: white; padding: 14px 20px; text-decoration: none; display: block; }
