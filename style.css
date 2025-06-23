@@ -1,23 +1,25 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
-  background-image: url('background-baru.jpeg');
+  background-image: url('img/background-baru.jpeg');
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
+  color: #333;
 }
 
 header {
-  background: #0d47a1;
+  background: rgba(13, 71, 161, 0.95);
   color: white;
   padding: 20px;
   text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
 nav {
-  background: #1976d2;
+  background: rgba(25, 118, 210, 0.95);
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -28,6 +30,8 @@ nav a {
   padding: 14px 20px;
   text-decoration: none;
   display: block;
+  font-weight: 500;
+  transition: background 0.3s ease;
 }
 
 nav a:hover {
@@ -35,8 +39,12 @@ nav a:hover {
 }
 
 main {
-  padding: 20px;
-  background: white;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.9);
+  margin: 20px auto;
+  max-width: 1000px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 footer {
@@ -44,30 +52,38 @@ footer {
   color: white;
   text-align: center;
   padding: 10px;
+  font-size: 0.9em;
 }
 
+/* ===== TABEL ===== */
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
   background: #fff;
+  border-radius: 6px;
+  overflow: hidden;
 }
 
 th, td {
   text-align: left;
-  padding: 8px;
-  border: 1px solid #ccc;
+  padding: 12px;
+  border-bottom: 1px solid #ccc;
 }
 
-/* ========== CSS khusus untuk halaman login ========== */
+th {
+  background: #e3f2fd;
+  font-weight: 600;
+}
 
+/* ===== LOGIN BOX ===== */
 .login-box {
-  background: white;
+  background: rgba(255, 255, 255, 0.95);
   padding: 30px;
   border-radius: 12px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.2);
   text-align: center;
-  max-width: 320px;
+  max-width: 350px;
   margin: 100px auto;
 }
 
@@ -78,15 +94,18 @@ th, td {
   margin: 10px 0;
   border: 1px solid #0288d1;
   border-radius: 5px;
+  font-size: 1em;
 }
 
 .login-box button {
-  padding: 10px 20px;
+  padding: 10px 24px;
   background: #0288d1;
   color: white;
   border: none;
   border-radius: 5px;
+  font-weight: 600;
   cursor: pointer;
+  transition: background 0.3s ease;
 }
 
 .login-box button:hover {
