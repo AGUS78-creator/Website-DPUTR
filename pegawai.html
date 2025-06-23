@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="style.css">
 
   <script>
-   document.addEventlistener("DOMContentLoaded", function(){
+   document.addEventListener("DOMContentLoaded", function(){
     if (localStorage.getItem("isLoggedIn") !== "true") {
       alert("Anda harus login terlebih dahulu.");
       window.location.href = "login.html";
