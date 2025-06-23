@@ -1,126 +1,77 @@
+/* Font dasar */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-/* === BODY DAN LATAR BELAKANG === */
 body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
-  background-image: url('background-baru.jpeg'); /* pastikan file ini ada di folder yang sama dengan index.html */
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: center;
+  background: #f0f4f8;
   color: #333;
 }
 
-/* === HEADER === */
+/* Header */
 header {
-  background: rgba(13, 71, 161, 0.95);
+  background-color: #0d47a1;
   color: white;
   padding: 20px;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
-/* === NAVIGASI === */
+/* Navigasi */
 nav {
-  background: rgba(25, 118, 210, 0.95);
+  background-color: #1565c0;
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
 }
 
 nav a {
   color: white;
-  padding: 14px 20px;
   text-decoration: none;
-  display: block;
-  font-weight: 500;
-  transition: background 0.3s ease;
+  padding: 10px 15px;
+  border-radius: 8px;
+  transition: background-color 0.3s;
 }
 
 nav a:hover {
-  background: #1565c0;
+  background-color: #0d47a1;
 }
 
-/* === MAIN (ISI UTAMA) === */
+nav a.active {
+  font-weight: bold;
+  background-color: white;
+  color: #0d47a1;
+  border: 1px solid #0d47a1;
+}
+
+/* Konten utama */
 main {
-  padding: 30px;
-  background: rgba(255, 255, 255, 0.9);
-  margin: 20px auto;
+  padding: 20px;
   max-width: 1000px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin: auto;
 }
 
-/* === FOOTER === */
+/* Footer */
 footer {
-  background: #0d47a1;
+  background-color: #0d47a1;
   color: white;
   text-align: center;
-  padding: 10px;
-  font-size: 0.9em;
-}
-
-/* === TABEL === */
-table {
+  padding: 15px;
+  position: relative;
+  bottom: 0;
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-  background: #fff;
-  border-radius: 6px;
-  overflow: hidden;
 }
 
-th, td {
-  text-align: left;
-  padding: 12px;
-  border-bottom: 1px solid #ccc;
-}
+/* Responsive */
+@media (max-width: 600px) {
+  nav {
+    flex-direction: column;
+    align-items: center;
+  }
 
-th {
-  background: #e3f2fd;
-  font-weight: 600;
-}
-
-/* === LOGIN BOX === */
-.login-box {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  text-align: center;
-  max-width: 350px;
-  margin: 100px auto;
-}
-
-.login-box input[type="text"],
-.login-box input[type="password"] {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #0288d1;
-  border-radius: 5px;
-  font-size: 1em;
-}
-
-.login-box button {
-  padding: 10px 24px;
-  background: #0288d1;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.login-box button:hover {
-  background: #0277bd;
-}
-
-/* === PESAN ERROR LOGIN === */
-#error {
-  color: red;
-  margin-top: 10px;
+  iframe {
+    height: 400px;
+  }
 }
