@@ -1,10 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
+/* === BODY DAN LATAR BELAKANG === */
 body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
-  background-image: url('background-baru.jpeg');
+  background-image: url('background-baru.jpeg'); /* pastikan file ini ada di folder yang sama dengan index.html */
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -12,6 +13,7 @@ body {
   color: #333;
 }
 
+/* === HEADER === */
 header {
   background: rgba(13, 71, 161, 0.95);
   color: white;
@@ -20,6 +22,7 @@ header {
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
+/* === NAVIGASI === */
 nav {
   background: rgba(25, 118, 210, 0.95);
   display: flex;
@@ -40,6 +43,7 @@ nav a:hover {
   background: #1565c0;
 }
 
+/* === MAIN (ISI UTAMA) === */
 main {
   padding: 30px;
   background: rgba(255, 255, 255, 0.9);
@@ -49,6 +53,7 @@ main {
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
+/* === FOOTER === */
 footer {
   background: #0d47a1;
   color: white;
@@ -57,7 +62,7 @@ footer {
   font-size: 0.9em;
 }
 
-/* ===== TABEL ===== */
+/* === TABEL === */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -78,7 +83,7 @@ th {
   font-weight: 600;
 }
 
-/* ===== LOGIN BOX ===== */
+/* === LOGIN BOX === */
 .login-box {
   background: rgba(255, 255, 255, 0.95);
   padding: 30px;
@@ -114,6 +119,7 @@ th {
   background: #0277bd;
 }
 
+/* === PESAN ERROR LOGIN === */
 #error {
   color: red;
   margin-top: 10px;
