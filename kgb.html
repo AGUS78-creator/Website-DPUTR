@@ -5,20 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Kenaikan Gaji Berkala</title>
   <link rel="stylesheet" href="style.css" />
+
+  <!-- Proteksi login -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (localStorage.getItem("isLoggedIn") !== "true") {
+        alert("Anda harus login terlebih dahulu.");
+        window.location.href = "login.html";
+      }
+    });
+  </script>
 </head>
 <body>
-  <header><h1>Kenaikan Gaji Berkala (KGB)</h1></header>
+
+  <!-- Header -->
+  <header>
+    <h1>Kenaikan Gaji Berkala (KGB)</h1>
+  </header>
+
+  <!-- Navigasi -->
   <nav>
     <a href="index.html">Beranda</a>
     <a href="struktur.html">Struktur</a>
     <a href="pegawai.html">Pegawai</a>
     <a href="kegiatan.html">Kegiatan</a>
     <a href="kontak.html">Kontak</a>
-    <a href="kgb.html">KGB</a>
-    <a href="Kp.html">KP</a>
+    <a href="kgb.html" class="active">KGB</a>
+    <a href="kp.html">KP</a>
     <a href="pensiun.html">Pensiun</a>
-    <a href="Persyaratan Kepegawaian.html">Persyaratan</a>
+    <a href="persyaratan-kepegawaian.html">Persyaratan</a>
+    <a href="#" onclick="logout()">Logout</a>
   </nav>
+
+  <!-- Konten Utama -->
   <main>
     <h2>Data Kenaikan Gaji Berkala</h2>
     <iframe 
@@ -28,8 +47,20 @@
       style="border:none;">
     </iframe>
   </main>
+
+  <!-- Footer -->
   <footer>
     &copy; 2025 Sistem Kepegawaian | By Agus Hilman, S.I.P - Analis SDM Aparatur Ahli Pertama
   </footer>
+
+  <!-- Logout -->
+  <script>
+    function logout() {
+      localStorage.removeItem("isLoggedIn");
+      alert("Berhasil logout.");
+      window.location.href = "login.html";
+    }
+  </script>
+
 </body>
 </html>
