@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Pegawai DPUTR</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #e3f2fd;
+    }
+    header {
+      background-color: #1565c0;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    main {
+      padding: 30px;
+      text-align: center;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      margin: 20px auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 500px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #c62828;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #b71c1c;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Selamat Datang di Dashboard</h1>
+    <p>Pegawai DPUTR Kabupaten Purwakarta</p>
+  </header>
+
+  <main>
+    <div class="card">
+      <h2>Informasi Kepegawaian</h2>
+      <p><strong>Nama:</strong> (otomatis dari login)</p>
+      <p><strong>Kenaikan Gaji Berkala:</strong> 1 September 2025</p>
+      <p><strong>Kenaikan Pangkat:</strong> April 2026</p>
+      <p><strong>Pensiun:</strong> -</p>
+    </div>
+
+    <div class="card">
+      <h2>Akses Layanan</h2>
+      <p><a href="#">Cek Syarat KGB</a></p>
+      <p><a href="#">Cek Syarat Kenaikan Pangkat</a></p>
+      <p><a href="#">Dokumen Kepegawaian</a></p>
+    </div>
+
+    <button onclick="logout()">Logout</button>
+  </main>
+
+  <script>
+    function logout() {
+      window.location.href = "login.html";
+    }
+  </script>
+</body>
+</html>
