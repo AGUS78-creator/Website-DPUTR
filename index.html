@@ -6,14 +6,52 @@
   <meta name="description" content="Portal Layanan Informasi Kepegawaian DPUTR Kabupaten Purwakarta.">
   <title>Kepegawaian DPUTR Purwakarta</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .wave {
+      display: inline-block;
+      animation: none;
+    }
+
+    .goyang {
+      animation: waveAnim 0.8s ease-in-out;
+    }
+
+    @keyframes waveAnim {
+      0% { transform: rotate(0deg); }
+      20% { transform: rotate(15deg); }
+      40% { transform: rotate(-10deg); }
+      60% { transform: rotate(10deg); }
+      80% { transform: rotate(-5deg); }
+      100% { transform: rotate(0deg); }
+    }
+
+    /* Tombol scroll ke atas */
+    #topBtn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      display: none;
+      background-color: #0288d1;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 50%;
+      font-size: 18px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      cursor: pointer;
+      z-index: 99;
+    }
+
+    #topBtn:hover {
+      background-color: #0277bd;
+    }
+  </style>
 </head>
 <body>
 
   <header>
     <h1>KEPEGAWAIAN DPUTR KAB. PURWAKARTA</h1>
-    <p style="font-size: 1.1em; margin-top: 8px;">
-      Portal Layanan Informasi Kepegawaian (L I K E) – Dinas Pekerjaan Umum dan Tata Ruang
-    </p>
+    <p>Portal Layanan Informasi Kepegawaian ( L I K E ) – Dinas Pekerjaan Umum dan Tata Ruang</p>
   </header>
 
   <nav>
@@ -22,25 +60,24 @@
     <a href="pegawai.html">Pegawai</a>
     <a href="kegiatan.html">Kegiatan</a>
     <a href="kontak.html">Kontak</a>
-    <a href="kenaikan%20gaji%20berkala.html">KGB</a>
-    <a href="kenaikan%20pangkat.html">KP</a>
+    <a href="kgb.html">KGB</a>
+    <a href="kp.html">KP</a>
     <a href="pensiun.html">Pensiun</a>
-    <a href="persyaratan%20Kepegawaian.html">Persyaratan</a>
+    <a href="persyaratan kepegawaian.html">Persyaratan</a>
     <a href="login.html">Login</a>
   </nav>
 
   <main>
-    <h2 style="text-align: center; margin-bottom: 20px;">Selamat Datang 👋</h2>
-    <p style="font-size: 1.1em; line-height: 1.8;">
-      Website ini adalah <strong>Layanan Informasi Kepegawaian</strong> bagi Pegawai 
-      <strong>Dinas Pekerjaan Umum dan Tata Ruang Kabupaten Purwakarta</strong>, yang menyediakan:
+    <h2>Selamat Datang <span class="wave">👋</span></h2>
+    <p>
+      Website ini adalah <strong>Layanan Informasi Kepegawaian</strong> bagi Pegawai <strong>Dinas Pekerjaan Umum dan Tata Ruang Kabupaten Purwakarta</strong>, yang menyediakan:
     </p>
-    <ul style="font-size: 1.05em; line-height: 1.8; margin-top: 10px;">
-      <li>🗂️ Struktur Organisasi</li>
-      <li>👨‍💼 Data Pegawai</li>
+    <ul>
+      <li>📁 Struktur Organisasi</li>
+      <li>👤 Data Pegawai</li>
       <li>📈 Kenaikan Gaji Berkala (KGB)</li>
       <li>📊 Kenaikan Pangkat (KP)</li>
-      <li>📅 Data Pensiun</li>
+      <li>📂 Data Pensiun</li>
       <li>📝 Persyaratan Administrasi Kepegawaian</li>
       <li>📸 Dokumentasi Kegiatan</li>
     </ul>
@@ -49,6 +86,35 @@
   <footer>
     &copy; 2025 Sistem Kepegawaian | By <strong>Agus Hilman, S.I.P</strong> – Analis SDM Aparatur Ahli Pertama
   </footer>
+
+  <!-- Tombol ke atas -->
+  <button onclick="scrollToTop()" id="topBtn" title="Kembali ke atas">⬆️</button>
+
+  <!-- Script emoji & tombol -->
+  <script>
+    // Animasi emoji 👋
+    const wave = document.querySelector("h2 .wave");
+    if (wave) {
+      setInterval(() => {
+        wave.classList.add("goyang");
+        setTimeout(() => wave.classList.remove("goyang"), 800);
+      }, 3000);
+    }
+
+    // Tombol scroll ke atas
+    const topBtn = document.getElementById("topBtn");
+    window.onscroll = function() {
+      if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+        topBtn.style.display = "block";
+      } else {
+        topBtn.style.display = "none";
+      }
+    };
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
 
 </body>
 </html>
