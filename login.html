@@ -9,17 +9,23 @@
       background: #e0f7fa;
       font-family: Arial, sans-serif;
       display: flex;
-      height: 100vh;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
+      min-height: 100vh;
+      margin: 0;
     }
+
     .login-box {
       background: white;
       padding: 30px;
       border-radius: 12px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.2);
       text-align: center;
+      width: 90%;
+      max-width: 350px;
     }
+
     input[type="text"], input[type="password"] {
       width: 100%;
       padding: 10px;
@@ -27,6 +33,7 @@
       border: 1px solid #0288d1;
       border-radius: 5px;
     }
+
     button {
       padding: 10px 20px;
       background: #0288d1;
@@ -35,12 +42,20 @@
       border-radius: 5px;
       cursor: pointer;
     }
+
     button:hover {
       background: #0277bd;
+    }
+
+    footer {
+      margin-top: 20px;
+      font-size: 0.9em;
+      color: #555;
     }
   </style>
 </head>
 <body>
+
   <div class="login-box">
     <h2>Login Kepegawaian DPUTR</h2>
     <input type="text" id="username" placeholder="Username" />
@@ -49,19 +64,23 @@
     <p id="error" style="color: red;"></p>
   </div>
 
+  <footer>
+    &copy; 2025 Sistem Kepegawaian | By Agus Hilman, S.I.P - Analis SDM Aparatur Ahli Pertama
+  </footer>
+
   <script>
     function login() {
-      const user = document.getElementById('username').value;
-      const pass = document.getElementById('password').value;
+      const user = document.getElementById('username').value.trim();
+      const pass = document.getElementById('password').value.trim();
 
-      if(user === 'admin' && pass === 'dputr2025') {
+      if (user === 'admin' && pass === 'dputr2025') {
+        localStorage.setItem('isLoggedIn', 'true'); // simpan status login
         window.location.href = 'index.html';
       } else {
         document.getElementById('error').textContent = 'Username atau password salah!';
       }
     }
   </script>
-</main>
-<footer>&copy; 2025 Sistem Kepegawaian | By Agus Hilman,S.I.P - Analis SDM Aparatur Ahli Pertama</footer>
+
 </body>
 </html>
