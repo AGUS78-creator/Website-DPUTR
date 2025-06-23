@@ -7,11 +7,11 @@
   <link rel="stylesheet" href="style.css">
 
   <script>
-    // Cek apakah user sudah login
+   document.addEventlistener("DOMContentLoaded", function(){
     if (localStorage.getItem("isLoggedIn") !== "true") {
       alert("Anda harus login terlebih dahulu.");
       window.location.href = "login.html";
-    }
+    }});
   </script>
 </head>
 <body>
