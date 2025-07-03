@@ -8,8 +8,8 @@
 </head>
 <body>
   <div class="login-box">
-    <h2>Login Kepegawaian DPUTR</h2>
-    <input type="text" id="nip" placeholder="NIP" />
+    <h2>Login Sistem Kepegawaian</h2>
+    <input type="text" id="username" placeholder="NIP / Username" />
     <input type="password" id="password" placeholder="Password" />
     <button onclick="login()">Masuk</button>
     <p id="error"></p>
@@ -17,30 +17,31 @@
 
   <script>
     function login() {
-      const nip = document.getElementById("nip").value.trim();
-      const password = document.getElementById("password").value.trim();
-
-      if (!nip || !password) {
-        document.getElementById("error").textContent = "Harap isi NIP dan Password!";
-        return;
-      }
+      const user = document.getElementById('username').value.trim();
+      const pass = document.getElementById('password').value.trim();
 
       fetch("https://script.google.com/macros/s/AKfycbwgwYPd1LlQmaqpJPxSW3m2fXRnDQxIavz7A9h21gA4rDq7dgzMJO9NgLyP55jT72ql/exec", {
         method: "POST",
-        body: new URLSearchParams({ nip: nip, password: password }),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          nip: user,
+          password: pass
+        })
       })
-      .then(res => res.text())
-      .then(response => {
-        if (response === "success") {
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
           localStorage.setItem("isLoggedIn", "true");
           window.location.href = "index.html";
         } else {
-          document.getElementById("error").textContent = "NIP atau Password salah!";
+          document.getElementById("error").textContent = "Login gagal. NIP atau Password salah.";
         }
       })
       .catch(error => {
+        console.error("Error:", error);
         document.getElementById("error").textContent = "Gagal terhubung ke server.";
-        console.error("Login error:", error);
       });
     }
   </script>
