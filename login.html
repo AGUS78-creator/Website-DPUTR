@@ -23,16 +23,13 @@
       fetch("https://script.google.com/macros/s/AKfycbwgwYPd1LlQmaqpJPxSW3m2fXRnDQxIavz7A9h21gA4rDq7dgzMJO9NgLyP55jT72ql/exec", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/x-www-form-urlencoded"
         },
-        body: JSON.stringify({
-          nip: user,
-          password: pass
-        })
+        body: `nip=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`
       })
-      .then(response => response.json())
+      .then(response => response.text())
       .then(data => {
-        if (data.success) {
+        if (data === "admin" || data === "pengguna") {
           localStorage.setItem("isLoggedIn", "true");
           window.location.href = "index.html";
         } else {
