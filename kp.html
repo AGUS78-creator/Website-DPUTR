@@ -3,65 +3,48 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Kenaikan Pangkat</title>
+  <title>Kenaikan Pangkat (KP)</title>
   <link rel="stylesheet" href="style.css" />
-
-  <!-- Proteksi login -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      if (localStorage.getItem("isLoggedIn") !== "true") {
-        alert("Anda harus login terlebih dahulu.");
-        window.location.href = "login.html";
-      }
-    });
-  </script>
 </head>
 <body>
 
-  <!-- Header -->
-  <header>
-    <h1>Kenaikan Pangkat (KP)</h1>
-  </header>
+<header><h1>Kenaikan Pangkat (KP)</h1></header>
+<nav>
+  <a href="index.html">Beranda</a>
+  <a href="struktur.html">Struktur</a>
+  <a href="pegawai.html">Pegawai</a>
+  <a href="kegiatan.html">Kegiatan</a>
+  <a href="kontak.html">Kontak</a>
+  <a href="kgb.html">KGB</a>
+  <a href="kp.html">KP</a>
+  <a href="pensiun.html">Pensiun</a>
+  <a href="persyaratan kepegawaian.html">Persyaratan</a>
+  <a href="#" onclick="logout()">Logout</a>
+</nav>
 
-  <!-- Navigasi -->
-  <nav>
-    <a href="index.html">Beranda</a>
-    <a href="struktur.html">Struktur</a>
-    <a href="pegawai.html">Pegawai</a>
-    <a href="kegiatan.html">Kegiatan</a>
-    <a href="kontak.html">Kontak</a>
-    <a href="kgb.html">KGB</a>
-    <a href="kp.html" class="active">KP</a>
-    <a href="pensiun.html">Pensiun</a>
-    <a href="persyaratan-kepegawaian.html">Persyaratan</a>
-    <a href="#" onclick="logout()">Logout</a>
-  </nav>
+<main>
+  <h2>Data Kenaikan Pangkat</h2>
+  <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ....URL_Lain"
+    width="100%" height="600" style="border:none;"></iframe>
+</main>
 
-  <!-- Konten Utama -->
-  <main>
-    <h2>Data Kenaikan Pangkat</h2>
-    <p>Data kenaikan pangkat akan ditampilkan di bawah ini setelah tersedia.</p>
-    <iframe 
-      src="https://docs.google.com/spreadsheets/d/e/PASTE_LINK_KP_DISINI/pubhtml?widget=true&amp;headers=false" 
-      width="100%" 
-      height="600" 
-      style="border:none;">
-    </iframe>
-  </main>
+<footer>&copy; 2025 Sistem Kepegawaian | By Agus Hilman, S.I.P</footer>
 
-  <!-- Footer -->
-  <footer>
-    &copy; 2025 Sistem Kepegawaian | By Agus Hilman, S.I.P - Analis SDM Aparatur Ahli Pertama
-  </footer>
+<script>
+  // Cek login
+  if (localStorage.getItem("isLoggedIn") !== "true") {
+    alert("Anda harus login terlebih dahulu!");
+    window.location.href = "login.html";
+  }
 
-  <!-- Logout -->
-  <script>
-    function logout() {
-      localStorage.removeItem("isLoggedIn");
-      alert("Berhasil logout.");
-      window.location.href = "login.html";
-    }
-  </script>
+  // Logout
+  function logout() {
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("userNIP");
+    alert("Berhasil logout.");
+    window.location.href = "login.html";
+  }
+</script>
 
 </body>
 </html>
