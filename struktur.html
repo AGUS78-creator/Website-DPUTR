@@ -1,132 +1,32 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Struktur Organisasi DPUTR Kab. Purwakarta</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f4f8;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background-color: #006699;
-      color: white;
-      text-align: center;
-      padding: 20px;
-    }
-    .tree {
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
-    }
-    .level {
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      position: relative;
-      margin-top: 40px;
-      flex-wrap: wrap;
-    }
-    .node {
-      background-color: white;
-      border: 2px solid #028090;
-      border-radius: 8px;
-      padding: 10px 15px;
-      margin: 10px;
-      text-align: center;
-      min-width: 200px;
-      position: relative;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    .node::before {
-      content: "";
-      position: absolute;
-      top: -20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 2px;
-      height: 20px;
-      background-color: #028090;
-    }
-    .level:first-child .node::before {
-      display: none;
-    }
-    .connector {
-      width: 100%;
-      height: 20px;
-      position: absolute;
-      top: -20px;
-      left: 0;
-      display: flex;
-      justify-content: space-around;
-    }
-    .connector::before {
-      content: "";
-      height: 2px;
-      width: 100%;
-      background: #028090;
-      position: absolute;
-      top: 10px;
-      left: 0;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Struktur Organisasi</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
-    <h1>Struktur Organisasi DPUTR Kabupaten Purwakarta</h1>
+    <h1>Struktur Organisasi</h1>
   </header>
-<nav>
-  <a href="index.html">Beranda</a>
-  <a href="struktur.html">Struktur</a>
-  <a href="pegawai.html">Pegawai</a>
-  <a href="kegiatan.html">Kegiatan</a>
-  <a href="kontak.html">Kontak</a>
- <a herf="kenaikan gaji berkala.html">KGB</a>
-  <a herf="kenaikan pangkat.html">KP</a>
-  <a herf="pensiun.html">pensiun</a>
-  <a herf="persyaratan Kepegawaian.html">Persyaratan</a>
-</nav>
-  <div class="tree">
-    <div class="level">
-      <div class="node">Kepala Dinas:<br>RYAN OKTAVIA, ST, MM, MT</div>
-    </div>
 
-    <div class="level">
-      <div class="node">Sekretaris:<br>LALAN SUHERLAN, ST, MM</div>
-    </div>
+  <main>
+    <p>Berikut adalah susunan struktur organisasi DPUTR Kabupaten Purwakarta:</p>
 
-    <div class="level">
-      <div class="node">Kasubag Umum & Kepegawaian:<br>ASTRI SETIAWATI, SE</div>
-      <div class="node">Kasubag Keuangan:<br>FAHRUDIN, SE</div>
-      <div class="node">Kelompok JF:<br>WIDDY, AGUS HILMAN, SIP</div>
-      <div class="node">Kelompok JP</div>
+    <div style="overflow-x:auto;">
+      <iframe 
+        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRCr6Fq-FtvYnGqKBLwznR8f_dfzmK2lrtuBnoC9FMgSTllMISl7bxb-CFAOM0Tlw/pubhtml?gid=1884576502&amp;single=true&amp;widget=true&amp;headers=false" 
+        width="100%" 
+        height="600" 
+        frameborder="0" 
+        allowfullscreen>
+      </iframe>
     </div>
+  </main>
 
-    <div class="level">
-      <div class="node">Bidang Pembangunan:<br>DINA CAHYADI, ST</div>
-      <div class="node">Bidang Pemeliharaan:<br>DHENI SURYADIPRANA, ST</div>
-      <div class="node">Bidang SDA:<br>RAHMAT AMIN</div>
-      <div class="node">Bidang Tata Bangunan:<br>MUHTAR</div>
-      <div class="node">Bidang Penataan Ruang:<br>ANDI AGUNG<br>Kasi: SATIA NORMAN</div>
-    </div>
-
-    <div class="level">
-      <div class="node">UPTD Wil. Purwakarta:<br>KARMANTO<br>TU: TUTUR</div>
-      <div class="node">UPTD Wil. Plered:<br>CECEP<br>TU: DADANG SUHARA</div>
-      <div class="node">UPTD Wil. Wanayasa:<br>ELI SOPIANTI<br>TU: FITRIANI NUR</div>
-      <div class="node">UPTD Wil. Jatiluhur:<br>EMPEP<br>TU: -</div>
-      <div class="node">UPTD Peralatan & Perbengkelan:<br>ASEP BADRU<br>TU: SURADI, ST</div>
-    </div>
-  </div>
-
-  <footer style="text-align:center; padding:20px; background:#006699; color:white;">
-    &copy; 2025 Sistem Layanan Informasi Kepegawaian | By Agus Hilman,S.I.P - Analis SDM Aparatur Ahli Pertama
+  <footer>
+    &copy; 2025 DPUTR Kabupaten Purwakarta. All rights reserved.
   </footer>
 </body>
 </html>
