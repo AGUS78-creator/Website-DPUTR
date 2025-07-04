@@ -8,31 +8,33 @@ body {
   background-image: url('gambar/backgroud.baru.jpg');
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: center center;
+  background-attachment: fixed;
   color: #333;
 }
 
-/* Overlay agar teks tetap terbaca */
+/* Konten utama */
 main {
-  background-color: rgba(255, 255, 255, 0.85);
+  background-color: rgba(255, 255, 255, 0.88);
   padding: 20px;
   max-width: 1000px;
   margin: 30px auto;
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* Header */
 header {
-  background-color: #0d47a1;
+  background-color: rgba(13, 71, 161, 0.9);
   color: white;
   padding: 30px 20px;
   text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
 /* Navigasi */
 nav {
-  background-color: #1565c0;
+  background-color: rgba(21, 101, 192, 0.9);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -61,13 +63,14 @@ nav a.active {
 
 /* Footer */
 footer {
-  background-color: #0d47a1;
+  background-color: rgba(13, 71, 161, 0.9);
   color: white;
   text-align: center;
   padding: 15px;
   position: relative;
   bottom: 0;
   width: 100%;
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.2);
 }
 
 /* Responsive */
@@ -79,5 +82,9 @@ footer {
 
   main {
     margin: 15px;
+  }
+
+  iframe {
+    height: 400px;
   }
 }
