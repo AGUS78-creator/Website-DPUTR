@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ucapan Ulang Tahun Juli</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .birthday-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .birthday-card {
+      background-color: #fff8e1;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 16px;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .birthday-card:hover {
+      transform: scale(1.02);
+    }
+
+    .birthday-card h3 {
+      color: #ff6f00;
+      margin-bottom: 10px;
+    }
+
+    .birthday-card iframe {
+      width: 100%;
+      height: 200px;
+      border: none;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Layanan Informasi Kepegawaian</h1>
+    <p>Dinas Pekerjaan Umum & Tata Ruang Kabupaten Purwakarta</p>
+  </header>
+
+  <nav>
+    <a href="index.html">Beranda</a>
+    <a href="struktur.html">Struktur Organisasi</a>
+    <a href="pegawai.html">Data Pegawai</a>
+    <a href="pensiun.html">Data Pensiun</a>
+    <a href="kgb.html">Data KGB</a>
+    <a href="kp.html">Data KP</a>
+    <a href="persyaratan.html">Persyaratan Kepegawaian</a>
+    <a href="kegiatan.html">Dokumentasi Kegiatan</a>
+    <a href="ultah.html" class="active">Ucapan Ulang Tahun</a>
+    <a href="peraturan.html">Peraturan Kepegawaian</a>
+  </nav>
+
+  <main>
+    <h2>🎉 Ucapan Ulang Tahun Pegawai - Juli 2025</h2>
+    <p>Berikut adalah video-video ucapan ulang tahun pegawai DPUTR untuk bulan Juli:</p>
+
+    <div class="birthday-gallery">
+      <!-- 20 video embed -->
+      <!-- Kamu bisa beri nama tiap video di bawah ini kalau ada -->
+      ${[
+        '1fUwEXCZypOEVEe7bKwNhY-NxGCNOMK5k',
+        '19VjABPwQ4c54jgoLxTQzpKNgATuOhj2z',
+        '1pdpnFidVjgrKjGXe4X8jW9EZCx8_VBeV',
+        '1jRlmN9Zy5h57cbbWK0JUXoRrDi9zm0zp',
+        '11uTeQIjAXjIvBf8yP84asYe2Jhq8Evyb',
+        '1eO0Aw9WKwm0s5ADxn04V1Pni_ZRCxNfA',
+        '1Ku5j9G71HNXn7_88fc3runV2eHRC2xo3',
+        '1UFVL4qSjXZOGPUZiNOdimYIwdqfnDxoQ',
+        '1ZqULACuxdSWo5xCWRKGtB3N8qn2iRIur',
+        '1-W132CWaV46BkCbY5z-nReuYujYa_poM',
+        '1DcqpJR_tukod0m7WIci7B-Lel3-PQeP3',
+        '13oQZI2ciekJ0reUSAcPwuZt_spW9A9VM',
+        '1K_kf6a1vqxPolCfYwlMLDZm4NRakBbHm',
+        '1aldf0N2SsyCO7ro-6g6FpxHmpEm5555Y',
+        '1w_cidbY55VaplpQYplT0O_959WC4A2n1',
+        '1Fl8fqCO_awuwi7e0CILKpZamNH5gnOGV',
+        '1gm2hT4coOCIvJhJChpL4ZXIpRAyEP6lL',
+        '1waUo0gsvsTsKg5s7y0YxoitNZVOIyaY6',
+        '1LdavwGHQdcXrBaU2j8qFYd_f2VkvbdcN',
+        '1qQ6JU3cAO_8ybY0Z48kFMVoF2SK6KAmB'
+      ].map(id => `
+        <div class="birthday-card">
+          <h3>🎂 Ulang Tahun</h3>
+          <iframe src="https://drive.google.com/file/d/${id}/preview" allow="autoplay" allowfullscreen></iframe>
+        </div>
+      `).join('')}
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2025 DPUTR Kabupaten Purwakarta. All rights reserved.
+  </footer>
+</body>
+</html>
