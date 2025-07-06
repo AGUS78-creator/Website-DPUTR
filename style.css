@@ -1,4 +1,4 @@
-/* Font dasar */
+//* Font dasar */
 body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
@@ -32,7 +32,7 @@ header {
 
 /* Navigasi */
 nav {
-  background-color: rgba(21, 101, 192, 0.9);
+  background-color: #1a6fb3; /* DIGANTI agar solid & tidak putih transparan */
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -45,7 +45,7 @@ nav a {
   text-decoration: none;
   padding: 10px 15px;
   border-radius: 8px;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 nav a:hover {
@@ -54,9 +54,9 @@ nav a:hover {
 
 nav a.active {
   font-weight: bold;
-  background-color: white;
-  color: #0d47a1;
-  border: 1px solid #0d47a1;
+  background-color: #ffffff;
+  color: #1a6fb3;
+  border: 1px solid #ffffff;
 }
 
 /* Video Galeri */
@@ -76,7 +76,7 @@ nav a.active {
 
 /* Footer */
 footer {
-  background-color: rgba(13, 71, 161, 0.9);
+  background-color: #1a6fb3;
   color: white;
   text-align: center;
   padding: 15px;
