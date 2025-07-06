@@ -3,6 +3,7 @@ body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
+  background-colour:#1a6fb3;
   background-image: url('bg.jpeg');
   background-size: cover;
   background-repeat: no-repeat;
