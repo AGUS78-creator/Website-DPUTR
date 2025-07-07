@@ -8,69 +8,41 @@
 </head>
 <body style="margin: 0; font-family: Arial, sans-serif;">
 
-  <!-- Header dengan Foto & Dropdown -->
-  <header style="display: flex; justify-content: space-between; align-items: center; background-color: #1a6fb3; color: white; padding: 15px 20px; position: relative;">
-    <div>
-      <h1 style="margin: 0;">Layanan Informasi Kepegawaian</h1>
-      <p style="margin: 0;">Dinas Pekerjaan Umum & Tata Ruang Kabupaten Purwakarta</p>
-    </div>
-
-    <!-- Profil Developer -->
-    <div style="position: relative; cursor: pointer;" onclick="toggleDropdown()">
-      <div style="display: flex; align-items: center;">
-        <span style="margin-right: 10px;">👨‍💻 Agus Hilman, S.I.P - Analis SDM Aparatur Ahli Pertama</span>
-        <img src="https://agus78-creator.github.io/Website-DPUTR/bapa.jpeg" alt="Foto Agus Hilman" style="width: 45px; height: 45px; border-radius: 50%; border: 2px solid white;" />
-      </div>
-
-      <!-- Dropdown Menu -->
-      <div id="dropdown-menu" style="display: none; position: absolute; right: 0; top: 60px; background-color: white; color: black; border: 1px solid #ccc; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); min-width: 180px; z-index: 999;">
-        <a href="profile.html" style="display: block; padding: 10px; text-decoration: none; color: black; border-bottom: 1px solid #eee;">👤 Profil Saya</a>
-        <a href="#" style="display: block; padding: 10px; text-decoration: none; color: black;">🚪 Logout</a>
-      </div>
-    </div>
+  <!-- Header -->
+  <header style="background-color: #1a6fb3; color: white; padding: 15px 20px;">
+    <h1 style="margin: 0;">Layanan Informasi Kepegawaian</h1>
+    <p style="margin: 0;">Dinas Pekerjaan Umum & Tata Ruang Kabupaten Purwakarta</p>
+    <p style="margin-top: 5px; font-size: 14px;">👨‍💻 Agus Hilman, S.I.P - Analis SDM Aparatur Ahli Pertama</p>
   </header>
 
-  <!-- Navigasi Menu -->
-  <nav style="background-color: #1a6fb3; padding: 10px 20px;position:relative:z-index:10;">
-  <a href="index.html" style="margin-right: 15px; color: white; text-decoration: none;">Beranda</a>
-  <a href="struktur.html" style="margin-right: 15px; color: white; text-decoration: none;">Struktur Organisasi</a>
-  <a href="pegawai.html" style="margin-right: 15px; color: white; text-decoration: none;">Data Pegawai</a>
-  <a href="pensiun.html" style="margin-right: 15px; color: white; text-decoration: none;">Data Pensiun</a>
-  <a href="kgb.html" style="margin-right: 15px; color: white; text-decoration: none;">Data KGB</a>
-  <a href="kp.html" style="margin-right: 15px; color: white; text-decoration: none;">Data KP</a>
-  <a href="persyaratan.html" style="margin-right: 15px; color: white; text-decoration: none;">Persyaratan Kepegawaian</a>
-  <a href="kegiatan.html" style="margin-right: 15px; color: white; text-decoration: none;">Dokumentasi Kegiatan</a>
-  <a href="peraturan.html" style="margin-right: 15px; color: white; text-decoration: none;">Peraturan Kepegawaian</a>
-  <a href="ultah.html" style="margin-right: 15px; color: white; text-decoration: none;">Ucapan Ulang Tahun</a>
-</nav>
+  <!-- Navigasi -->
+  <nav style="background-color: #1a6fb3; padding: 10px 20px;">
+    <a href="index.html" style="margin-right: 15px; color: white; text-decoration: none;">Beranda</a>
+    <a href="struktur.html" style="margin-right: 15px; color: white; text-decoration: none;">Struktur Organisasi</a>
+    <a href="pegawai.html" style="margin-right: 15px; color: white; text-decoration: none;">Data Pegawai</a>
+    <a href="pensiun.html" style="margin-right: 15px; color: white; text-decoration: none;">Data Pensiun</a>
+    <a href="kgb.html" style="margin-right: 15px; color: white; text-decoration: none;">Data KGB</a>
+    <a href="kp.html" style="margin-right: 15px; color: white; text-decoration: none;">Data KP</a>
+    <a href="persyaratan.html" style="margin-right: 15px; color: white; text-decoration: none;">Persyaratan Kepegawaian</a>
+    <a href="kegiatan.html" style="margin-right: 15px; color: white; text-decoration: none;">Dokumentasi Kegiatan</a>
+    <a href="peraturan.html" style="margin-right: 15px; color: white; text-decoration: none;">Peraturan Kepegawaian</a>
+    <a href="ultah.html" style="margin-right: 15px; color: white; text-decoration: none;">Ucapan Ulang Tahun</a>
+  </nav>
 
   <!-- Konten Utama -->
   <main style="padding: 20px;">
-    <h2>Selamat datang di Layanan Informasi Kepegawaian DPUTR</h2>
-    <p>Website ini menyajikan Layanan Informasi Kepegawaian di lingkungan Dinas Pekerjaan Umum dan Tata Ruang Kabupaten Purwakarta.</p>
+    <h2>Selamat datang di Layanan Informasi Kepegawaian ( LIKE ) DPUTR</h2>
+    <p>
+      Website ini menyajikan informasi kepegawaian di lingkungan Dinas Pekerjaan Umum dan Tata Ruang Kabupaten Purwakarta. 
+      Berisi struktur organisasi, data pegawai, data kenaikan gaji berkala (KGB), kenaikan pangkat (KP), pensiun, persyaratan kepegawaian, 
+      serta dokumentasi kegiatan kepegawaian.
+    </p>
   </main>
 
   <!-- Footer -->
   <footer style="background-color: #1a6fb3; color: white; padding: 15px 20px; text-align: center; font-size: 14px;">
-  <p>&copy; 2025 Sistem Layanan Informasi Kepegawaian | By Agus Hilman, S.I.P - Analis SDM Aparatur Ahli Pertama</p>
-</footer>
-
-  <!-- Script untuk Dropdown -->
-  <script>
-    function toggleDropdown() {
-      const menu = document.getElementById("dropdown-menu");
-      menu.style.display = menu.style.display === "block" ? "none" : "block";
-    }
-
-    // Tutup dropdown jika klik di luar
-    document.addEventListener('click', function(e) {
-      const dropdown = document.getElementById("dropdown-menu");
-      const trigger = dropdown.parentElement;
-      if (!trigger.contains(e.target)) {
-        dropdown.style.display = "none";
-      }
-    });
-  </script>
+    <p>&copy; 2025 Sistem Layanan Informasi Kepegawaian | By Agus Hilman, S.I.P - Analis SDM Aparatur Ahli Pertama</p>
+  </footer>
 
 </body>
 </html>
