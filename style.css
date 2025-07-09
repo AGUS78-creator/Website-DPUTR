@@ -124,15 +124,20 @@ footer {
   align-items: center;
 }
 
-.foto-item img {
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  border: 2px solid white;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease;
+.foto-item {
+  text-align: center;
+  position: relative;
 }
 
-.foto-item img:hover {
-  transform: scale(1.1);
+.nama-foto {
+  font-size: 12px;
+  color: white;
+  margin-top: 4px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.foto-item:hover .nama-foto {
+  opacity: 1;
 }
