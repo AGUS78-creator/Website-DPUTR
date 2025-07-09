@@ -117,7 +117,7 @@ footer {
 #baris-tim {
   position: fixed;
   bottom: 10px;
-  left: 10px;
+  right: 10px;
   z-index: 999;
   display: flex;
   gap: 10px;
