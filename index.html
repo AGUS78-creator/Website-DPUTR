@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Layanan Informasi Kepegawaian DPUTR</title>
 
-  <!-- Tambahkan Google Fonts Poppins -->
+  <!-- Google Fonts Poppins -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
-  <!-- Link ke file CSS -->
+  <!-- Link ke CSS -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -44,28 +44,20 @@
     </p>
   </main>
 
-  <!-- Galeri Tim -->
-  <section id="tim-like">
-    <h2>Tim Layanan LIKE</h2>
-    <div class="galeri-tim">
-      <div class="card-tim">
-        <img src="astri.png" alt="Astri">
-        <div class="overlay-nama">Astri</div>
-      </div>
-      <div class="card-tim">
-        <img src="ema.jpg" alt="Ema">
-        <div class="overlay-nama">Ema</div>
-      </div>
-      <div class="card-tim">
-        <img src="nanang.jpg" alt="Nanang">
-        <div class="overlay-nama">Nanang</div>
-      </div>
+  <!-- Baris Foto Admin + Tim di Pojok Kiri Bawah -->
+  <div id="baris-tim">
+    <div class="foto-item">
+      <img src="bapa.jpeg" alt="Foto Admin" title="Agus Hilman" />
     </div>
-  </section>
-
-  <!-- Foto pojok kiri bawah -->
-  <div id="foto-bebz">
-    <img src="bapa.jpeg" alt="Foto Admin" />
+    <div class="foto-item">
+      <img src="astri.png" alt="Astri" title="Astri" />
+    </div>
+    <div class="foto-item">
+      <img src="ema.jpg" alt="Ema" title="Ema" />
+    </div>
+    <div class="foto-item">
+      <img src="nanang.jpg" alt="Nanang" title="Nanang" />
+    </div>
   </div>
 
   <!-- Footer -->
@@ -73,21 +65,29 @@
     <p>&copy; 2025 Sistem Layanan Informasi Kepegawaian | By Agus Hilman, S.I.P - Analis SDM Aparatur Ahli Pertama</p>
   </footer>
 
-  <!-- Tambahan CSS untuk posisi foto admin -->
+  <!-- CSS Lokal (sementara, bisa kamu pindah ke style.css kalau mau rapi) -->
   <style>
-    #foto-bebz {
+    #baris-tim {
       position: fixed;
       bottom: 10px;
       left: 10px;
       z-index: 999;
+      display: flex;
+      gap: 10px;
+      align-items: center;
     }
 
-    #foto-bebz img {
-      width: 60px;
-      height: 60px;
+    .foto-item img {
+      width: 55px;
+      height: 55px;
       border-radius: 50%;
-      box-shadow: 0 0 6px rgba(0,0,0,0.3);
       border: 2px solid white;
+      box-shadow: 0 0 6px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease;
+    }
+
+    .foto-item img:hover {
+      transform: scale(1.1);
     }
   </style>
 
