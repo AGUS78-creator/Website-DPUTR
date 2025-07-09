@@ -45,29 +45,31 @@
   </main>
 
   <!-- Baris Foto Admin + Tim di Pojok Kiri Bawah -->
-  <div class="foto-item">
-  <img src="bapa.jpeg" alt="Agus Hilman" />
-  <div class="nama-foto">Agus Hilman</div>
-</div>
-<div class="foto-item">
-  <img src="astri.png" alt="Astri" />
-  <div class="nama-foto">Astri</div>
-</div>
-<div class="foto-item">
-  <img src="ema.jpg" alt="Ema" />
-  <div class="nama-foto">Ema</div>
-</div>
-<div class="foto-item">
-  <img src="nanang.jpg" alt="Nanang" />
-  <div class="nama-foto">Nanang</div>
-</div>
+  <div id="baris-tim">
+    <div class="foto-item">
+      <img src="bapa.jpeg" alt="Agus Hilman" />
+      <div class="nama-foto">Agus Hilman</div>
+    </div>
+    <div class="foto-item">
+      <img src="astri.png" alt="Astri" />
+      <div class="nama-foto">Astri</div>
+    </div>
+    <div class="foto-item">
+      <img src="ema.jpg" alt="Ema" />
+      <div class="nama-foto">Ema</div>
+    </div>
+    <div class="foto-item">
+      <img src="nanang.jpg" alt="Nanang" />
+      <div class="nama-foto">Nanang</div>
+    </div>
+  </div>
 
   <!-- Footer -->
   <footer>
     <p>&copy; 2025 Sistem Layanan Informasi Kepegawaian | By Agus Hilman, S.I.P - Analis SDM Aparatur Ahli Pertama</p>
   </footer>
 
-  <!-- CSS Lokal (sementara, bisa kamu pindah ke style.css kalau mau rapi) -->
+  <!-- CSS Lokal (bisa dipindah ke style.css nanti) -->
   <style>
     #baris-tim {
       position: fixed;
@@ -79,17 +81,37 @@
       align-items: center;
     }
 
+    .foto-item {
+      text-align: center;
+      position: relative;
+    }
+
     .foto-item img {
       width: 55px;
       height: 55px;
       border-radius: 50%;
       border: 2px solid white;
-      box-shadow: 0 0 6px rgba(0,0,0,0.3);
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
       transition: transform 0.3s ease;
     }
 
     .foto-item img:hover {
       transform: scale(1.1);
+    }
+
+    .nama-foto {
+      font-size: 13px;
+      color: #fff;
+      font-weight: 600;
+      margin-top: 4px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+    }
+
+    .foto-item:hover .nama-foto {
+      opacity: 1;
     }
   </style>
 
