@@ -104,19 +104,35 @@ footer {
   iframe {
     height: 400px;
   }
+
+  #baris-tim {
+    flex-wrap: wrap;
+    left: 10px;
+    right: 10px;
+    justify-content: flex-start;
+  }
 }
-/* Foto pojok kiri bawah */
-#foto-bebz {
+
+/* Foto pojok kiri bawah (admin + tim) */
+#baris-tim {
   position: fixed;
   bottom: 10px;
   left: 10px;
   z-index: 999;
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
-#foto-bebz img {
-  width: 60px;
-  height: 60px;
+.foto-item img {
+  width: 55px;
+  height: 55px;
   border-radius: 50%;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
   border: 2px solid white;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.foto-item img:hover {
+  transform: scale(1.1);
 }
