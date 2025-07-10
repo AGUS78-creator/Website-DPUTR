@@ -25,10 +25,17 @@
 </head>
 <body>
 
-  <!-- Header -->
-  <header>
-    <h1>LAYANAN INFORMASI KEPEGAWAIAN ( LIKE ) DPUTR</h1>
-    <p>Dinas Pekerjaan Umum & Tata Ruang Kabupaten Purwakarta</p>
+  <!-- Header dengan Logo -->
+  <header class="header-logo">
+    <img src="gambar/logo-pemda.png" alt="Logo Pemda" class="logo-kiri" />
+    
+    <div class="judul-header">
+      <h1>LAYANAN INFORMASI KEPEGAWAIAN ( LIKE ) DPUTR</h1>
+      <p>Dinas Pekerjaan Umum & Tata Ruang Kabupaten Purwakarta</p>
+      <p style="margin-top: 5px; font-size: 14px;">Agus Hilman, S.I.P - Analis SDM Aparatur Ahli Pertama</p>
+    </div>
+
+    <img src="gambar/logo-pu.png" alt="Logo PU" class="logo-kanan" />
   </header>
 
   <!-- Navigasi -->
@@ -82,6 +89,27 @@
 
   <!-- CSS Lokal -->
   <style>
+    /* Header Logo */
+    .header-logo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 10px;
+    }
+
+    .logo-kiri,
+    .logo-kanan {
+      width: 60px;
+      height: auto;
+    }
+
+    .judul-header {
+      text-align: center;
+      flex: 1;
+    }
+
+    /* Baris Tim */
     #baris-tim {
       position: fixed;
       bottom: 10px;
