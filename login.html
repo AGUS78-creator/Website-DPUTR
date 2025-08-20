@@ -20,7 +20,12 @@
       const user = document.getElementById('username').value.trim();
       const pass = document.getElementById('password').value.trim();
 
-      fetch("https://script.google.com/macros/s/AKfycbwgwYPd1LlQmaqpJPxSW3m2fXRnDQxIavz7A9h21gA4rDq7dgzMJO9NgLyP55jT72ql/exec", {
+      if (!user || !pass) {
+        document.getElementById("error").textContent = "Harap isi NIP dan Password.";
+        return;
+      }
+
+      fetch("https://script.google.com/macros/s/AKfycbwdclfBnhwyIthGaQ36SlcIijZkPHwmHLwDe-nBsXil3TpimnMy_hHArWLbdUpVwEA_/exec", {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded"
@@ -29,8 +34,10 @@
       })
       .then(response => response.text())
       .then(data => {
+        console.log("Respon dari server:", data);
         if (data === "admin" || data === "pengguna") {
           localStorage.setItem("isLoggedIn", "true");
+          localStorage.setItem("role", data); // simpan role
           window.location.href = "index.html";
         } else {
           document.getElementById("error").textContent = "Login gagal. NIP atau Password salah.";
