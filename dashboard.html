@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Pegawai DPUTR</title>
+
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -11,16 +12,19 @@
       padding: 0;
       background: #e3f2fd;
     }
+
     header {
       background-color: #1565c0;
       color: white;
       padding: 20px;
       text-align: center;
     }
+
     main {
       padding: 30px;
       text-align: center;
     }
+
     .card {
       background: white;
       padding: 20px;
@@ -30,6 +34,7 @@
       width: 90%;
       max-width: 500px;
     }
+
     button {
       padding: 10px 20px;
       background-color: #c62828;
@@ -38,12 +43,82 @@
       border-radius: 5px;
       cursor: pointer;
     }
+
     button:hover {
       background-color: #b71c1c;
     }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      font-size: 13px;
+      background: #1565c0;
+      color: #fff;
+      margin-top: 40px;
+    }
+
+    /* ===== SIDEBAR KEPEGAWAIAN ===== */
+    .sidebar-kepegawaian{
+      position:fixed;
+      top:120px;
+      right:15px;
+      width:260px;
+      background:#ffffffee;
+      border-radius:14px;
+      box-shadow:0 6px 18px rgba(0,0,0,0.15);
+      padding:16px;
+      z-index:999;
+    }
+
+    .sidebar-kepegawaian h3{
+      text-align:center;
+      margin-bottom:14px;
+      font-size:16px;
+      color:#0b3c5d;
+    }
+
+    .sidebar-link{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      text-decoration:none;
+      background:linear-gradient(135deg,#0b3c5d,#1e88e5);
+      color:#fff;
+      padding:12px 14px;
+      border-radius:10px;
+      margin-bottom:10px;
+      transition:0.3s ease;
+      font-size:14px;
+    }
+
+    .sidebar-link:hover{
+      transform:translateX(-4px);
+      box-shadow:0 6px 14px rgba(0,0,0,0.25);
+    }
+
+    .sidebar-link img{
+      height:34px;
+      background:#fff;
+      padding:3px;
+      border-radius:6px;
+    }
+
+    /* ===== VERSI HP ===== */
+    @media (max-width:768px){
+      .sidebar-kepegawaian{
+        top:auto;
+        bottom:0;
+        right:0;
+        left:0;
+        width:100%;
+        border-radius:18px 18px 0 0;
+      }
+    }
   </style>
 </head>
+
 <body>
+
   <header>
     <h1>Selamat Datang di Dashboard</h1>
     <p>Pegawai DPUTR Kabupaten Purwakarta</p>
@@ -68,14 +143,50 @@
     <button onclick="logout()">Logout</button>
   </main>
 
+  <!-- ===== SIDEBAR LINK KEPEGAWAIAN ===== -->
+  <section class="sidebar-kepegawaian">
+    <h3>🔗 Layanan Kepegawaian</h3>
+
+    <a href="https://tpp.purwakartakab.go.id" target="_blank" class="sidebar-link">
+      <span>TPP ASN Purwakarta</span>
+      <img src="gambar/logo-pemda.png">
+    </a>
+
+    <a href="https://simpeg.purwakartakab.go.id" target="_blank" class="sidebar-link">
+      <span>SIMPEG Purwakarta</span>
+      <img src="gambar/logo-pemda.png">
+    </a>
+
+    <a href="https://siasn.bkn.go.id" target="_blank" class="sidebar-link">
+      <span>SIASN BKN</span>
+      <img src="gambar/logo-bkn.png">
+    </a>
+
+    <a href="https://www.bkn.go.id" target="_blank" class="sidebar-link">
+      <span>BKN RI</span>
+      <img src="gambar/logo-bkn.png">
+    </a>
+
+    <a href="https://www.menpan.go.id" target="_blank" class="sidebar-link">
+      <span>KemenPANRB</span>
+      <img src="gambar/logo-menpan.png">
+    </a>
+
+    <a href="https://bkd.jabarprov.go.id" target="_blank" class="sidebar-link">
+      <span>BKD Prov. Jawa Barat</span>
+      <img src="gambar/logo-jabar.png">
+    </a>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Sistem Layanan Informasi Kepegawaian | By Agus Hilman, S.I.P – Analis SDM Aparatur Ahli Pertama</p>
+  </footer>
+
   <script>
     function logout() {
       window.location.href = "login.html";
     }
   </script>
-</body>
-<footer>
-    <p>&copy; 2025 Sistem Layanan Informasi Kepegawaian | By Agus Hilman, S.I.P - Analis SDM Aparatur Ahli Pertama</p>
-  </footer>
+
 </body>
 </html>
