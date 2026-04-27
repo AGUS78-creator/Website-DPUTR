@@ -1,161 +1,53 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Layanan Informasi Kepegawaian DPUTR</title>
-
-  <!-- SEO META TAG -->
-  <meta name="description" content="Website resmi Layanan Informasi Kepegawaian (LIKE) DPUTR Kabupaten Purwakarta. Menyediakan info mutasi, kenaikan pangkat, dan data kepegawaian terkini.">
-  <meta name="keywords" content="LIKE DPUTR, kepegawaian DPUTR, informasi ASN, mutasi pegawai, kenaikan pangkat, DPUTR Purwakarta">
-  <meta name="author" content="Agus Hilman, S.I.P">
-  
-  <!-- Open Graph (untuk tampilan share WhatsApp/FB) -->
-  <meta property="og:title" content="Layanan Informasi Kepegawaian - DPUTR Kabupaten Purwakarta">
-  <meta property="og:description" content="Portal informasi kepegawaian DPUTR: data ASN, mutasi, kenaikan pangkat, dan lainnya.">
-  <meta property="og:image" content="https://agus78-creator.github.io/Website-DPUTR/gambar/og-image.jpg">
-  <meta property="og:url" content="https://agus78-creator.github.io/Website-DPUTR/">
-  <meta property="og:type" content="website">
-
-  <!-- Google Fonts Poppins -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
-  <!-- Link ke CSS -->
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>LIKE DPUTR</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Header dengan Logo -->
-  <header class="header-logo">
-    <img src="logo-pemda.png" alt="Logo Pemda" class="logo-kiri" />
-    
-    <div class="judul-header">
-      <h1>LAYANAN INFORMASI KEPEGAWAIAN ( LIKE ) DPUTR</h1>
-      <p>Dinas Pekerjaan Umum & Tata Ruang Kabupaten Purwakarta</p>
-      <p style="margin-top: 5px; font-size: 14px;">Agus Hilman, S.I.P - Analis SDM Aparatur Ahli Pertama</p>
-    </div>
+<header>
+  <h1>LAYANAN INFORMASI KEPEGAWAIAN (LIKE)</h1>
+</header>
 
-    <img src="logo-pu.png" alt="Logo PU" class="logo-kanan" />
-  </header>
+<nav>
+  <a href="#" onclick="toggleMenu()">Beranda</a>
+  <a href="login.html">Login</a>
+</nav>
 
-  <!-- Navigasi -->
-  <nav>
-    <a href="index.html">Beranda</a>
-    <a href="struktur.html">Struktur Organisasi</a>
-    <a href="persyaratan.html">Persyaratan Kepegawaian</a>
-    <a href="kegiatan.html">Dokumentasi Kegiatan</a>
-    <a href="peraturan.html">Peraturan Kepegawaian</a>
-    <a href="ultah.html">Ucapan Ulang Tahun</a>
-  </nav>
+<main>
+  <h2>Selamat Datang</h2>
+  <p>Silakan pilih menu layanan.</p>
+</main>
 
-  <!-- Konten Utama -->
-  <main>
-    <h2>Selamat datang di Layanan Informasi Kepegawaian ( L I K E ) DPUTR</h2>
-    <p>
-      Website ini menyajikan informasi kepegawaian di lingkungan Dinas Pekerjaan Umum dan Tata Ruang Kabupaten Purwakarta. 
-      Berisi struktur organisasi, data pegawai, data kenaikan gaji berkala (KGB), kenaikan pangkat (KP), pensiun, persyaratan kepegawaian, peraturan kepegawaian 
-      serta dokumentasi kegiatan kepegawaian.
-    </p>
-  </main>
+<!-- MENU -->
+<section id="menuLayanan" style="display:none;">
+  <h3>Menu Layanan</h3>
 
-  <!-- Baris Foto Admin + Tim di Pojok Kiri Bawah -->
-  <div id="baris-tim">
-    <div class="foto-item">
-      <img src="bapa.jpeg" alt="Agus Hilman" />
-      <div class="nama-foto">Agus Hilman</div>
-    </div>
-    <div class="foto-item">
-      <img src="astri.png" alt="Astri" />
-      <div class="nama-foto">Astri</div>
-    </div>
-    <div class="foto-item">
-      <img src="ema.jpg" alt="Ema" />
-      <div class="nama-foto">Ema</div>
-    </div>
-    <div class="foto-item">
-      <img src="nanang.jpeg" alt="Nanang" />
-      <div class="nama-foto">Nanang</div>
-    </div>
-    <div class="foto-item">
-      <img src="ratih.PNG" alt="Ratih" />
-      <div class="nama-foto">Ratih</div>
-    </div>
-     <div class="foto-item">
-      <img src="atep.jpeg" alt="Atep" />
-      <div class="nama-foto">Atep</div>
-  </div>
+  <a href="struktur.html">Struktur Organisasi</a><br><br>
 
-  <!-- Footer -->
-  <footer>
-    <p>&copy; 2025 Sistem Layanan Informasi Kepegawaian | By Agus Hilman, S.I.P - Analis SDM Aparatur Ahli Pertama</p>
-  </footer>
+  <a href="#" onclick="cekLogin('pensiun.html')">Data Pensiun</a><br>
+  <a href="#" onclick="cekLogin('kgb.html')">Data KGB</a><br>
+  <a href="#" onclick="cekLogin('kp.html')">Data KP</a><br>
+  <a href="#" onclick="cekLogin('pegawai.html')">Data Pegawai</a><br>
+</section>
 
-  <!-- CSS Lokal -->
-  <style>
-    /* Header Logo */
-    .header-logo {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-      padding: 10px;
-    }
+<script>
+function toggleMenu() {
+  let m = document.getElementById("menuLayanan");
+  m.style.display = (m.style.display === "block") ? "none" : "block";
+}
 
-    .logo-kiri,
-    .logo-kanan {
-      width: 60px;
-      height: auto;
-    }
-
-    .judul-header {
-      text-align: center;
-      flex: 1;
-    }
-
-    /* Baris Tim */
-    #baris-tim {
-      position: fixed;
-      bottom: 10px;
-      left: 10px;
-      z-index: 999;
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .foto-item {
-      text-align: center;
-      position: relative;
-    }
-
-    .foto-item img {
-      width: 55px;
-      height: 55px;
-      border-radius: 50%;
-      border: 2px solid white;
-      box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
-      transition: transform 0.3s ease;
-    }
-
-    .foto-item img:hover {
-      transform: scale(1.1);
-    }
-
-    .nama-foto {
-      font-size: 13px;
-      color: #fff;
-      font-weight: 600;
-      margin-top: 4px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      pointer-events: none;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
-    }
-
-    .foto-item:hover .nama-foto {
-      opacity: 1;
-    }
-  </style>
+function cekLogin(tujuan) {
+  if (localStorage.getItem("isLoggedIn") === "true") {
+    window.location.href = tujuan;
+  } else {
+    alert("Harus login dulu!");
+    window.location.href = "login.html";
+  }
+}
+</script>
 
 </body>
 </html>
