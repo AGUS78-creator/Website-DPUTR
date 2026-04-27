@@ -21,32 +21,58 @@
   <p>Silakan pilih menu layanan.</p>
 </main>
 
-<!-- MENU -->
-<section id="menuLayanan" style="display:none;">
+<!-- MENU BERANDA -->
+<section id="menuLayanan" class="menu-beranda">
   <h3>Menu Layanan</h3>
 
-  <a href="struktur.html">Struktur Organisasi</a><br><br>
+  <div class="grid-menu">
 
-  <a href="#" onclick="cekLogin('pensiun.html')">Data Pensiun</a><br>
-  <a href="#" onclick="cekLogin('kgb.html')">Data KGB</a><br>
-  <a href="#" onclick="cekLogin('kp.html')">Data KP</a><br>
-  <a href="#" onclick="cekLogin('pegawai.html')">Data Pegawai</a><br>
+    <a href="struktur.html" class="card-menu">
+      Struktur Organisasi
+    </a>
+
+    <a href="#" onclick="cekLogin('pensiun.html')" class="card-menu">
+      Data Pensiun
+    </a>
+
+    <a href="#" onclick="cekLogin('kgb.html')" class="card-menu">
+      Data KGB
+    </a>
+
+    <a href="#" onclick="cekLogin('kp.html')" class="card-menu">
+      Data KP
+    </a>
+
+    <a href="#" onclick="cekLogin('pegawai.html')" class="card-menu">
+      Data Pegawai
+    </a>
+
+  </div>
 </section>
 
 <script>
 function toggleMenu() {
-  let m = document.getElementById("menuLayanan");
-  m.style.display = (m.style.display === "block") ? "none" : "block";
+  let menu = document.getElementById("menuLayanan");
+
+  if (menu.style.display === "block") {
+    menu.style.display = "none";
+  } else {
+    menu.style.display = "block";
+  }
 }
 
 function cekLogin(tujuan) {
   if (localStorage.getItem("isLoggedIn") === "true") {
     window.location.href = tujuan;
   } else {
-    alert("Harus login dulu!");
+    alert("Silakan login terlebih dahulu!");
     window.location.href = "login.html";
   }
 }
+</script>
+
+</body>
+</html>
 </script>
 
 </body>
