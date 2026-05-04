@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Data Pensiun</title>
+</head>
+<body>
+
+<h2>Data Pensiun</h2>
+<table border="1" id="tabel"></table>
+
+<script>
+fetch("https://docs.google.com/spreadsheets/d/1DN8DSlTnZE5T570QZR492bc4U6YKOFtD47SPgGNZ0cU/export?format=csv")
+.then(res => res.text())
+.then(data => {
+  let rows = data.split("\n");
+  let tabel = document.getElementById("tabel");
+
+  rows.forEach(row => {
+    let tr = document.createElement("tr");
+    row.split(",").forEach(col => {
+      let td = document.createElement("td");
+      td.innerText = col;
+      tr.appendChild(td);
+    });
+    tabel.appendChild(tr);
+  });
+});
+</script>
+
+</body>
+</html>
