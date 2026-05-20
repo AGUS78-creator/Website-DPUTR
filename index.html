@@ -1,79 +1,71 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>LIKE DPUTR</title>
-  <link rel="stylesheet" href="style.css">
+
+  <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
+  <header class="hero">
+    <h1>LAYANAN INFORMASI KEPEGAWAIAN</h1>
+    <p>Dinas Pekerjaan Umum dan Tata Ruang Kabupaten Purwakarta</p>
+  </header>
 
-<header>
-  <h1>LAYANAN INFORMASI KEPEGAWAIAN (LIKE)</h1>
-</header>
+  <nav class="navbar">
+    <a href="index.html">Beranda</a>
+    <a href="login.html">Login</a>
+  </nav>
 
-<nav>
-  <a href="#" onclick="toggleMenu()">Beranda</a>
-  <a href="login.html">Login</a>
-</nav>
+  <main class="container">
+    <section class="welcome-box">
+      <h2>Selamat Datang di LIKE DPUTR</h2>
+      <p>Silakan pilih menu layanan informasi kepegawaian di bawah ini.</p>
+    </section>
 
-<main>
-  <h2>Selamat Datang</h2>
-  <p>Silakan pilih menu layanan.</p>
-</main>
+    <section id="menuLayanan" class="menu-beranda">
+      <h3>Menu Layanan</h3>
 
-<!-- MENU BERANDA -->
-<section id="menuLayanan" class="menu-beranda">
-  <h3>Menu Layanan</h3>
+      <div class="grid-menu">
+        <a href="struktur.html" class="card-menu">
+          Struktur Organisasi
+        </a>
 
-  <div class="grid-menu">
+        <a href="#" onclick="cekLogin('pensiun.html')" class="card-menu">
+          Data Pensiun
+        </a>
 
-    <a href="struktur.html" class="card-menu">
-      Struktur Organisasi
-    </a>
+        <a href="#" onclick="cekLogin('kgb.html')" class="card-menu">
+          Data KGB
+        </a>
 
-    <a href="#" onclick="cekLogin('pensiun.html')" class="card-menu">
-      Data Pensiun
-    </a>
+        <a href="#" onclick="cekLogin('kp.html')" class="card-menu">
+          Data KP
+        </a>
 
-    <a href="#" onclick="cekLogin('kgb.html')" class="card-menu">
-      Data KGB
-    </a>
+        <a href="#" onclick="cekLogin('pegawai.html')" class="card-menu">
+          Data Pegawai
+        </a>
+      </div>
+    </section>
+  </main>
 
-    <a href="#" onclick="cekLogin('kp.html')" class="card-menu">
-      Data KP
-    </a>
+  <footer>
+    <p>&copy; 2026 LIKE DPUTR Kabupaten Purwakarta</p>
+  </footer>
 
-    <a href="#" onclick="cekLogin('pegawai.html')" class="card-menu">
-      Data Pegawai
-    </a>
-
-  </div>
-</section>
-
-<script>
-function toggleMenu() {
-  let menu = document.getElementById("menuLayanan");
-
-  if (menu.style.display === "block") {
-    menu.style.display = "none";
-  } else {
-    menu.style.display = "block";
-  }
-}
-
-function cekLogin(tujuan) {
-  if (localStorage.getItem("isLoggedIn") === "true") {
-    window.location.href = tujuan;
-  } else {
-    alert("Silakan login terlebih dahulu!");
-    window.location.href = "login.html";
-  }
-}
-</script>
-
-</body>
-</html>
-</script>
-
+  <script>
+    function cekLogin(tujuan) {
+      if (localStorage.getItem("isLoggedIn") === "true") {
+        window.location.href = tujuan;
+      } else {
+        alert("Silakan login terlebih dahulu!");
+        window.location.href = "login.html";
+      }
+    }
+  </script>
 </body>
 </html>
