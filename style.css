@@ -156,6 +156,21 @@ body {
 }
 
 /* ============================= */
+/* BUTTON LOGOUT */
+/* ============================= */
+#btnLogout {
+
+  background: #c62828;
+}
+
+#btnLogout:hover {
+
+  background: white;
+
+  color: #c62828;
+}
+
+/* ============================= */
 /* CONTAINER */
 /* ============================= */
 .container {
@@ -199,6 +214,8 @@ body {
   color: #555;
 
   font-size: 16px;
+
+  line-height: 1.8;
 }
 
 /* ============================= */
