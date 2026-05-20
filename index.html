@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   <title>LIKE DPUTR</title>
 
@@ -10,62 +10,124 @@
 </head>
 
 <body>
+
+  <!-- HEADER -->
   <header class="hero">
-    <h1>LAYANAN INFORMASI KEPEGAWAIAN</h1>
-    <p>Dinas Pekerjaan Umum dan Tata Ruang Kabupaten Purwakarta</p>
+    <div class="hero-logo">
+
+      <img src="logo-pemda.png"
+           alt="Logo Pemda"
+           class="logo-header">
+
+      <div class="hero-title">
+        <h1>LAYANAN INFORMASI KEPEGAWAIAN</h1>
+
+        <p>
+          Dinas Pekerjaan Umum dan Tata Ruang
+          Kabupaten Purwakarta
+        </p>
+      </div>
+
+      <img src="logo-pu.png"
+           alt="Logo PU"
+           class="logo-header">
+
+    </div>
   </header>
 
+  <!-- NAVBAR -->
   <nav class="navbar">
     <a href="index.html">Beranda</a>
     <a href="login.html">Login</a>
   </nav>
 
+  <!-- CONTENT -->
   <main class="container">
+
     <section class="welcome-box">
       <h2>Selamat Datang di LIKE DPUTR</h2>
-      <p>Silakan pilih menu layanan informasi kepegawaian di bawah ini.</p>
+
+      <p>
+        Silakan pilih menu layanan
+        informasi kepegawaian.
+      </p>
     </section>
 
-    <section id="menuLayanan" class="menu-beranda">
+    <!-- MENU -->
+    <section id="menuLayanan"
+             class="menu-beranda">
+
       <h3>Menu Layanan</h3>
 
       <div class="grid-menu">
-        <a href="struktur.html" class="card-menu">
+
+        <a href="struktur.html"
+           class="card-menu">
           Struktur Organisasi
         </a>
 
-        <a href="#" onclick="cekLogin('pensiun.html')" class="card-menu">
+        <a href="#"
+           onclick="cekLogin('pensiun.html')"
+           class="card-menu">
           Data Pensiun
         </a>
 
-        <a href="#" onclick="cekLogin('kgb.html')" class="card-menu">
+        <a href="#"
+           onclick="cekLogin('kgb.html')"
+           class="card-menu">
           Data KGB
         </a>
 
-        <a href="#" onclick="cekLogin('kp.html')" class="card-menu">
+        <a href="#"
+           onclick="cekLogin('kp.html')"
+           class="card-menu">
           Data KP
         </a>
 
-        <a href="#" onclick="cekLogin('pegawai.html')" class="card-menu">
+        <a href="#"
+           onclick="cekLogin('pegawai.html')"
+           class="card-menu">
           Data Pegawai
         </a>
+
       </div>
     </section>
+
   </main>
 
+  <!-- FOOTER -->
   <footer>
-    <p>&copy; 2026 LIKE DPUTR Kabupaten Purwakarta</p>
+    <p>
+      © 2026 LIKE DPUTR Kabupaten Purwakarta
+    </p>
+
+    <small>
+      Created by Agus Hilman, S.I.P
+      <br>
+      (Analis SDM Aparatur Ahli Pertama)
+    </small>
   </footer>
 
   <script>
     function cekLogin(tujuan) {
-      if (localStorage.getItem("isLoggedIn") === "true") {
+
+      if (
+        localStorage.getItem("isLoggedIn")
+        === "true"
+      ) {
+
         window.location.href = tujuan;
+
       } else {
-        alert("Silakan login terlebih dahulu!");
+
+        alert(
+          "Silakan login terlebih dahulu!"
+        );
+
         window.location.href = "login.html";
       }
     }
   </script>
+
 </body>
 </html>
