@@ -1,118 +1,355 @@
-/* ============================= */
-/* LOGIN PREMIUM FIX */
-/* ============================= */
+/* ========================= */
+/* BODY */
+/* ========================= */
 
-.halaman-login {
-  min-height: 100vh;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+body{
+  margin:0;
+  padding:0;
+  font-family:'Poppins',sans-serif;
 
   background-image:
     linear-gradient(
-      rgba(13, 71, 161, 0.72),
-      rgba(13, 71, 161, 0.72)
+      rgba(13,71,161,0.70),
+      rgba(13,71,161,0.70)
     ),
     url('bg.jpeg');
 
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background-size:cover;
+  background-position:center;
+  background-attachment:fixed;
+
+  color:white;
 }
 
-.halaman-login .login-box {
-  width: 90%;
-  max-width: 420px;
+/* ========================= */
+/* HERO */
+/* ========================= */
 
-  margin: 40px auto;
-
-  background: rgba(255,255,255,0.92);
-
-  padding: 35px;
-
-  border-radius: 24px;
-
-  text-align: center;
-
-  box-shadow: 0 15px 45px rgba(0,0,0,0.35);
+.hero{
+  padding:30px 20px;
 }
 
-.halaman-login .login-box img {
-  width: 85px;
-  margin-bottom: 15px;
+.hero-logo{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+
+  max-width:1200px;
+  margin:auto;
 }
 
-.halaman-login .login-box h2 {
-  color: #0d47a1;
-  font-size: 26px;
-  margin-bottom: 8px;
-  text-shadow: none;
+.logo-header{
+  width:90px;
 }
 
-.halaman-login .sub-login {
-  color: #444;
-  margin-bottom: 25px;
+.hero-title{
+  flex:1;
+  text-align:center;
 }
 
-.halaman-login .login-box input {
-  width: 100%;
-
-  padding: 14px;
-
-  margin-bottom: 15px;
-
-  border: 1px solid #ddd;
-
-  border-radius: 12px;
-
-  font-size: 15px;
-
-  box-sizing: border-box;
+.hero-title h1{
+  margin:0;
+  font-size:52px;
+  font-weight:800;
+  letter-spacing:1px;
 }
 
-.halaman-login .login-box button {
-  width: 100%;
-
-  padding: 14px;
-
-  border: none;
-
-  border-radius: 12px;
-
-  background: linear-gradient(135deg, #1e88e5, #0d47a1);
-
-  color: white;
-
-  font-weight: bold;
-
-  cursor: pointer;
+.hero-title p{
+  margin-top:10px;
+  font-size:20px;
 }
 
-.halaman-login .login-box button:hover {
-  transform: translateY(-2px);
+/* ========================= */
+/* NAVBAR */
+/* ========================= */
+
+.navbar{
+  background:rgba(33,150,243,0.85);
+
+  display:flex;
+  justify-content:center;
+  gap:40px;
+
+  padding:15px;
 }
 
-.halaman-login #error {
-  color: #c62828;
-  font-weight: bold;
-  margin-top: 15px;
+.navbar a{
+  color:white;
+  text-decoration:none;
+  font-weight:bold;
+  transition:0.3s;
 }
 
-.halaman-login .btn-kembali {
-  display: inline-block;
-
-  margin-top: 15px;
-
-  color: #0d47a1;
-
-  text-decoration: none;
-
-  font-weight: bold;
+.navbar a:hover{
+  color:#ffe082;
 }
 
-.halaman-login footer {
-  width: 100%;
-  margin-top: auto;
+/* ========================= */
+/* CONTAINER */
+/* ========================= */
+
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:30px 20px;
+}
+
+/* ========================= */
+/* WELCOME BOX */
+/* ========================= */
+
+.welcome-box{
+  background:rgba(255,255,255,0.92);
+
+  color:#222;
+
+  padding:30px;
+
+  border-radius:24px;
+
+  text-align:center;
+
+  box-shadow:0 10px 35px rgba(0,0,0,0.25);
+
+  margin-bottom:30px;
+}
+
+.welcome-box h2{
+  color:#0d47a1;
+  margin-top:0;
+}
+
+/* ========================= */
+/* MENU */
+/* ========================= */
+
+.menu-beranda{
+  background:rgba(255,255,255,0.92);
+
+  padding:30px;
+
+  border-radius:24px;
+
+  box-shadow:0 10px 35px rgba(0,0,0,0.25);
+
+  color:#222;
+}
+
+.menu-beranda h3{
+  text-align:center;
+  color:#0d47a1;
+  margin-top:0;
+  margin-bottom:30px;
+}
+
+/* ========================= */
+/* GRID MENU */
+/* ========================= */
+
+.grid-menu{
+  display:grid;
+
+  grid-template-columns:
+  repeat(auto-fit,minmax(220px,1fr));
+
+  gap:20px;
+}
+
+/* ========================= */
+/* CARD MENU */
+/* ========================= */
+
+.card-menu{
+  text-decoration:none;
+  color:white;
+
+  padding:35px 20px;
+
+  border-radius:18px;
+
+  text-align:center;
+
+  font-size:20px;
+  font-weight:bold;
+
+  transition:0.3s;
+
+  box-shadow:0 6px 18px rgba(0,0,0,0.25);
+}
+
+.card-menu:hover{
+  transform:translateY(-5px) scale(1.02);
+}
+
+/* WARNA */
+
+.card-menu:nth-child(1){
+  background:linear-gradient(135deg,#5e35b1,#3949ab);
+}
+
+.card-menu:nth-child(2){
+  background:linear-gradient(135deg,#43a047,#2e7d32);
+}
+
+.card-menu:nth-child(3){
+  background:linear-gradient(135deg,#ffa726,#ef6c00);
+}
+
+.card-menu:nth-child(4){
+  background:linear-gradient(135deg,#e53935,#c62828);
+}
+
+.card-menu:nth-child(5){
+  background:linear-gradient(135deg,#00897b,#00695c);
+}
+
+/* ========================= */
+/* FOOTER */
+/* ========================= */
+
+footer{
+  margin-top:40px;
+
+  background:rgba(13,71,161,0.9);
+
+  text-align:center;
+
+  padding:20px;
+}
+
+footer p{
+  margin:0;
+  font-size:18px;
+}
+
+footer small{
+  display:block;
+  margin-top:10px;
+  line-height:1.6;
+}
+
+/* ========================= */
+/* LOGIN PAGE */
+/* ========================= */
+
+.halaman-login{
+  min-height:100vh;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+
+.login-box{
+  width:90%;
+  max-width:420px;
+
+  background:rgba(255,255,255,0.95);
+
+  padding:35px;
+
+  border-radius:24px;
+
+  text-align:center;
+
+  box-shadow:0 15px 45px rgba(0,0,0,0.35);
+
+  color:#222;
+}
+
+.login-box img{
+  width:85px;
+  margin-bottom:15px;
+}
+
+.login-box h2{
+  color:#0d47a1;
+}
+
+.sub-login{
+  margin-bottom:25px;
+}
+
+.login-box input{
+  width:100%;
+
+  padding:14px;
+
+  margin-bottom:15px;
+
+  border:1px solid #ddd;
+
+  border-radius:12px;
+
+  font-size:15px;
+
+  box-sizing:border-box;
+}
+
+.login-box button{
+  width:100%;
+
+  padding:14px;
+
+  border:none;
+
+  border-radius:12px;
+
+  background:
+  linear-gradient(135deg,#1e88e5,#0d47a1);
+
+  color:white;
+
+  font-weight:bold;
+
+  cursor:pointer;
+}
+
+.login-box button:hover{
+  transform:translateY(-2px);
+}
+
+#error{
+  color:#c62828;
+  margin-top:15px;
+  font-weight:bold;
+}
+
+.btn-kembali{
+  display:inline-block;
+  margin-top:15px;
+
+  color:#0d47a1;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+/* ========================= */
+/* RESPONSIVE */
+/* ========================= */
+
+@media(max-width:768px){
+
+  .hero-logo{
+    flex-direction:column;
+  }
+
+  .hero-title h1{
+    font-size:34px;
+  }
+
+  .hero-title p{
+    font-size:16px;
+  }
+
+  .navbar{
+    flex-wrap:wrap;
+    gap:20px;
+  }
+
+  .logo-header{
+    width:70px;
+  }
 }
