@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 
-<body>
+<body class="halaman-login">
 
   <div class="login-box">
     <img src="logo-pu.png" alt="Logo PU">
@@ -18,8 +18,8 @@
       LIKE DPUTR Kabupaten Purwakarta
     </p>
 
-    <input type="text" id="username" placeholder="NIP / Username" />
-    <input type="password" id="password" placeholder="Password" />
+    <input type="text" id="username" placeholder="Masukkan NIP / Username" />
+    <input type="password" id="password" placeholder="Masukkan Password" />
 
     <button onclick="login()">Masuk</button>
 
@@ -32,7 +32,6 @@
 
   <footer>
     <p>© 2026 LIKE DPUTR Kabupaten Purwakarta</p>
-
     <small>
       Created by Agus Hilman, S.I.P
       <br>
@@ -41,55 +40,47 @@
   </footer>
 
 <script>
-  const URL_SCRIPT =
-    "https://script.google.com/macros/s/AKfycbyOwthnAL6F5DNGvcdSulFJiHcrokHKzNDBpNAsljj-EPrSPsIPqck4c-jeCRwBPuJu/exec";
+const URL_SCRIPT =
+  "https://script.google.com/macros/s/AKfycbyOwthnAL6F5DNGvcdSulFJiHcrokHKzNDBpNAsljj-EPrSPsIPqck4c-jeCRwBPuJu/exec";
 
-  function login() {
-    const user = document.getElementById("username").value.trim();
-    const pass = document.getElementById("password").value.trim();
-    const errorBox = document.getElementById("error");
+function login() {
+  const user = document.getElementById("username").value.trim();
+  const pass = document.getElementById("password").value.trim();
+  const errorBox = document.getElementById("error");
 
-    if (!user || !pass) {
-      errorBox.textContent = "Harap isi NIP dan Password.";
-      return;
-    }
-
-    errorBox.textContent = "Memeriksa data login...";
-
-    const callbackName = "loginCallback_" + Date.now();
-
-    window[callbackName] = function(res) {
-      if (res.status === "sukses") {
-        localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("role", res.role);
-        localStorage.setItem("nip", user);
-
-        alert("Login berhasil!");
-        window.location.href = "index.html";
-      } else {
-        errorBox.textContent = "Login gagal. NIP atau Password salah.";
-      }
-
-      delete window[callbackName];
-      document.body.removeChild(script);
-    };
-
-    const script = document.createElement("script");
-
-    script.src =
-      URL_SCRIPT +
-      "?nip=" + encodeURIComponent(user) +
-      "&password=" + encodeURIComponent(pass) +
-      "&callback=" + callbackName;
-
-    script.onerror = function() {
-      errorBox.textContent = "Gagal terhubung ke server.";
-      delete window[callbackName];
-      document.body.removeChild(script);
-    };
-
-    document.body.appendChild(script);
+  if (!user || !pass) {
+    errorBox.textContent = "Harap isi NIP dan Password.";
+    return;
   }
+
+  errorBox.textContent = "Memeriksa data login...";
+
+  const callbackName = "callbackLogin";
+
+  window[callbackName] = function(res) {
+    if (res.status === "sukses") {
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("role", res.role);
+      localStorage.setItem("nip", user);
+
+      alert("Login berhasil!");
+      window.location.href = "index.html";
+    } else {
+      errorBox.textContent = "Login gagal. NIP atau Password salah.";
+    }
+  };
+
+  const script = document.createElement("script");
+
+  script.src =
+    URL_SCRIPT +
+    "?nip=" + encodeURIComponent(user) +
+    "&password=" + encodeURIComponent(pass) +
+    "&callback=" + callbackName +
+    "&t=" + new Date().getTime();
+
+  document.body.appendChild(script);
+}
 </script>
 
 </body>
