@@ -66,15 +66,16 @@
     Beranda
   </a>
 
-  <a href="login.html"
-     id="btnLogin">
-    Login
+  <a href="struktur.html">
+    Struktur
   </a>
 
-  <a href="#"
-     id="btnLogout"
-     onclick="logout()">
-    Logout
+  <a href="pegawai.html">
+    Pegawai
+  </a>
+
+  <a href="kontak.html">
+    Kontak
   </a>
 
 </nav>
@@ -92,15 +93,9 @@
     </h2>
 
     <p>
-      Silakan login terlebih dahulu
-  untuk mengakses menu layanan
-  kepegawaian.
-      <br><br>
-
-      User : NIP
-      <br>
-
-      Password : dputr
+      Sistem layanan informasi kepegawaian
+      Dinas Pekerjaan Umum dan Tata Ruang
+      Kabupaten Purwakarta.
     </p>
 
   </section>
@@ -114,34 +109,39 @@
 
     <div class="grid-menu">
 
-      <a href="#"
-         onclick="cekLogin('struktur.html')"
+      <a href="struktur.html"
          class="card-menu">
+
         Struktur Organisasi
+
       </a>
 
-      <a href="#"
-         onclick="cekLogin('pensiun.html')"
+      <a href="pensiun.html"
          class="card-menu">
+
         Data Pensiun
+
       </a>
 
-      <a href="#"
-         onclick="cekLogin('kgb.html')"
+      <a href="kgb.html"
          class="card-menu">
+
         Data KGB
+
       </a>
 
-      <a href="#"
-         onclick="cekLogin('kp.html')"
+      <a href="kp.html"
          class="card-menu">
+
         Data KP
+
       </a>
 
-      <a href="#"
-         onclick="cekLogin('pegawai.html')"
+      <a href="pegawai.html"
          class="card-menu">
+
         Data Pegawai
+
       </a>
 
     </div>
@@ -166,69 +166,6 @@
   </small>
 
 </footer>
-
-<!-- ========================= -->
-<!-- SCRIPT -->
-<!-- ========================= -->
-<script>
-
-  function cekLogin(tujuan) {
-
-    if (
-      localStorage.getItem("isLoggedIn")
-      === "true"
-    ) {
-
-      window.location.href = tujuan;
-
-    } else {
-
-      alert(
-        "Silakan login terlebih dahulu!\n\nUser : NIP\nPassword : dputr"
-      );
-
-      window.location.href = "login.html";
-    }
-  }
-
-  function logout() {
-
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("role");
-    localStorage.removeItem("nip");
-
-    alert("Anda berhasil logout.");
-
-    window.location.href = "index.html";
-  }
-
-  window.onload = function () {
-
-    const sudahLogin =
-      localStorage.getItem("isLoggedIn")
-      === "true";
-
-    const btnLogin =
-      document.getElementById("btnLogin");
-
-    const btnLogout =
-      document.getElementById("btnLogout");
-
-    if (sudahLogin) {
-
-      btnLogin.style.display = "none";
-
-      btnLogout.style.display = "inline-block";
-
-    } else {
-
-      btnLogin.style.display = "inline-block";
-
-      btnLogout.style.display = "none";
-    }
-  };
-
-</script>
 
 </body>
 </html>
