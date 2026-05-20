@@ -1,101 +1,18 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-
-  <meta charset="UTF-8">
-
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
   <title>Data Pensiun</title>
-
-  <link rel="stylesheet"
-        href="style.css">
-
 </head>
 
 <body>
 
-<!-- HEADER -->
-<header class="hero">
+<h2>Data Pensiun</h2>
 
-  <div class="hero-content">
+<table border="1"
+       id="tabel"
+       style="border-collapse:collapse; width:100%;">
 
-    <div class="hero-logo">
-
-      <img src="logo-pemda.png"
-           class="logo-header">
-
-      <div class="hero-title">
-
-        <h1>DATA PENSIUN</h1>
-
-        <p>
-          LIKE DPUTR Kabupaten Purwakarta
-        </p>
-
-      </div>
-
-      <img src="logo-pu.png"
-           class="logo-header">
-
-    </div>
-
-  </div>
-
-</header>
-
-<!-- NAVBAR -->
-<nav class="navbar">
-
-  <a href="index.html">
-    Beranda
-  </a>
-
-</nav>
-
-<!-- CONTENT -->
-<main class="container">
-
-  <section class="menu-beranda">
-
-    <h3>
-      Daftar Pegawai Pensiun
-    </h3>
-
-    <div style="overflow-x:auto;">
-
-      <table border="1"
-             id="tabel"
-             style="
-             border-collapse:collapse;
-             width:100%;
-             background:white;
-             color:black;
-             ">
-
-      </table>
-
-    </div>
-
-  </section>
-
-</main>
-
-<!-- FOOTER -->
-<footer>
-
-  <p>
-    © 2026 LIKE DPUTR Kabupaten Purwakarta
-  </p>
-
-  <small>
-    Created by Agus Hilman, S.I.P
-    <br>
-    (Analis SDM Aparatur Ahli Pertama)
-  </small>
-
-</footer>
+</table>
 
 <script>
 
@@ -112,37 +29,21 @@ fetch(
   let tabel =
   document.getElementById("tabel");
 
-  rows.forEach((row, index) => {
+  rows.forEach(row => {
 
     let tr =
     document.createElement("tr");
 
     row.split(",").forEach(col => {
 
-      let cell;
+      let td =
+      document.createElement("td");
 
-      if(index == 0){
+      td.innerText = col;
 
-        cell =
-        document.createElement("th");
+      td.style.padding = "8px";
 
-        cell.style.background =
-        "#0d47a1";
-
-        cell.style.color =
-        "white";
-
-      } else {
-
-        cell =
-        document.createElement("td");
-      }
-
-      cell.innerText = col;
-
-      cell.style.padding = "10px";
-
-      tr.appendChild(cell);
+      tr.appendChild(td);
 
     });
 
