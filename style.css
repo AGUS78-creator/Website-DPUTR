@@ -36,26 +36,34 @@ body {
   display: flex;
 
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 
-  gap: 25px;
+  max-width: 1200px;
+
+  margin: auto;
 }
 
 .logo-header {
-  width: 75px;
-  height: 75px;
+  width: 85px;
+  height: 85px;
 
   object-fit: contain;
 }
 
 .hero-title {
+  flex: 1;
+
   text-align: center;
+
+  padding: 0 20px;
 }
 
 .hero-title h1 {
   margin: 0;
 
-  font-size: 30px;
+  font-size: 38px;
+
+  font-weight: bold;
 
   letter-spacing: 1px;
 }
@@ -63,7 +71,7 @@ body {
 .hero-title p {
   margin-top: 10px;
 
-  font-size: 16px;
+  font-size: 17px;
 
   opacity: 0.95;
 }
@@ -241,7 +249,9 @@ body {
     0 10px 22px rgba(0,0,0,0.3);
 }
 
+/* ============================= */
 /* WARNA MENU */
+/* ============================= */
 .card-menu:nth-child(1) {
   background:
     linear-gradient(
@@ -339,20 +349,20 @@ footer small {
 @media (max-width: 768px) {
 
   .hero-logo {
-    gap: 12px;
+    gap: 10px;
   }
 
   .logo-header {
-    width: 55px;
-    height: 55px;
+    width: 50px;
+    height: 50px;
   }
 
   .hero-title h1 {
-    font-size: 22px;
+    font-size: 20px;
   }
 
   .hero-title p {
-    font-size: 13px;
+    font-size: 12px;
   }
 
   .navbar {
