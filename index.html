@@ -1,167 +1,233 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0"/>
 
   <title>LIKE DPUTR</title>
 
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet"
+        href="style.css" />
+
 </head>
 
 <body>
 
-  <!-- HEADER -->
-  <header class="hero">
+<!-- ========================= -->
+<!-- HEADER -->
+<!-- ========================= -->
+<header class="hero">
 
-    <div class="overlay"></div>
+  <div class="overlay"></div>
 
-    <div class="hero-content">
+  <div class="hero-content">
 
-      <div class="hero-logo">
+    <div class="hero-logo">
 
-        <!-- LOGO PEMDA -->
-        <img src="logo-pemda.png"
-             alt="Logo Pemda"
-             class="logo-header">
+      <!-- LOGO PEMDA -->
+      <img src="logo-pemda.png"
+           alt="Logo Pemda"
+           class="logo-header">
 
-        <!-- JUDUL -->
-        <div class="hero-title">
+      <!-- JUDUL -->
+      <div class="hero-title">
 
-          <h1>
-            LAYANAN INFORMASI KEPEGAWAIAN
-          </h1>
+        <h1>
+          LAYANAN INFORMASI KEPEGAWAIAN
+        </h1>
 
-          <p>
-            Dinas Pekerjaan Umum dan Tata Ruang
-            Kabupaten Purwakarta
-          </p>
-
-        </div>
-
-        <!-- LOGO PU -->
-        <img src="logo-pu.png"
-             alt="Logo PU"
-             class="logo-header">
+        <p>
+          Dinas Pekerjaan Umum dan Tata Ruang
+          Kabupaten Purwakarta
+        </p>
 
       </div>
+
+      <!-- LOGO PU -->
+      <img src="logo-pu.png"
+           alt="Logo PU"
+           class="logo-header">
 
     </div>
 
-  </header>
+  </div>
 
-  <!-- NAVBAR -->
-  <nav class="navbar">
+</header>
 
-    <a href="index.html">
-      Beranda
-    </a>
+<!-- ========================= -->
+<!-- NAVBAR -->
+<!-- ========================= -->
+<nav class="navbar">
 
-    <a href="login.html">
-      Login
-    </a>
+  <a href="index.html">
+    Beranda
+  </a>
 
-  </nav>
+  <a href="login.html"
+     id="btnLogin">
+    Login
+  </a>
 
-  <!-- CONTENT -->
-  <main class="container">
+  <a href="#"
+     id="btnLogout"
+     onclick="logout()">
+    Logout
+  </a>
 
-    <!-- WELCOME -->
-    <section class="welcome-box">
+</nav>
 
-      <h2>
-        Selamat Datang di LIKE DPUTR
-      </h2>
+<!-- ========================= -->
+<!-- CONTENT -->
+<!-- ========================= -->
+<main class="container">
 
-      <p>
-        Silakan pilih menu layanan
-        informasi kepegawaian.
-      </p>
+  <!-- WELCOME -->
+  <section class="welcome-box">
 
-    </section>
-
-    <!-- MENU -->
-    <section class="menu-beranda">
-
-      <h3>
-        Menu Layanan
-      </h3>
-
-      <div class="grid-menu">
-
-        <a href="struktur.html"
-           class="card-menu">
-          Struktur Organisasi
-        </a>
-
-        <a href="#"
-           onclick="cekLogin('pensiun.html')"
-           class="card-menu">
-          Data Pensiun
-        </a>
-
-        <a href="#"
-           onclick="cekLogin('kgb.html')"
-           class="card-menu">
-          Data KGB
-        </a>
-
-        <a href="#"
-           onclick="cekLogin('kp.html')"
-           class="card-menu">
-          Data KP
-        </a>
-
-        <a href="#"
-           onclick="cekLogin('pegawai.html')"
-           class="card-menu">
-          Data Pegawai
-        </a>
-
-      </div>
-
-    </section>
-
-  </main>
-
-  <!-- FOOTER -->
-  <footer>
+    <h2>
+      Selamat Datang di LIKE DPUTR
+    </h2>
 
     <p>
-      © 2026 LIKE DPUTR Kabupaten Purwakarta
+      Untuk masuk ke menu layanan
+      diperlukan login terlebih dahulu.
+      <br><br>
+
+      User : NIP
+      <br>
+
+      Password : dputr
     </p>
 
-    <small>
-      Created by Agus Hilman, S.I.P
-      <br>
-      (Analis SDM Aparatur Ahli Pertama)
-    </small>
+  </section>
 
-  </footer>
+  <!-- MENU -->
+  <section class="menu-beranda">
 
-  <!-- SCRIPT -->
-  <script>
+    <h3>
+      Menu Layanan
+    </h3>
 
-    function cekLogin(tujuan) {
+    <div class="grid-menu">
 
-      if (
-        localStorage.getItem("isLoggedIn")
-        === "true"
-      ) {
+      <a href="#"
+         onclick="cekLogin('struktur.html')"
+         class="card-menu">
+        Struktur Organisasi
+      </a>
 
-        window.location.href = tujuan;
+      <a href="#"
+         onclick="cekLogin('pensiun.html')"
+         class="card-menu">
+        Data Pensiun
+      </a>
 
-      } else {
+      <a href="#"
+         onclick="cekLogin('kgb.html')"
+         class="card-menu">
+        Data KGB
+      </a>
 
-        alert(
-          "Silakan login terlebih dahulu!"
-        );
+      <a href="#"
+         onclick="cekLogin('kp.html')"
+         class="card-menu">
+        Data KP
+      </a>
 
-        window.location.href = "login.html";
-      }
+      <a href="#"
+         onclick="cekLogin('pegawai.html')"
+         class="card-menu">
+        Data Pegawai
+      </a>
+
+    </div>
+
+  </section>
+
+</main>
+
+<!-- ========================= -->
+<!-- FOOTER -->
+<!-- ========================= -->
+<footer>
+
+  <p>
+    © 2026 LIKE DPUTR Kabupaten Purwakarta
+  </p>
+
+  <small>
+    Created by Agus Hilman, S.I.P
+    <br>
+    (Analis SDM Aparatur Ahli Pertama)
+  </small>
+
+</footer>
+
+<!-- ========================= -->
+<!-- SCRIPT -->
+<!-- ========================= -->
+<script>
+
+  function cekLogin(tujuan) {
+
+    if (
+      localStorage.getItem("isLoggedIn")
+      === "true"
+    ) {
+
+      window.location.href = tujuan;
+
+    } else {
+
+      alert(
+        "Silakan login terlebih dahulu!\n\nUser : NIP\nPassword : dputr"
+      );
+
+      window.location.href = "login.html";
     }
+  }
 
-  </script>
+  function logout() {
+
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("role");
+    localStorage.removeItem("nip");
+
+    alert("Anda berhasil logout.");
+
+    window.location.href = "index.html";
+  }
+
+  window.onload = function () {
+
+    const sudahLogin =
+      localStorage.getItem("isLoggedIn")
+      === "true";
+
+    const btnLogin =
+      document.getElementById("btnLogin");
+
+    const btnLogout =
+      document.getElementById("btnLogout");
+
+    if (sudahLogin) {
+
+      btnLogin.style.display = "none";
+
+      btnLogout.style.display = "inline-block";
+
+    } else {
+
+      btnLogin.style.display = "inline-block";
+
+      btnLogout.style.display = "none";
+    }
+  };
+
+</script>
 
 </body>
 </html>
