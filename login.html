@@ -1,53 +1,173 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login Kepegawaian DPUTR</title>
-  <link rel="stylesheet" href="style.css" />
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0"/>
+
+  <title>Login LIKE DPUTR</title>
+
+  <link rel="stylesheet"
+        href="style.css" />
+
 </head>
-<body>
-  <div class="login-box">
-    <h2>Login Sistem Kepegawaian</h2>
-    <input type="text" id="username" placeholder="NIP / Username" />
-    <input type="password" id="password" placeholder="Password" />
-    <button onclick="login()">Masuk</button>
+
+<body class="login-page">
+
+  <!-- OVERLAY -->
+  <div class="login-overlay"></div>
+
+  <!-- LOGIN BOX -->
+  <div class="login-container">
+
+    <!-- LOGO -->
+    <img src="logo-pu.png"
+         alt="Logo PU"
+         class="login-logo">
+
+    <h2>
+      Login Sistem Kepegawaian
+    </h2>
+
+    <p class="sub-login">
+      LIKE DPUTR Kabupaten Purwakarta
+    </p>
+
+    <!-- INPUT USERNAME -->
+    <input type="text"
+           id="username"
+           placeholder="NIP / Username" />
+
+    <!-- INPUT PASSWORD -->
+    <input type="password"
+           id="password"
+           placeholder="Password" />
+
+    <!-- BUTTON LOGIN -->
+    <button onclick="login()">
+      Masuk
+    </button>
+
+    <!-- ERROR -->
     <p id="error"></p>
+
+    <!-- BUTTON KEMBALI -->
+    <a href="index.html"
+       class="btn-kembali">
+
+      ← Kembali ke Beranda
+
+    </a>
+
   </div>
 
-  <script>
-    function login() {
-      const user = document.getElementById('username').value.trim();
-      const pass = document.getElementById('password').value.trim();
+<script>
 
-      if (!user || !pass) {
-        document.getElementById("error").textContent = "Harap isi NIP dan Password.";
-        return;
-      }
+function login() {
 
-      fetch("https://script.google.com/macros/s/AKfycbwdclfBnhwyIthGaQ36SlcIijZkPHwmHLwDe-nBsXil3TpimnMy_hHArWLbdUpVwEA_/exec", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: `nip=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`
-      })
-      .then(response => response.text())
-      .then(data => {
-        console.log("Respon dari server:", data);
-        if (data === "admin" || data === "pengguna") {
-          localStorage.setItem("isLoggedIn", "true");
-          localStorage.setItem("role", data); // simpan role
-          window.location.href = "index.html";
-        } else {
-          document.getElementById("error").textContent = "Login gagal. NIP atau Password salah.";
-        }
-      })
-      .catch(error => {
-        console.error("Error:", error);
-        document.getElementById("error").textContent = "Gagal terhubung ke server.";
-      });
+  const user =
+    document.getElementById('username')
+    .value.trim();
+
+  const pass =
+    document.getElementById('password')
+    .value.trim();
+
+  if (!user || !pass) {
+
+    document.getElementById("error")
+    .textContent =
+    "Harap isi NIP dan Password.";
+
+    return;
+  }
+
+  fetch(
+    "https://script.google.com/macros/s/AKfycbyOwthnAL6F5DNGvcdSulFJiHcrokHKzNDBpNAsljj-EPrSPsIPqck4c-jeCRwBPuJu/exec",
+    {
+
+      method: "POST",
+
+      headers: {
+        "Content-Type":
+        "application/x-www-form-urlencoded"
+      },
+
+      body:
+      `nip=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`
     }
-  </script>
+  )
+
+  .then(response => response.text())
+
+  .then(data => {
+
+    console.log(
+      "Respon dari server:",
+      data
+    );
+
+    if (
+      data === "admin" ||
+      data === "pengguna"
+    ) {
+
+      localStorage.setItem(
+        "isLoggedIn",
+        "true"
+      );
+
+      localStorage.setItem(
+        "role",
+        data
+      );
+
+      localStorage.setItem(
+        "nip",
+        user
+      );
+
+      alert("Login berhasil!");
+
+      window.location.href =
+      "index.html";
+
+    } else {
+
+      document.getElementById("error")
+      .textContent =
+      "Login gagal. NIP atau Password salah.";
+    }
+  })
+
+  .catch(error => {
+
+    console.error(error);
+
+    document.getElementById("error")
+    .textContent =
+    "Gagal terhubung ke server.";
+  });
+}
+
+</script>
+
+<!-- FOOTER -->
+<footer>
+
+  <p>
+    © 2026 LIKE DPUTR Kabupaten Purwakarta
+  </p>
+
+  <small>
+    Created by Agus Hilman, S.I.P
+    <br>
+    (Analis SDM Aparatur Ahli Pertama)
+  </small>
+
+</footer>
+
 </body>
 </html>
