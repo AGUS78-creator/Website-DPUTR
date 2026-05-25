@@ -3,117 +3,264 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Data Pensiun LIKE DPUTR</title>
+
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<header style="background-color:#1a6fb3; color:white; padding:15px 20px;">
-  <h1 style="margin:0;">LAYANAN INFORMASI KEPEGAWAIAN ( LIKE ) DPUTR</h1>
-  <p style="margin:0;">Dinas Pekerjaan Umum & Tata Ruang Kabupaten Purwakarta</p>
+<header style="
+background-color:#1a6fb3;
+color:white;
+padding:15px 20px;
+">
+
+  <h1 style="margin:0;">
+    LAYANAN INFORMASI KEPEGAWAIAN ( LIKE ) DPUTR
+  </h1>
+
+  <p style="margin:0;">
+    Dinas Pekerjaan Umum & Tata Ruang Kabupaten Purwakarta
+  </p>
+
 </header>
 
 <nav class="navbar">
-  <a href="index.html">Beranda</a>
-  <a href="pensiun.html">Data Pensiun</a>
+
+  <a href="index.html">
+    Beranda
+  </a>
+
+  <a href="pensiun.html">
+    Data Pensiun
+  </a>
+
 </nav>
 
 <main class="container">
 
-  <section class="welcome-box">
-    <h2>Pencarian Data Pensiun</h2>
-    <p>Masukkan NIP untuk mengetahui informasi masa pensiun ASN DPUTR Kabupaten Purwakarta.</p>
+  <!-- BOX PENCARIAN -->
 
-    <input type="text" id="inputNip" placeholder="Masukkan NIP..."
-      style="width:100%; max-width:430px; padding:14px; border-radius:12px; border:1px solid #ccc; font-size:16px;">
+  <section class="welcome-box">
+
+    <h2>Pencarian Data Pensiun</h2>
+
+    <p>
+      Masukkan NIP untuk mengetahui informasi masa pensiun ASN
+      DPUTR Kabupaten Purwakarta.
+    </p>
+
+    <input
+      type="text"
+      id="inputNip"
+      placeholder="Masukkan NIP..."
+      style="
+      width:100%;
+      max-width:430px;
+      padding:14px;
+      border-radius:12px;
+      border:1px solid #ccc;
+      font-size:16px;
+      "
+    >
 
     <br><br>
 
-    <button onclick="cariData()"
-      style="padding:12px 25px; border:none; border-radius:12px; background:#0d47a1; color:white; font-weight:bold; cursor:pointer;">
+    <button
+      onclick="cariData()"
+      style="
+      padding:12px 25px;
+      border:none;
+      border-radius:12px;
+      background:#0d47a1;
+      color:white;
+      font-weight:bold;
+      cursor:pointer;
+      "
+    >
       Cari Data
     </button>
 
-    <button onclick="resetCari()"
-      style="padding:12px 25px; border:none; border-radius:12px; background:#fb8c00; color:white; font-weight:bold; cursor:pointer; margin-left:8px;">
+    <button
+      onclick="resetCari()"
+      style="
+      padding:12px 25px;
+      border:none;
+      border-radius:12px;
+      background:#fb8c00;
+      color:white;
+      font-weight:bold;
+      cursor:pointer;
+      margin-left:8px;
+      "
+    >
       Reset
     </button>
+
   </section>
 
+  <!-- HASIL -->
+
   <section class="menu-beranda">
+
     <h3>Hasil Pencarian</h3>
+
     <div id="hasil">
-      <p style="text-align:center;">Silakan masukkan NIP terlebih dahulu.</p>
+
+      <p style="text-align:center;">
+        Silakan masukkan NIP terlebih dahulu.
+      </p>
+
     </div>
+
   </section>
 
 </main>
 
 <footer>
-  <p>© 2026 LIKE DPUTR Kabupaten Purwakarta</p>
+
+  <p>
+    © 2026 LIKE DPUTR Kabupaten Purwakarta
+  </p>
+
   <small>
     Created by Agus Hilman, S.I.P
     <br>
     (Analis SDM Aparatur Ahli Pertama)
   </small>
+
 </footer>
 
 <script>
-const urlCSV = "https://docs.google.com/spreadsheets/d/1Zo7f4KfTGu5PuAzHLrtzy91b3WQ21_lD87Y-MrCqmA0/export?format=csv&gid=511537472";
+
+const urlCSV =
+"https://docs.google.com/spreadsheets/d/1Zo7f4KfTGu5PuAzHLrtzy91b3WQ21_lD87Y-MrCqmA0/export?format=csv&gid=511537472";
 
 let dataPensiun = [];
 
+/* ========================= */
+/* LOAD CSV */
+/* ========================= */
+
 fetch(urlCSV)
-  .then(response => response.text())
-  .then(csv => {
-    dataPensiun = parseCSV(csv);
-  })
-  .catch(error => {
-    document.getElementById("hasil").innerHTML =
-      `<p style="color:red; text-align:center;">Gagal memuat data. Pastikan Google Sheet sudah dibagikan untuk umum.</p>`;
-  });
+
+.then(response => response.text())
+
+.then(csv => {
+
+  dataPensiun = parseCSV(csv);
+
+})
+
+.catch(error => {
+
+  document.getElementById("hasil").innerHTML = `
+  
+    <p style="
+    color:red;
+    text-align:center;
+    ">
+      Gagal memuat data.
+      Pastikan Google Sheet sudah dibagikan untuk umum.
+    </p>
+
+  `;
+
+  console.error(error);
+
+});
+
+/* ========================= */
+/* PARSE CSV */
+/* ========================= */
 
 function parseCSV(csv) {
+
   const rows = [];
   let row = [];
   let value = "";
   let insideQuote = false;
 
-  for (let i = 0; i < csv.length; i++) {
+  for(let i = 0; i < csv.length; i++){
+
     const char = csv[i];
     const next = csv[i + 1];
 
-    if (char === '"' && insideQuote && next === '"') {
+    if(char === '"' && insideQuote && next === '"'){
+
       value += '"';
       i++;
-    } else if (char === '"') {
+
+    }
+
+    else if(char === '"'){
+
       insideQuote = !insideQuote;
-    } else if (char === "," && !insideQuote) {
+
+    }
+
+    else if(char === "," && !insideQuote){
+
       row.push(value.trim());
       value = "";
-    } else if ((char === "\n" || char === "\r") && !insideQuote) {
-      if (value || row.length) {
-        row.push(value.trim());
-        rows.push(row);
-        row = [];
-        value = "";
-      }
-    } else {
-      value += char;
+
     }
+
+    else if((char === "\n" || char === "\r") && !insideQuote){
+
+      if(value || row.length){
+
+        row.push(value.trim());
+
+        rows.push(row);
+
+        row = [];
+
+        value = "";
+
+      }
+
+    }
+
+    else{
+
+      value += char;
+
+    }
+
   }
 
-  if (value || row.length) {
+  if(value || row.length){
+
     row.push(value.trim());
+
     rows.push(row);
+
   }
 
   return rows;
+
 }
 
-function bulanText(angka) {
+/* ========================= */
+/* BULAN */
+/* ========================= */
+
+function namaBulan(bln){
+
   const bulan = {
+
+    "1":"Januari",
+    "2":"Februari",
+    "3":"Maret",
+    "4":"April",
+    "5":"Mei",
+    "6":"Juni",
+    "7":"Juli",
+    "8":"Agustus",
+    "9":"September",
     "01":"Januari",
     "02":"Februari",
     "03":"Maret",
@@ -126,107 +273,200 @@ function bulanText(angka) {
     "10":"Oktober",
     "11":"November",
     "12":"Desember"
+
   };
 
-  return bulan[String(angka).padStart(2, "0")] || angka || "-";
+  return bulan[bln] || bln;
+
 }
 
-function cariData() {
-  const nipInput = document.getElementById("inputNip").value.trim();
-  const hasil = document.getElementById("hasil");
+/* ========================= */
+/* CARI DATA */
+/* ========================= */
 
-  if (!nipInput) {
-    hasil.innerHTML = `<p style="color:red; text-align:center;">Silakan masukkan NIP terlebih dahulu.</p>`;
+function cariData(){
+
+  const nipInput =
+  document.getElementById("inputNip").value.trim();
+
+  const hasil =
+  document.getElementById("hasil");
+
+  if(!nipInput){
+
+    hasil.innerHTML = `
+    
+      <p style="
+      color:red;
+      text-align:center;
+      ">
+        Silakan masukkan NIP terlebih dahulu.
+      </p>
+
+    `;
+
     return;
+
   }
 
-  const hasilCari = dataPensiun.find(row =>
-    row.some(cell => String(cell).replace(/\s/g, "") === nipInput.replace(/\s/g, ""))
+  /* ========================= */
+  /* CARI BARIS */
+  /* ========================= */
+
+  const hasilCari =
+  dataPensiun.find(row =>
+    row.includes(nipInput)
   );
 
-  if (!hasilCari) {
-    hasil.innerHTML = `<p style="color:red; text-align:center;">Data dengan NIP <b>${nipInput}</b> tidak ditemukan.</p>`;
+  if(!hasilCari){
+
+    hasil.innerHTML = `
+    
+      <p style="
+      color:red;
+      text-align:center;
+      ">
+        Data dengan NIP
+        <b>${nipInput}</b>
+        tidak ditemukan.
+      </p>
+
+    `;
+
     return;
+
   }
 
-  const nipIndex = hasilCari.findIndex(cell =>
-    String(cell).replace(/\s/g, "") === nipInput.replace(/\s/g, "")
-  );
+  /* ========================= */
+  /* AMBIL DATA SESUAI URUTAN */
+  /* ========================= */
 
-  const nama = hasilCari[nipIndex - 1] || "-";
-  const nipPegawai = hasilCari[nipIndex] || "-";
-  const golongan = hasilCari[nipIndex + 1] || "-";
-  const jabatan = hasilCari[nipIndex + 2] || "-";
+  const nama = hasilCari[1] || "-";
 
-  const tglLahir = hasilCari[nipIndex + 3] || "-";
-  const blnLahir = hasilCari[nipIndex + 4] || "-";
-  const thnLahir = hasilCari[nipIndex + 5] || "-";
+  const nipPegawai = hasilCari[2] || "-";
 
-  const tglPensiun = hasilCari[nipIndex + 9] || "01";
-const blnPensiun = hasilCari[nipIndex + 10] || "-";
-const thnPensiun = hasilCari[nipIndex + 11] || "-";
+  const golongan = hasilCari[3] || "-";
+
+  const jabatan = hasilCari[4] || "-";
+
+  const tglLahir = hasilCari[5] || "-";
+
+  const blnLahir = hasilCari[6] || "-";
+
+  const thnLahir = hasilCari[7] || "-";
+
+  const tahunPensiun = hasilCari[8] || "-";
+
+  const jumlahPensiun = hasilCari[9] || "-";
+
+  const satuan = hasilCari[10] || "-";
+
+  const tglPensiun = hasilCari[11] || "01";
+
+  const blnPensiun = hasilCari[12] || "-";
+
+  const thnPensiun = hasilCari[13] || tahunPensiun;
+
+  /* ========================= */
+  /* TAMPILKAN HASIL */
+  /* ========================= */
 
   hasil.innerHTML = `
-    <div style="
-      background:white;
-      color:#222;
-      padding:30px;
-      border-radius:22px;
-      box-shadow:0 8px 25px rgba(0,0,0,0.25);
-      line-height:1.9;
-      font-size:20px;
+
+  <div style="
+    background:white;
+    color:#222;
+    padding:30px;
+    border-radius:22px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.25);
+    line-height:1.9;
+    font-size:20px;
+  ">
+
+    <h2 style="
+      color:#0d47a1;
+      text-align:center;
+      margin-top:0;
+      margin-bottom:35px;
     ">
+      Data Pensiun Ditemukan
+    </h2>
 
-      <h2 style="color:#0d47a1; text-align:center; margin-top:0; margin-bottom:35px;">
-        Data Pensiun Ditemukan
-      </h2>
+    <p>
+      Selamat datang
+      <b>${nama}</b>.
+    </p>
 
-      <p>
-        Selamat datang <b>${nama}</b>.
-      </p>
+    <p>
+      Berdasarkan data kepegawaian,
+      Saudara/i dengan NIP
+      <b>${nipPegawai}</b>
+      memiliki golongan terakhir
+      <b>${golongan}</b>
+      dan jabatan
+      <b>${jabatan}</b>.
+    </p>
 
-      <p>
-        Berdasarkan data kepegawaian, Saudara/i dengan NIP
-        <b>${nipPegawai}</b> memiliki golongan terakhir
-        <b>${golongan}</b> dan jabatan
-        <b>${jabatan}</b>.
-      </p>
+    <p>
+      Tanggal lahir Saudara/i tercatat
+      pada tanggal
+      <b>${tglLahir}</b>
+      bulan
+      <b>${namaBulan(blnLahir)}</b>
+      tahun
+      <b>${thnLahir}</b>.
+    </p>
 
-      <p>
-        Tanggal lahir Saudara/i tercatat pada tanggal
-        <b>${tglLahir}</b> bulan
-        <b>${bulanText(blnLahir)}</b> tahun
-        <b>${thnLahir}</b>.
-      </p>
+    <p>
+      Berdasarkan data tersebut,
+      Saudara/i akan memasuki masa
+      <b>Pensiun Normal</b>
+      pada tanggal
+      <b>${tglPensiun}</b>
+      bulan
+      <b>${namaBulan(blnPensiun)}</b>
+      tahun
+      <b>${thnPensiun}</b>.
+    </p>
 
-      <p>
-        Berdasarkan data tersebut, Saudara/i akan memasuki masa
-        <b>Pensiun Normal</b> pada tanggal
-        <b>${tglPensiun}</b> bulan
-        <b>${bulanText(blnPensiun)}</b> tahun
-        <b>${thnPensiun}</b>.
-      </p>
+    <p style="
+      background:#e3f2fd;
+      padding:18px;
+      border-radius:14px;
+      color:#0d47a1;
+      font-weight:bold;
+      margin-top:30px;
+    ">
+      Jika terdapat kesalahan data,
+      silakan segera menghubungi
+      bagian kepegawaian untuk
+      dilakukan perbaikan data.
+    </p>
 
-      <p style="
-        background:#e3f2fd;
-        padding:18px;
-        border-radius:14px;
-        color:#0d47a1;
-        font-weight:bold;
-        margin-top:30px;
-      ">
-        Jika terdapat kesalahan data, silakan segera menghubungi bagian kepegawaian untuk dilakukan perbaikan data.
-      </p>
+  </div>
 
-    </div>
   `;
+
 }
 
-function resetCari() {
+/* ========================= */
+/* RESET */
+/* ========================= */
+
+function resetCari(){
+
   document.getElementById("inputNip").value = "";
-  document.getElementById("hasil").innerHTML =
-    `<p style="text-align:center;">Silakan masukkan NIP terlebih dahulu.</p>`;
+
+  document.getElementById("hasil").innerHTML = `
+
+    <p style="text-align:center;">
+      Silakan masukkan NIP terlebih dahulu.
+    </p>
+
+  `;
+
 }
+
 </script>
 
 </body>
