@@ -9,9 +9,9 @@
 
 <body>
 
-<header style="background-color: #1a6fb3; color: white; padding: 15px 20px;">
-  <h1 style="margin: 0;">LAYANAN INFORMASI KEPEGAWAIAN ( LIKE ) DPUTR</h1>
-  <p style="margin: 0;">Dinas Pekerjaan Umum & Tata Ruang Kabupaten Purwakarta</p>
+<header style="background-color:#1a6fb3; color:white; padding:15px 20px;">
+  <h1 style="margin:0;">LAYANAN INFORMASI KEPEGAWAIAN ( LIKE ) DPUTR</h1>
+  <p style="margin:0;">Dinas Pekerjaan Umum & Tata Ruang Kabupaten Purwakarta</p>
 </header>
 
 <nav class="navbar">
@@ -29,22 +29,16 @@
       type="text" 
       id="inputNip" 
       placeholder="Masukkan NIP..."
-      style="width:100%; max-width:400px; padding:14px; border-radius:12px; border:1px solid #ccc; font-size:16px;"
+      style="width:100%; max-width:430px; padding:14px; border-radius:12px; border:1px solid #ccc; font-size:16px;"
     >
 
     <br><br>
 
-    <button 
-      onclick="cariData()" 
-      style="padding:12px 25px; border:none; border-radius:12px; background:#0d47a1; color:white; font-weight:bold; cursor:pointer;"
-    >
+    <button onclick="cariData()" style="padding:12px 25px; border:none; border-radius:12px; background:#0d47a1; color:white; font-weight:bold; cursor:pointer;">
       Cari Data
     </button>
 
-    <button 
-      onclick="resetCari()" 
-      style="padding:12px 25px; border:none; border-radius:12px; background:#fb8c00; color:white; font-weight:bold; cursor:pointer; margin-left:8px;"
-    >
+    <button onclick="resetCari()" style="padding:12px 25px; border:none; border-radius:12px; background:#fb8c00; color:white; font-weight:bold; cursor:pointer; margin-left:8px;">
       Reset
     </button>
   </section>
@@ -76,7 +70,6 @@ fetch(urlCSV)
   .then(response => response.text())
   .then(csv => {
     dataPensiun = parseCSV(csv);
-    console.log("Data pensiun berhasil dimuat:", dataPensiun);
   })
   .catch(error => {
     document.getElementById("hasil").innerHTML = `
@@ -88,10 +81,41 @@ fetch(urlCSV)
   });
 
 function parseCSV(csv) {
-  const rows = csv.trim().split("\n");
-  return rows.map(row => {
-    return row.split(",").map(col => col.replace(/"/g, "").trim());
-  });
+  const rows = [];
+  let row = [];
+  let value = "";
+  let insideQuote = false;
+
+  for (let i = 0; i < csv.length; i++) {
+    const char = csv[i];
+    const next = csv[i + 1];
+
+    if (char === '"' && insideQuote && next === '"') {
+      value += '"';
+      i++;
+    } else if (char === '"') {
+      insideQuote = !insideQuote;
+    } else if (char === "," && !insideQuote) {
+      row.push(value.trim());
+      value = "";
+    } else if ((char === "\n" || char === "\r") && !insideQuote) {
+      if (value || row.length) {
+        row.push(value.trim());
+        rows.push(row);
+        row = [];
+        value = "";
+      }
+    } else {
+      value += char;
+    }
+  }
+
+  if (value || row.length) {
+    row.push(value.trim());
+    rows.push(row);
+  }
+
+  return rows;
 }
 
 function cariData() {
@@ -99,31 +123,18 @@ function cariData() {
   const hasil = document.getElementById("hasil");
 
   if (!nip) {
-    hasil.innerHTML = `
-      <p style="color:red; text-align:center;">
-        Silakan masukkan NIP terlebih dahulu.
-      </p>
-    `;
+    hasil.innerHTML = `<p style="color:red; text-align:center;">Silakan masukkan NIP terlebih dahulu.</p>`;
     return;
   }
 
   if (dataPensiun.length === 0) {
-    hasil.innerHTML = `
-      <p style="color:red; text-align:center;">
-        Data belum berhasil dimuat. Coba refresh halaman.
-      </p>
-    `;
+    hasil.innerHTML = `<p style="color:red; text-align:center;">Data belum berhasil dimuat. Coba refresh halaman.</p>`;
     return;
   }
 
-  const header = dataPensiun[0];
-  const data = dataPensiun.slice(1);
+  const hasilCari = dataPensiun.find(row => row.join(" ").includes(nip));
 
-  const hasilCari = data.filter(row => {
-    return row.join(" ").includes(nip);
-  });
-
-  if (hasilCari.length === 0) {
+  if (!hasilCari) {
     hasil.innerHTML = `
       <p style="color:red; text-align:center;">
         Data dengan NIP <b>${nip}</b> tidak ditemukan.
@@ -132,32 +143,73 @@ function cariData() {
     return;
   }
 
-  let html = "";
+  const nama = hasilCari[1] || "-";
+  const nipPegawai = hasilCari[2] || "-";
+  const golongan = hasilCari[3] || "-";
+  const jabatan = hasilCari[4] || "-";
 
-  hasilCari.forEach(row => {
-    html += `<div style="
+  const tglLahir = hasilCari[5] || "-";
+  const blnLahir = hasilCari[6] || "-";
+  const thnLahir = hasilCari[7] || "-";
+
+  const tahunPensiunLama = hasilCari[8] || "-";
+
+  const tglPensiun = hasilCari[9] || "01";
+  const blnPensiun = hasilCari[10] || "-";
+  const thnPensiun = hasilCari[11] || tahunPensiunLama;
+
+  hasil.innerHTML = `
+    <div style="
       background:white;
       color:#222;
-      padding:20px;
-      border-radius:18px;
-      box-shadow:0 8px 20px rgba(0,0,0,0.2);
-      margin-bottom:20px;
-    ">`;
+      padding:30px;
+      border-radius:22px;
+      box-shadow:0 8px 25px rgba(0,0,0,0.25);
+      line-height:1.8;
+      font-size:20px;
+    ">
 
-    html += `<h3 style="color:#0d47a1; margin-top:0;">Data Ditemukan</h3>`;
+      <h2 style="color:#0d47a1; text-align:center; margin-top:0;">
+        Data Pensiun Ditemukan
+      </h2>
 
-    header.forEach((judul, i) => {
-      html += `
-        <p style="margin:8px 0;">
-          <b>${judul}</b> : ${row[i] || "-"}
-        </p>
-      `;
-    });
+      <p>
+        Selamat datang <b>${nama}</b>.
+      </p>
 
-    html += `</div>`;
-  });
+      <p>
+        Berdasarkan data kepegawaian, Saudara/i dengan NIP 
+        <b>${nipPegawai}</b>, memiliki golongan terakhir 
+        <b>${golongan}</b> dan jabatan 
+        <b>${jabatan}</b>.
+      </p>
 
-  hasil.innerHTML = html;
+      <p>
+        Tanggal lahir Saudara/i tercatat pada tanggal 
+        <b>${tglLahir}</b> bulan <b>${blnLahir}</b> tahun 
+        <b>${thnLahir}</b>.
+      </p>
+
+      <p>
+        Berdasarkan data tersebut, Saudara/i akan memasuki masa 
+        <b>pensiun normal</b> pada tanggal 
+        <b>${tglPensiun}</b> bulan <b>${blnPensiun}</b> tahun 
+        <b>${thnPensiun}</b>.
+      </p>
+
+      <p style="
+        background:#e3f2fd;
+        padding:15px;
+        border-radius:14px;
+        color:#0d47a1;
+        font-weight:bold;
+      ">
+        Silakan mempersiapkan administrasi dan dokumen pendukung pensiun
+        sesuai ketentuan yang berlaku.
+      </p>
+
+    </div>
+  `;
 }
 
 function resetCari() {
