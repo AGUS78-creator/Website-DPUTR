@@ -3,12 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Data Pensiun</title>
-
-  <meta name="description" content="Data pensiun ASN DPUTR Kabupaten Purwakarta melalui Layanan Informasi Kepegawaian LIKE DPUTR.">
-  <meta name="keywords" content="Data Pensiun DPUTR, LIKE DPUTR, ASN Purwakarta, pensiun pegawai">
-  <meta name="author" content="Agus Hilman, S.I.P">
-
+  <title>Pencarian Data Pensiun</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -20,30 +15,51 @@
 </header>
 
 <nav class="navbar">
-  <a href="index.html" style="margin-right: 15px; color: white; text-decoration: none;">Beranda</a>
-  
+  <a href="index.html">Beranda</a>
+  <a href="pensiun.html">Data Pensiun</a>
 </nav>
 
-<main>
-  <h2>Data Pensiun</h2>
+<main class="container">
 
-  <iframe 
-    src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTLSqnA6XvAdRkJQpQtKgaFYNAtOgXP_hw4UQzPXo7uSoKRLK0lDB9VQQBd4rSyo8zNkGYi9iBUhYiL/pubhtml?gid=511537472&single=true"
-    width="100%" 
-    height="600" 
-    style="border:none;">
-  </iframe>
+  <section class="welcome-box">
+    <h2>Pencarian Data Pensiun</h2>
+    <p>Masukkan NIP untuk mengetahui informasi masa pensiun ASN DPUTR Kabupaten Purwakarta.</p>
+
+    <input 
+      type="text" 
+      id="inputNip" 
+      placeholder="Masukkan NIP..."
+      style="width:100%; max-width:400px; padding:14px; border-radius:12px; border:1px solid #ccc; font-size:16px;"
+    >
+
+    <br><br>
+
+    <button 
+      onclick="cariData()" 
+      style="padding:12px 25px; border:none; border-radius:12px; background:#0d47a1; color:white; font-weight:bold; cursor:pointer;"
+    >
+      Cari Data
+    </button>
+
+    <button 
+      onclick="resetCari()" 
+      style="padding:12px 25px; border:none; border-radius:12px; background:#fb8c00; color:white; font-weight:bold; cursor:pointer; margin-left:8px;"
+    >
+      Reset
+    </button>
+  </section>
+
+  <section class="menu-beranda">
+    <h3>Hasil Pencarian</h3>
+    <div id="hasil">
+      <p style="text-align:center;">Silakan masukkan NIP terlebih dahulu.</p>
+    </div>
+  </section>
+
 </main>
 
-<div id="foto-bebz">
-  <img src="bapa.jpeg" alt="Foto Admin" />
-</div>
-
 <footer>
-  <p>
-    © 2026 LIKE DPUTR Kabupaten Purwakarta
-  </p>
-
+  <p>© 2026 LIKE DPUTR Kabupaten Purwakarta</p>
   <small>
     Created by Agus Hilman, S.I.P
     <br>
@@ -51,22 +67,106 @@
   </small>
 </footer>
 
-<style>
-  #foto-bebz {
-    position: fixed;
-    bottom: 10px;
-    left: 10px;
-    z-index: 999;
+<script>
+const urlCSV = "https://docs.google.com/spreadsheets/d/1Zo7f4KfTGu5PuAzHLrtzy91b3WQ21_lD87Y-MrCqmA0/export?format=csv&gid=511537472";
+
+let dataPensiun = [];
+
+fetch(urlCSV)
+  .then(response => response.text())
+  .then(csv => {
+    dataPensiun = parseCSV(csv);
+    console.log("Data pensiun berhasil dimuat:", dataPensiun);
+  })
+  .catch(error => {
+    document.getElementById("hasil").innerHTML = `
+      <p style="color:red; text-align:center;">
+        Gagal memuat data. Pastikan Google Sheet sudah dibagikan untuk umum.
+      </p>
+    `;
+    console.error(error);
+  });
+
+function parseCSV(csv) {
+  const rows = csv.trim().split("\n");
+  return rows.map(row => {
+    return row.split(",").map(col => col.replace(/"/g, "").trim());
+  });
+}
+
+function cariData() {
+  const nip = document.getElementById("inputNip").value.trim();
+  const hasil = document.getElementById("hasil");
+
+  if (!nip) {
+    hasil.innerHTML = `
+      <p style="color:red; text-align:center;">
+        Silakan masukkan NIP terlebih dahulu.
+      </p>
+    `;
+    return;
   }
 
-  #foto-bebz img {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    box-shadow: 0 0 6px rgba(0,0,0,0.3);
-    border: 2px solid white;
+  if (dataPensiun.length === 0) {
+    hasil.innerHTML = `
+      <p style="color:red; text-align:center;">
+        Data belum berhasil dimuat. Coba refresh halaman.
+      </p>
+    `;
+    return;
   }
-</style>
+
+  const header = dataPensiun[0];
+  const data = dataPensiun.slice(1);
+
+  const hasilCari = data.filter(row => {
+    return row.join(" ").includes(nip);
+  });
+
+  if (hasilCari.length === 0) {
+    hasil.innerHTML = `
+      <p style="color:red; text-align:center;">
+        Data dengan NIP <b>${nip}</b> tidak ditemukan.
+      </p>
+    `;
+    return;
+  }
+
+  let html = "";
+
+  hasilCari.forEach(row => {
+    html += `<div style="
+      background:white;
+      color:#222;
+      padding:20px;
+      border-radius:18px;
+      box-shadow:0 8px 20px rgba(0,0,0,0.2);
+      margin-bottom:20px;
+    ">`;
+
+    html += `<h3 style="color:#0d47a1; margin-top:0;">Data Ditemukan</h3>`;
+
+    header.forEach((judul, i) => {
+      html += `
+        <p style="margin:8px 0;">
+          <b>${judul}</b> : ${row[i] || "-"}
+        </p>
+      `;
+    });
+
+    html += `</div>`;
+  });
+
+  hasil.innerHTML = html;
+}
+
+function resetCari() {
+  document.getElementById("inputNip").value = "";
+  document.getElementById("hasil").innerHTML = `
+    <p style="text-align:center;">Silakan masukkan NIP terlebih dahulu.</p>
+  `;
+}
+</script>
 
 </body>
 </html>
