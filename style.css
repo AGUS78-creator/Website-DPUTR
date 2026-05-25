@@ -47,6 +47,21 @@ body{
 
 .logo-header{
   width:90px;
+  transition:0.3s;
+}
+
+.logo-header:hover{
+  transform:scale(1.05);
+}
+
+.logo-like-tengah{
+  width:120px;
+  margin-bottom:12px;
+
+  filter:
+  drop-shadow(
+    0 4px 12px rgba(0,0,0,0.35)
+  );
 }
 
 .hero-title{
@@ -56,6 +71,7 @@ body{
 
 .hero-title h1{
   margin:0;
+
   font-size:52px;
   font-weight:800;
   letter-spacing:1px;
@@ -67,7 +83,11 @@ body{
 .hero-title p{
   margin-top:10px;
   font-size:20px;
+
   opacity:0.95;
+
+  text-shadow:
+  0 2px 8px rgba(0,0,0,0.35);
 }
 
 /* ========================= */
@@ -75,11 +95,14 @@ body{
 /* ========================= */
 
 .navbar{
-  background:rgba(33,150,243,0.85);
+  background:
+  rgba(33,150,243,0.85);
 
   display:flex;
   justify-content:center;
-  gap:25px;
+  align-items:center;
+
+  gap:15px;
 
   padding:15px;
 
@@ -91,26 +114,86 @@ body{
 
   box-shadow:
   0 4px 15px rgba(0,0,0,0.25);
+
+  flex-wrap:wrap;
 }
 
 .navbar a{
   color:white;
   text-decoration:none;
+
   font-weight:bold;
 
-  padding:10px 16px;
+  padding:10px 18px;
 
-  border-radius:12px;
+  border-radius:999px;
 
   transition:0.3s;
+
+  box-shadow:
+  0 4px 12px rgba(0,0,0,0.18);
+}
+
+/* ========================= */
+/* WARNA MENU NAVBAR */
+/* ========================= */
+
+.navbar a:nth-child(1){
+  background:
+  linear-gradient(
+    135deg,
+    #ffca28,
+    #fb8c00
+  );
+
+  color:#0d47a1;
+}
+
+.navbar a:nth-child(2){
+  background:
+  linear-gradient(
+    135deg,
+    #26a69a,
+    #00897b
+  );
+}
+
+.navbar a:nth-child(3){
+  background:
+  linear-gradient(
+    135deg,
+    #5e35b1,
+    #3949ab
+  );
+}
+
+.navbar a:nth-child(4){
+  background:
+  linear-gradient(
+    135deg,
+    #ef5350,
+    #d32f2f
+  );
+}
+
+.navbar a:nth-child(5){
+  background:
+  linear-gradient(
+    135deg,
+    #42a5f5,
+    #1565c0
+  );
 }
 
 .navbar a:hover{
-  background:rgba(255,255,255,0.15);
 
-  color:#fff59d;
+  background:white;
 
-  transform:translateY(-2px);
+  color:#0d47a1;
+
+  transform:
+  translateY(-3px)
+  scale(1.04);
 }
 
 /* ========================= */
@@ -119,10 +202,13 @@ body{
 
 .container{
   max-width:1300px;
+
   margin:auto;
+
   padding:30px 20px;
 
-  animation:fadeMasuk 0.7s ease;
+  animation:
+  fadeMasuk 0.7s ease;
 }
 
 /* ========================= */
@@ -130,17 +216,20 @@ body{
 /* ========================= */
 
 .welcome-box{
-  background:rgba(255,255,255,0.92);
+
+  background:
+  rgba(255,255,255,0.92);
 
   color:#222;
 
-  padding:30px;
+  padding:35px;
 
-  border-radius:24px;
+  border-radius:28px;
 
   text-align:center;
 
-  box-shadow:0 10px 35px rgba(0,0,0,0.25);
+  box-shadow:
+  0 10px 35px rgba(0,0,0,0.25);
 
   margin-bottom:30px;
 
@@ -152,21 +241,36 @@ body{
 
 .welcome-box h2{
   color:#0d47a1;
+
   margin-top:0;
+
+  font-size:42px;
+}
+
+.welcome-box p{
+
+  font-size:22px;
+
+  line-height:1.8;
+
+  color:#333;
 }
 
 /* ========================= */
-/* MENU */
+/* MENU BERANDA */
 /* ========================= */
 
 .menu-beranda{
-  background:rgba(255,255,255,0.92);
 
-  padding:30px;
+  background:
+  rgba(255,255,255,0.92);
 
-  border-radius:24px;
+  padding:35px;
 
-  box-shadow:0 10px 35px rgba(0,0,0,0.25);
+  border-radius:28px;
+
+  box-shadow:
+  0 10px 35px rgba(0,0,0,0.25);
 
   color:#222;
 
@@ -177,10 +281,15 @@ body{
 }
 
 .menu-beranda h3{
+
   text-align:center;
+
   color:#0d47a1;
+
   margin-top:0;
-  margin-bottom:30px;
+  margin-bottom:35px;
+
+  font-size:38px;
 }
 
 /* ========================= */
@@ -188,12 +297,13 @@ body{
 /* ========================= */
 
 .grid-menu{
+
   display:grid;
 
   grid-template-columns:
   repeat(auto-fit,minmax(220px,1fr));
 
-  gap:20px;
+  gap:22px;
 }
 
 /* ========================= */
@@ -201,27 +311,32 @@ body{
 /* ========================= */
 
 .card-menu{
+
   text-decoration:none;
+
   color:white;
 
-  padding:35px 20px;
+  padding:38px 20px;
 
-  border-radius:18px;
+  border-radius:24px;
 
   text-align:center;
 
-  font-size:20px;
+  font-size:22px;
   font-weight:bold;
 
-  transition:0.3s;
+  transition:0.35s;
 
-  box-shadow:0 6px 18px rgba(0,0,0,0.25);
+  box-shadow:
+  0 8px 20px rgba(0,0,0,0.20);
 
   position:relative;
+
   overflow:hidden;
 }
 
 .card-menu::before{
+
   content:"";
 
   position:absolute;
@@ -248,46 +363,89 @@ body{
 }
 
 .card-menu:hover{
-  transform:translateY(-5px) scale(1.02);
+
+  transform:
+  translateY(-6px)
+  scale(1.03);
 
   box-shadow:
-  0 12px 28px rgba(0,0,0,0.35);
+  0 14px 28px rgba(0,0,0,0.35);
 }
 
 /* ========================= */
-/* WARNA MENU */
+/* WARNA CARD MENU */
 /* ========================= */
 
 .card-menu:nth-child(1){
-  background:linear-gradient(135deg,#5e35b1,#3949ab);
+  background:
+  linear-gradient(
+    135deg,
+    #5e35b1,
+    #3949ab
+  );
 }
 
 .card-menu:nth-child(2){
-  background:linear-gradient(135deg,#43a047,#2e7d32);
+  background:
+  linear-gradient(
+    135deg,
+    #43a047,
+    #2e7d32
+  );
 }
 
 .card-menu:nth-child(3){
-  background:linear-gradient(135deg,#ffa726,#ef6c00);
+  background:
+  linear-gradient(
+    135deg,
+    #ffa726,
+    #ef6c00
+  );
 }
 
 .card-menu:nth-child(4){
-  background:linear-gradient(135deg,#e53935,#c62828);
+  background:
+  linear-gradient(
+    135deg,
+    #e53935,
+    #c62828
+  );
 }
 
 .card-menu:nth-child(5){
-  background:linear-gradient(135deg,#00897b,#00695c);
+  background:
+  linear-gradient(
+    135deg,
+    #00897b,
+    #00695c
+  );
 }
 
 .card-menu:nth-child(6){
-  background:linear-gradient(135deg,#8e24aa,#6a1b9a);
+  background:
+  linear-gradient(
+    135deg,
+    #26c6da,
+    #0097a7
+  );
 }
 
 .card-menu:nth-child(7){
-  background:linear-gradient(135deg,#1e88e5,#1565c0);
+  background:
+  linear-gradient(
+    135deg,
+    #8e24aa,
+    #6a1b9a
+  );
 }
 
 .card-menu:nth-child(8){
-  background:linear-gradient(135deg,#f4511e,#d84315);
+  background:
+  linear-gradient(
+    135deg,
+    #546e7a,
+    #37474f
+  );
 }
 
 /* ========================= */
@@ -295,12 +453,48 @@ body{
 /* ========================= */
 
 iframe{
-  border-radius:18px;
 
-  box-shadow:
-  0 10px 25px rgba(0,0,0,0.3);
+  border:none;
+
+  border-radius:20px;
 
   background:white;
+
+  box-shadow:
+  0 10px 25px rgba(0,0,0,0.30);
+}
+
+/* ========================= */
+/* FOTO ADMIN */
+/* ========================= */
+
+#foto-bebz{
+
+  position:fixed;
+
+  bottom:10px;
+  left:10px;
+
+  z-index:999;
+}
+
+#foto-bebz img{
+
+  width:65px;
+  height:65px;
+
+  border-radius:50%;
+
+  border:3px solid white;
+
+  box-shadow:
+  0 4px 14px rgba(0,0,0,0.35);
+
+  transition:0.3s;
+}
+
+#foto-bebz img:hover{
+  transform:scale(1.08);
 }
 
 /* ========================= */
@@ -308,18 +502,23 @@ iframe{
 /* ========================= */
 
 footer{
-  margin-top:40px;
 
-  background:rgba(13,71,161,0.9);
+  margin-top:45px;
+
+  background:
+  rgba(13,71,161,0.88);
+
+  backdrop-filter:blur(8px);
 
   text-align:center;
 
-  padding:20px;
+  padding:22px;
+
+  box-shadow:
+  0 -6px 18px rgba(0,0,0,0.20);
 
   border-top:
   2px solid rgba(255,255,255,0.15);
-
-  backdrop-filter:blur(5px);
 }
 
 footer p{
@@ -328,9 +527,14 @@ footer p{
 }
 
 footer small{
+
   display:block;
+
   margin-top:10px;
-  line-height:1.6;
+
+  line-height:1.7;
+
+  font-size:15px;
 }
 
 /* ========================= */
@@ -346,7 +550,9 @@ footer small{
 }
 
 ::-webkit-scrollbar-thumb{
+
   background:#1565c0;
+
   border-radius:10px;
 }
 
@@ -382,30 +588,40 @@ footer small{
   }
 
   .hero-title h1{
-    font-size:34px;
+    font-size:32px;
   }
 
   .hero-title p{
     font-size:16px;
   }
 
-  .navbar{
-    flex-wrap:wrap;
-    gap:10px;
+  .welcome-box h2{
+    font-size:30px;
+  }
+
+  .welcome-box p{
+    font-size:17px;
+  }
+
+  .menu-beranda h3{
+    font-size:30px;
+  }
+
+  .card-menu{
+    font-size:18px;
+    padding:28px 16px;
   }
 
   .logo-header{
     width:70px;
   }
 
-  .card-menu{
-    font-size:18px;
-    padding:28px 15px;
+  .logo-like-tengah{
+    width:90px;
   }
 
-  .welcome-box,
-  .menu-beranda{
-    padding:20px;
+  .navbar{
+    gap:10px;
   }
 
 }
