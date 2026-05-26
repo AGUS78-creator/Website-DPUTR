@@ -202,8 +202,8 @@ function cariData() {
   }
 
   const hasilCari = dataKGB.find(row => {
-    const nip = bersihNip(ambil(row, ["NIP"]));
-    return nip === nipInput;
+  return row.some(cell => bersihNip(cell) === nipInput);
+});
   });
 
   if (!hasilCari) {
@@ -215,8 +215,10 @@ function cariData() {
     return;
   }
 
-  const nama = ambil(hasilCari, ["NAMA"]);
-  const nipPegawai = ambil(hasilCari, ["NIP"]);
+  const nipIndex = hasilCari.findIndex(cell => bersihNip(cell) === nipInput);
+
+const nama = hasilCari[nipIndex - 1] || "-";
+const nipPegawai = hasilCari[nipIndex] || "-";
   const tglLahir = ambil(hasilCari, ["TANGGAL LAHIR", "TGLLAHIR"]);
   const golongan = ambil(hasilCari, ["PANGKAT GOL RUANG", "PANGKATGOLRUANG", "GOL", "GOLONGAN"]);
   const jabatan = ambil(hasilCari, ["JABATAN"]);
