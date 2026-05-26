@@ -1,44 +1,56 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Data Berkala</title>
-
-  <meta name="description" content="Data berkala ASN DPUTR Kabupaten Purwakarta melalui Layanan Informasi Kepegawaian LIKE DPUTR.">
-  <meta name="keywords" content="Data Berkala DPUTR, KGB DPUTR, LIKE DPUTR, ASN Purwakarta, kenaikan gaji berkala">
-  <meta name="author" content="Agus Hilman, S.I.P">
-
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data KGB LIKE DPUTR</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<header style="background-color: #1a6fb3; color: white; padding: 15px 20px;">
-  <h1 style="margin: 0;">LAYANAN INFORMASI KEPEGAWAIAN ( LIKE ) DPUTR</h1>
-  <p style="margin: 0;">Dinas Pekerjaan Umum & Tata Ruang Kabupaten Purwakarta</p>
+<header style="background-color:#1a6fb3; color:white; padding:15px 20px;">
+  <h1 style="margin:0;">LAYANAN INFORMASI KEPEGAWAIAN ( LIKE ) DPUTR</h1>
+  <p style="margin:0;">Dinas Pekerjaan Umum & Tata Ruang Kabupaten Purwakarta</p>
 </header>
 
 <nav class="navbar">
-  <a href="index.html" style="margin-right: 15px; color: white; text-decoration: none;">Beranda</a>
-   
- 
+  <a href="index.html">Beranda</a>
+  <a href="berkala.html">Data KGB</a>
 </nav>
 
-<main>
-  <h2>Data Berkala</h2>
+<main class="container">
 
-  <iframe 
-    src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQjZVLQcjnAXh9In-6RIYUK-rcgx06TJ-_Q4Sk22bnNaQ0QqP49DXgWLHl1heyEYV_Kpwa-AwxbbqK7/pubhtml?gid=1630584018&single=true"
-    width="100%" 
-    height="700" 
-    style="border:none;">
-  </iframe>
+  <section class="welcome-box">
+    <h2>Pencarian Data KGB</h2>
+    <p>Masukkan NIP untuk mengetahui informasi Kenaikan Gaji Berkala ASN DPUTR Kabupaten Purwakarta.</p>
+
+    <input
+      type="text"
+      id="inputNip"
+      placeholder="Masukkan NIP..."
+      style="width:100%; max-width:430px; padding:14px; border-radius:12px; border:1px solid #ccc; font-size:16px;"
+    >
+
+    <br><br>
+
+    <button onclick="cariData()" style="padding:12px 25px; border:none; border-radius:12px; background:#0d47a1; color:white; font-weight:bold; cursor:pointer;">
+      Cari Data
+    </button>
+
+    <button onclick="resetCari()" style="padding:12px 25px; border:none; border-radius:12px; background:#fb8c00; color:white; font-weight:bold; cursor:pointer; margin-left:8px;">
+      Reset
+    </button>
+  </section>
+
+  <section class="menu-beranda">
+    <h3>Hasil Pencarian</h3>
+    <div id="hasil">
+      <p style="text-align:center;">Silakan masukkan NIP terlebih dahulu.</p>
+    </div>
+  </section>
+
 </main>
-
-<div id="foto-bebz">
-  <img src="bapa.jpeg" alt="Foto Admin" />
-</div>
 
 <footer>
   <p>© 2026 LIKE DPUTR Kabupaten Purwakarta</p>
@@ -49,22 +61,266 @@
   </small>
 </footer>
 
-<style>
-  #foto-bebz {
-    position: fixed;
-    bottom: 10px;
-    left: 10px;
-    z-index: 999;
+<script>
+const urlCSV =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vQjZVLQcjnAXh9In-6RIYUK-rcgx06TJ-_Q4Sk22bnNaQ0QqP49DXgWLHl1heyEYV_Kpwa-AwxbbqK7/pub?gid=1630584018&single=true&output=csv";
+
+let dataKGB = [];
+let headerKGB = [];
+
+fetch(urlCSV)
+.then(response => response.text())
+.then(csv => {
+  const rows = parseCSV(csv);
+  headerKGB = rows[0].map(h => bersihHeader(h));
+  dataKGB = rows.slice(1);
+})
+.catch(error => {
+  document.getElementById("hasil").innerHTML = `
+    <p style="color:red; text-align:center;">
+      Gagal memuat data. Pastikan Google Sheet sudah dipublikasikan.
+    </p>
+  `;
+  console.error(error);
+});
+
+function parseCSV(csv) {
+  const rows = [];
+  let row = [];
+  let value = "";
+  let insideQuote = false;
+
+  for (let i = 0; i < csv.length; i++) {
+    const char = csv[i];
+    const next = csv[i + 1];
+
+    if (char === '"' && insideQuote && next === '"') {
+      value += '"';
+      i++;
+    } else if (char === '"') {
+      insideQuote = !insideQuote;
+    } else if (char === "," && !insideQuote) {
+      row.push(value.trim());
+      value = "";
+    } else if ((char === "\n" || char === "\r") && !insideQuote) {
+      if (value || row.length) {
+        row.push(value.trim());
+        rows.push(row);
+        row = [];
+        value = "";
+      }
+    } else {
+      value += char;
+    }
   }
 
-  #foto-bebz img {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    box-shadow: 0 0 6px rgba(0,0,0,0.3);
-    border: 2px solid white;
+  if (value || row.length) {
+    row.push(value.trim());
+    rows.push(row);
   }
-</style>
+
+  return rows;
+}
+
+function bersihHeader(teks) {
+  return String(teks || "")
+    .toLowerCase()
+    .replace(/\s+/g, "")
+    .replace(/\./g, "")
+    .replace(/\//g, "")
+    .replace(/_/g, "")
+    .replace(/-/g, "");
+}
+
+function ambil(row, daftarNamaKolom) {
+  for (let nama of daftarNamaKolom) {
+    const target = bersihHeader(nama);
+    const index = headerKGB.findIndex(h => h === target);
+
+    if (index !== -1) {
+      return row[index] || "-";
+    }
+  }
+
+  return "-";
+}
+
+function namaBulan(bln) {
+  const bulan = {
+    "1":"Januari",
+    "2":"Februari",
+    "3":"Maret",
+    "4":"April",
+    "5":"Mei",
+    "6":"Juni",
+    "7":"Juli",
+    "8":"Agustus",
+    "9":"September",
+    "01":"Januari",
+    "02":"Februari",
+    "03":"Maret",
+    "04":"April",
+    "05":"Mei",
+    "06":"Juni",
+    "07":"Juli",
+    "08":"Agustus",
+    "09":"September",
+    "10":"Oktober",
+    "11":"November",
+    "12":"Desember"
+  };
+
+  return bulan[String(bln).trim()] || bln || "-";
+}
+
+function formatRupiah(angka) {
+  if (!angka || angka === "-") return "-";
+
+  let bersih = String(angka).replace(/[^\d]/g, "");
+
+  if (!bersih) return angka;
+
+  return "Rp " + bersih.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+function cariData() {
+  const nipInput = document.getElementById("inputNip").value.trim().replace(/\s/g, "");
+  const hasil = document.getElementById("hasil");
+
+  if (!nipInput) {
+    hasil.innerHTML = `
+      <p style="color:red; text-align:center;">
+        Silakan masukkan NIP terlebih dahulu.
+      </p>
+    `;
+    return;
+  }
+
+  if (dataKGB.length === 0) {
+    hasil.innerHTML = `
+      <p style="color:red; text-align:center;">
+        Data belum berhasil dimuat. Coba refresh halaman.
+      </p>
+    `;
+    return;
+  }
+
+  const hasilCari = dataKGB.find(row => {
+    const nip = ambil(row, ["NIP"]).replace(/\s/g, "");
+    return nip === nipInput;
+  });
+
+  if (!hasilCari) {
+    hasil.innerHTML = `
+      <p style="color:red; text-align:center;">
+        Data dengan NIP <b>${nipInput}</b> tidak ditemukan.
+      </p>
+    `;
+    return;
+  }
+
+  const nama = ambil(hasilCari, ["NAMA"]);
+  const nipPegawai = ambil(hasilCari, ["NIP"]);
+  const tglLahir = ambil(hasilCari, ["TANGGAL LAHIR", "TGL LAHIR"]);
+  const golongan = ambil(hasilCari, ["PANGKAT/ GOL. RUANG", "PANGKAT/GOL. RUANG", "GOL", "GOLONGAN"]);
+  const jabatan = ambil(hasilCari, ["JABATAN"]);
+
+  const gajiLama = ambil(hasilCari, ["GAJI POKOK LAMA"]);
+  const gajiBaru = ambil(hasilCari, ["GAJI POKOK BARU"]);
+
+  const masaTahun = ambil(hasilCari, ["TAHUN"]);
+  const masaBulan = ambil(hasilCari, ["BULAN"]);
+
+  const tglTmtKgb = ambil(hasilCari, ["TGL_TMT_KGB", "TGL TMT KGB"]);
+  const blnTmtKgb = ambil(hasilCari, ["BLN_TMT_KGB", "BLN TMT KGB"]);
+  const thnTmtKgb = ambil(hasilCari, ["THN_TMT_KGB", "THN TMT KGB"]);
+
+  const tglKgbYad = ambil(hasilCari, ["TGL_KGB_YAD", "TGL KGB YAD"]);
+  const blnKgbYad = ambil(hasilCari, ["BLN_KGB_YAD", "BLN KGB YAD"]);
+  const thnKgbYad = ambil(hasilCari, ["THN_KGB_YAD", "THN KGB YAD"]);
+
+  hasil.innerHTML = `
+    <div style="
+      background:white;
+      color:#222;
+      padding:30px;
+      border-radius:22px;
+      box-shadow:0 8px 25px rgba(0,0,0,0.25);
+      line-height:1.9;
+      font-size:20px;
+    ">
+
+      <h2 style="color:#0d47a1; text-align:center; margin-top:0; margin-bottom:35px;">
+        Data KGB Ditemukan
+      </h2>
+
+      <p>
+        Selamat datang <b>${nama}</b>.
+      </p>
+
+      <p>
+        Berdasarkan data kepegawaian, Saudara/i dengan NIP
+        <b>${nipPegawai}</b> memiliki pangkat/golongan
+        <b>${golongan}</b> dan jabatan
+        <b>${jabatan}</b>.
+      </p>
+
+      <p>
+        Tanggal lahir Saudara/i tercatat pada
+        <b>${tglLahir}</b>.
+      </p>
+
+      <p>
+        Gaji pokok lama Saudara/i sebesar
+        <b>${formatRupiah(gajiLama)}</b>, dan berdasarkan data KGB,
+        gaji pokok baru menjadi
+        <b>${formatRupiah(gajiBaru)}</b>.
+      </p>
+
+      <p>
+        Masa kerja golongan tercatat
+        <b>${masaTahun}</b> tahun
+        <b>${masaBulan}</b> bulan.
+      </p>
+
+      <p>
+        Kenaikan Gaji Berkala terakhir berlaku pada tanggal
+        <b>${tglTmtKgb}</b> bulan
+        <b>${namaBulan(blnTmtKgb)}</b> tahun
+        <b>${thnTmtKgb}</b>.
+      </p>
+
+      <p>
+        Kenaikan Gaji Berkala yang akan datang diperkirakan berlaku pada tanggal
+        <b>${tglKgbYad}</b> bulan
+        <b>${namaBulan(blnKgbYad)}</b> tahun
+        <b>${thnKgbYad}</b>.
+      </p>
+
+      <p style="
+        background:#e3f2fd;
+        padding:18px;
+        border-radius:14px;
+        color:#0d47a1;
+        font-weight:bold;
+        margin-top:30px;
+      ">
+        Jika terdapat kesalahan data, silakan segera menghubungi bagian kepegawaian untuk dilakukan perbaikan data.
+      </p>
+
+    </div>
+  `;
+}
+
+function resetCari() {
+  document.getElementById("inputNip").value = "";
+  document.getElementById("hasil").innerHTML = `
+    <p style="text-align:center;">
+      Silakan masukkan NIP terlebih dahulu.
+    </p>
+  `;
+}
+</script>
 
 </body>
 </html>
