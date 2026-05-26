@@ -6,7 +6,6 @@
   <title>Data KGB LIKE DPUTR</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <header style="background-color:#1a6fb3; color:white; padding:15px 20px;">
@@ -56,36 +55,14 @@
 </footer>
 
 <script>
-const urlCSV =
-"https://docs.google.com/spreadsheets/d/e/2PACX-1vR165gifhbqS6oVLCrbieJsbdaUc7yUTgK6jh4bVbATCuBNzyaiG16P3-ZFy1bbgA/pub?gid=499282639&single=true&output=csv";
+const urlCSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR165gifhbqS6oVLCrbieJsbdaUc7yUTgK6jh4bVbATCuBNzyaiG16P3-ZFy1bbgA/pub?gid=499282639&single=true&output=csv";
 
 let dataKGB = [];
-let headerKGB = [];
 
 fetch(urlCSV)
 .then(response => response.text())
 .then(csv => {
-  const rows = parseCSV(csv);
-
-  const headerIndex = rows.findIndex(row => {
-    const gabung = row.map(x => bersihHeader(x)).join("|");
-    return gabung.includes("nip") && gabung.includes("nama");
-  });
-
-  if (headerIndex === -1) {
-    document.getElementById("hasil").innerHTML = `
-      <p style="color:red; text-align:center;">
-        Header NAMA dan NIP tidak ditemukan. Cek baris judul pada sheet KGB.
-      </p>
-    `;
-    return;
-  }
-
-  headerKGB = rows[headerIndex].map(h => bersihHeader(h));
-  dataKGB = rows.slice(headerIndex + 1);
-
-  console.log("HEADER:", headerKGB);
-  console.log("DATA:", dataKGB);
+  dataKGB = parseCSV(csv);
 })
 .catch(error => {
   document.getElementById("hasil").innerHTML = `
@@ -93,7 +70,6 @@ fetch(urlCSV)
       Gagal memuat data. Pastikan Google Sheet sudah dipublikasikan.
     </p>
   `;
-  console.error(error);
 });
 
 function parseCSV(csv) {
@@ -134,35 +110,8 @@ function parseCSV(csv) {
   return rows;
 }
 
-function bersihHeader(teks) {
-  return String(teks || "")
-    .toLowerCase()
-    .replace(/\s+/g, "")
-    .replace(/\./g, "")
-    .replace(/\//g, "")
-    .replace(/_/g, "")
-    .replace(/-/g, "")
-    .replace(/\(/g, "")
-    .replace(/\)/g, "");
-}
-
 function bersihNip(teks) {
-  return String(teks || "")
-    .replace(/\D/g, "")
-    .trim();
-}
-
-function ambil(row, daftarNamaKolom) {
-  for (let nama of daftarNamaKolom) {
-    const target = bersihHeader(nama);
-    const index = headerKGB.findIndex(h => h === target);
-
-    if (index !== -1) {
-      return row[index] || "-";
-    }
-  }
-
-  return "-";
+  return String(teks || "").replace(/\D/g, "").trim();
 }
 
 function namaBulan(bln) {
@@ -174,16 +123,13 @@ function namaBulan(bln) {
     "07":"Juli","08":"Agustus","09":"September",
     "10":"Oktober","11":"November","12":"Desember"
   };
-
   return bulan[String(bln).trim()] || bln || "-";
 }
 
 function formatRupiah(angka) {
   if (!angka || angka === "-") return "-";
-
   let bersih = String(angka).replace(/[^\d]/g, "");
   if (!bersih) return angka;
-
   return "Rp " + bersih.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
@@ -202,8 +148,7 @@ function cariData() {
   }
 
   const hasilCari = dataKGB.find(row => {
-  return row.some(cell => bersihNip(cell) === nipInput);
-});
+    return row.some(cell => bersihNip(cell) === nipInput);
   });
 
   if (!hasilCari) {
@@ -217,25 +162,25 @@ function cariData() {
 
   const nipIndex = hasilCari.findIndex(cell => bersihNip(cell) === nipInput);
 
-const nama = hasilCari[nipIndex - 1] || "-";
-const nipPegawai = hasilCari[nipIndex] || "-";
-  const tglLahir = ambil(hasilCari, ["TANGGAL LAHIR", "TGLLAHIR"]);
-  const golongan = ambil(hasilCari, ["PANGKAT GOL RUANG", "PANGKATGOLRUANG", "GOL", "GOLONGAN"]);
-  const jabatan = ambil(hasilCari, ["JABATAN"]);
+  const nama = hasilCari[nipIndex - 1] || "-";
+  const nipPegawai = hasilCari[nipIndex] || "-";
+  const tglLahir = hasilCari[nipIndex + 1] || "-";
+  const golongan = hasilCari[nipIndex + 2] || "-";
+  const jabatan = hasilCari[nipIndex + 3] || "-";
 
-  const gajiLama = ambil(hasilCari, ["GAJI POKOK LAMA", "GAJIPOKOKLAMA"]);
-  const gajiBaru = ambil(hasilCari, ["GAJI POKOK BARU", "GAJIPOKOKBARU"]);
+  const gajiLama = hasilCari[nipIndex + 4] || "-";
+  const gajiBaru = hasilCari[nipIndex + 12] || "-";
 
-  const masaTahun = ambil(hasilCari, ["TAHUN"]);
-  const masaBulan = ambil(hasilCari, ["BULAN"]);
+  const masaTahun = hasilCari[nipIndex + 13] || "-";
+  const masaBulan = hasilCari[nipIndex + 14] || "-";
 
-  const tglTmtKgb = ambil(hasilCari, ["TGL TMT KGB", "TGLTMTKGB"]);
-  const blnTmtKgb = ambil(hasilCari, ["BLN TMT KGB", "BLNTMTKGB"]);
-  const thnTmtKgb = ambil(hasilCari, ["THN TMT KGB", "THNTMTKGB"]);
+  const tglTmtKgb = hasilCari[nipIndex + 18] || "-";
+  const blnTmtKgb = hasilCari[nipIndex + 19] || "-";
+  const thnTmtKgb = hasilCari[nipIndex + 20] || "-";
 
-  const tglKgbYad = ambil(hasilCari, ["TGL KGB YAD", "TGLKGBYAD"]);
-  const blnKgbYad = ambil(hasilCari, ["BLN KGB YAD", "BLNKGBYAD"]);
-  const thnKgbYad = ambil(hasilCari, ["THN KGB YAD", "THNKGBYAD"]);
+  const tglKgbYad = hasilCari[nipIndex + 21] || "-";
+  const blnKgbYad = hasilCari[nipIndex + 22] || "-";
+  const thnKgbYad = hasilCari[nipIndex + 23] || "-";
 
   hasil.innerHTML = `
     <div style="
