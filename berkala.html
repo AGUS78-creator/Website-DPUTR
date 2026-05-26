@@ -184,7 +184,10 @@ function formatRupiah(angka) {
 }
 
 function cariData() {
-  const nipInput = document.getElementById("inputNip").value.trim().replace(/\s/g, "");
+  const nipInput = document.getElementById("inputNip").value
+  .replace(/\s/g, "")
+  .replace(/\./g, "")
+  .trim();
   const hasil = document.getElementById("hasil");
 
   if (!nipInput) {
@@ -206,7 +209,10 @@ function cariData() {
   }
 
   const hasilCari = dataKGB.find(row => {
-    const nip = ambil(row, ["NIP"]).replace(/\s/g, "");
+    const nip = ambil(row, ["NIP"])
+  .replace(/\s/g, "")
+  .replace(/\./g, "")
+  .trim();
     return nip === nipInput;
   });
 
