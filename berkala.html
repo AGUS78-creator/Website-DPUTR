@@ -184,13 +184,16 @@ function cariData() {
   const masaTahun = hasilCari[nipIndex + 13] || "-";
   const masaBulan = hasilCari[nipIndex + 14] || "-";
 
-  const tglTmtKgb = hasilCari[nipIndex + 23] || "-";
-const blnTmtKgb = hasilCari[nipIndex + 24] || "-";
-const thnTmtKgb = hasilCari[nipIndex + 25] || "-";
+  const isiAkhir = hasilCari.filter(x => String(x).trim() !== "");
+const enamAkhir = isiAkhir.slice(-6);
 
-const tglKgbYad = hasilCari[nipIndex + 26] || "-";
-const blnKgbYad = hasilCari[nipIndex + 27] || "-";
-const thnKgbYad = hasilCari[nipIndex + 28] || "-";
+const tglTmtKgb = enamAkhir[0] || "-";
+const blnTmtKgb = enamAkhir[1] || "-";
+const thnTmtKgb = enamAkhir[2] || "-";
+
+const tglKgbYad = enamAkhir[3] || "-";
+const blnKgbYad = enamAkhir[4] || "-";
+const thnKgbYad = enamAkhir[5] || "-";
   hasil.innerHTML = `
     <div style="
       background:white;
