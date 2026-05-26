@@ -20,17 +20,12 @@
 </nav>
 
 <main class="container">
-
   <section class="welcome-box">
     <h2>Pencarian Data KGB</h2>
     <p>Masukkan NIP untuk mengetahui informasi Kenaikan Gaji Berkala ASN DPUTR Kabupaten Purwakarta.</p>
 
-    <input
-      type="text"
-      id="inputNip"
-      placeholder="Masukkan NIP..."
-      style="width:100%; max-width:430px; padding:14px; border-radius:12px; border:1px solid #ccc; font-size:16px;"
-    >
+    <input type="text" id="inputNip" placeholder="Masukkan NIP..."
+      style="width:100%; max-width:430px; padding:14px; border-radius:12px; border:1px solid #ccc; font-size:16px;">
 
     <br><br>
 
@@ -49,7 +44,6 @@
       <p style="text-align:center;">Silakan masukkan NIP terlebih dahulu.</p>
     </div>
   </section>
-
 </main>
 
 <footer>
@@ -72,8 +66,26 @@ fetch(urlCSV)
 .then(response => response.text())
 .then(csv => {
   const rows = parseCSV(csv);
-  headerKGB = rows[0].map(h => bersihHeader(h));
-  dataKGB = rows.slice(1);
+
+  const headerIndex = rows.findIndex(row => {
+    const gabung = row.map(x => bersihHeader(x)).join("|");
+    return gabung.includes("nip") && gabung.includes("nama");
+  });
+
+  if (headerIndex === -1) {
+    document.getElementById("hasil").innerHTML = `
+      <p style="color:red; text-align:center;">
+        Header NAMA dan NIP tidak ditemukan. Cek baris judul pada sheet KGB.
+      </p>
+    `;
+    return;
+  }
+
+  headerKGB = rows[headerIndex].map(h => bersihHeader(h));
+  dataKGB = rows.slice(headerIndex + 1);
+
+  console.log("HEADER:", headerKGB);
+  console.log("DATA:", dataKGB);
 })
 .catch(error => {
   document.getElementById("hasil").innerHTML = `
@@ -129,7 +141,15 @@ function bersihHeader(teks) {
     .replace(/\./g, "")
     .replace(/\//g, "")
     .replace(/_/g, "")
-    .replace(/-/g, "");
+    .replace(/-/g, "")
+    .replace(/\(/g, "")
+    .replace(/\)/g, "");
+}
+
+function bersihNip(teks) {
+  return String(teks || "")
+    .replace(/\D/g, "")
+    .trim();
 }
 
 function ambil(row, daftarNamaKolom) {
@@ -147,27 +167,12 @@ function ambil(row, daftarNamaKolom) {
 
 function namaBulan(bln) {
   const bulan = {
-    "1":"Januari",
-    "2":"Februari",
-    "3":"Maret",
-    "4":"April",
-    "5":"Mei",
-    "6":"Juni",
-    "7":"Juli",
-    "8":"Agustus",
-    "9":"September",
-    "01":"Januari",
-    "02":"Februari",
-    "03":"Maret",
-    "04":"April",
-    "05":"Mei",
-    "06":"Juni",
-    "07":"Juli",
-    "08":"Agustus",
-    "09":"September",
-    "10":"Oktober",
-    "11":"November",
-    "12":"Desember"
+    "1":"Januari","2":"Februari","3":"Maret","4":"April",
+    "5":"Mei","6":"Juni","7":"Juli","8":"Agustus",
+    "9":"September","01":"Januari","02":"Februari",
+    "03":"Maret","04":"April","05":"Mei","06":"Juni",
+    "07":"Juli","08":"Agustus","09":"September",
+    "10":"Oktober","11":"November","12":"Desember"
   };
 
   return bulan[String(bln).trim()] || bln || "-";
@@ -177,42 +182,27 @@ function formatRupiah(angka) {
   if (!angka || angka === "-") return "-";
 
   let bersih = String(angka).replace(/[^\d]/g, "");
-
   if (!bersih) return angka;
 
   return "Rp " + bersih.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
 function cariData() {
-  const nipInput = document.getElementById("inputNip").value
-  .replace(/\s/g, "")
-  .replace(/\./g, "")
-  .trim();
+  const nipInput = bersihNip(document.getElementById("inputNip").value);
   const hasil = document.getElementById("hasil");
 
   if (!nipInput) {
-    hasil.innerHTML = `
-      <p style="color:red; text-align:center;">
-        Silakan masukkan NIP terlebih dahulu.
-      </p>
-    `;
+    hasil.innerHTML = `<p style="color:red; text-align:center;">Silakan masukkan NIP terlebih dahulu.</p>`;
     return;
   }
 
   if (dataKGB.length === 0) {
-    hasil.innerHTML = `
-      <p style="color:red; text-align:center;">
-        Data belum berhasil dimuat. Coba refresh halaman.
-      </p>
-    `;
+    hasil.innerHTML = `<p style="color:red; text-align:center;">Data belum berhasil dimuat. Coba refresh halaman.</p>`;
     return;
   }
 
   const hasilCari = dataKGB.find(row => {
-    const nip = ambil(row, ["NIP"])
-  .replace(/\s/g, "")
-  .replace(/\./g, "")
-  .trim();
+    const nip = bersihNip(ambil(row, ["NIP"]));
     return nip === nipInput;
   });
 
@@ -227,23 +217,23 @@ function cariData() {
 
   const nama = ambil(hasilCari, ["NAMA"]);
   const nipPegawai = ambil(hasilCari, ["NIP"]);
-  const tglLahir = ambil(hasilCari, ["TANGGAL LAHIR", "TGL LAHIR"]);
-  const golongan = ambil(hasilCari, ["PANGKAT/ GOL. RUANG", "PANGKAT/GOL. RUANG", "GOL", "GOLONGAN"]);
+  const tglLahir = ambil(hasilCari, ["TANGGAL LAHIR", "TGLLAHIR"]);
+  const golongan = ambil(hasilCari, ["PANGKAT GOL RUANG", "PANGKATGOLRUANG", "GOL", "GOLONGAN"]);
   const jabatan = ambil(hasilCari, ["JABATAN"]);
 
-  const gajiLama = ambil(hasilCari, ["GAJI POKOK LAMA"]);
-  const gajiBaru = ambil(hasilCari, ["GAJI POKOK BARU"]);
+  const gajiLama = ambil(hasilCari, ["GAJI POKOK LAMA", "GAJIPOKOKLAMA"]);
+  const gajiBaru = ambil(hasilCari, ["GAJI POKOK BARU", "GAJIPOKOKBARU"]);
 
   const masaTahun = ambil(hasilCari, ["TAHUN"]);
   const masaBulan = ambil(hasilCari, ["BULAN"]);
 
-  const tglTmtKgb = ambil(hasilCari, ["TGL_TMT_KGB", "TGL TMT KGB"]);
-  const blnTmtKgb = ambil(hasilCari, ["BLN_TMT_KGB", "BLN TMT KGB"]);
-  const thnTmtKgb = ambil(hasilCari, ["THN_TMT_KGB", "THN TMT KGB"]);
+  const tglTmtKgb = ambil(hasilCari, ["TGL TMT KGB", "TGLTMTKGB"]);
+  const blnTmtKgb = ambil(hasilCari, ["BLN TMT KGB", "BLNTMTKGB"]);
+  const thnTmtKgb = ambil(hasilCari, ["THN TMT KGB", "THNTMTKGB"]);
 
-  const tglKgbYad = ambil(hasilCari, ["TGL_KGB_YAD", "TGL KGB YAD"]);
-  const blnKgbYad = ambil(hasilCari, ["BLN_KGB_YAD", "BLN KGB YAD"]);
-  const thnKgbYad = ambil(hasilCari, ["THN_KGB_YAD", "THN KGB YAD"]);
+  const tglKgbYad = ambil(hasilCari, ["TGL KGB YAD", "TGLKGBYAD"]);
+  const blnKgbYad = ambil(hasilCari, ["BLN KGB YAD", "BLNKGBYAD"]);
+  const thnKgbYad = ambil(hasilCari, ["THN KGB YAD", "THNKGBYAD"]);
 
   hasil.innerHTML = `
     <div style="
@@ -255,14 +245,11 @@ function cariData() {
       line-height:1.9;
       font-size:20px;
     ">
-
       <h2 style="color:#0d47a1; text-align:center; margin-top:0; margin-bottom:35px;">
         Data KGB Ditemukan
       </h2>
 
-      <p>
-        Selamat datang <b>${nama}</b>.
-      </p>
+      <p>Selamat datang <b>${nama}</b>.</p>
 
       <p>
         Berdasarkan data kepegawaian, Saudara/i dengan NIP
@@ -313,7 +300,6 @@ function cariData() {
       ">
         Jika terdapat kesalahan data, silakan segera menghubungi bagian kepegawaian untuk dilakukan perbaikan data.
       </p>
-
     </div>
   `;
 }
