@@ -128,9 +128,19 @@ function namaBulan(bln) {
 
 function formatRupiah(angka) {
   if (!angka || angka === "-") return "-";
-  let bersih = String(angka).replace(/[^\d]/g, "");
+
+  let teks = String(angka).trim();
+
+  if (teks.includes(".00")) {
+    teks = teks.replace(".00", "");
+  }
+
+  let bersih = teks.replace(/[^\d]/g, "");
+
   if (!bersih) return angka;
+
   return "Rp " + bersih.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
 }
 
 function cariData() {
@@ -174,14 +184,13 @@ function cariData() {
   const masaTahun = hasilCari[nipIndex + 13] || "-";
   const masaBulan = hasilCari[nipIndex + 14] || "-";
 
-  const tglTmtKgb = hasilCari[nipIndex + 18] || "-";
-  const blnTmtKgb = hasilCari[nipIndex + 19] || "-";
-  const thnTmtKgb = hasilCari[nipIndex + 20] || "-";
+  const tglTmtKgb = hasilCari[nipIndex + 23] || "-";
+const blnTmtKgb = hasilCari[nipIndex + 24] || "-";
+const thnTmtKgb = hasilCari[nipIndex + 25] || "-";
 
-  const tglKgbYad = hasilCari[nipIndex + 21] || "-";
-  const blnKgbYad = hasilCari[nipIndex + 22] || "-";
-  const thnKgbYad = hasilCari[nipIndex + 23] || "-";
-
+const tglKgbYad = hasilCari[nipIndex + 26] || "-";
+const blnKgbYad = hasilCari[nipIndex + 27] || "-";
+const thnKgbYad = hasilCari[nipIndex + 28] || "-";
   hasil.innerHTML = `
     <div style="
       background:white;
