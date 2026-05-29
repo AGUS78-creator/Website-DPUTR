@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Usulan Cuti LIKE DPUTR</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header style="background-color:#1a6fb3; color:white; padding:15px 20px;">
+  <h1 style="margin:0;">LAYANAN INFORMASI KEPEGAWAIAN ( LIKE ) DPUTR</h1>
+  <p style="margin:0;">Dinas Pekerjaan Umum & Tata Ruang Kabupaten Purwakarta</p>
+</header>
+
+<nav class="navbar">
+  <a href="index.html">Beranda</a>
+  <a href="cuti.html">Usulan Cuti</a>
+</nav>
+
+<main class="container">
+
+  <section class="welcome-box">
+    <h2>Form Usulan Cuti Online</h2>
+    <p>
+      Silakan isi data usulan cuti dengan lengkap dan benar.
+      Data akan masuk ke database kepegawaian untuk diproses lebih lanjut.
+    </p>
+  </section>
+
+  <section class="menu-beranda">
+    <h3>Data Usulan Cuti</h3>
+
+    <form id="formCuti" style="max-width:850px; margin:auto;">
+
+      <label>Nama Pegawai</label>
+      <input class="input-cuti" type="text" name="nama" placeholder="Masukkan nama pegawai" required>
+
+      <label>NIP / NRPTT</label>
+      <input class="input-cuti" type="text" name="nip" placeholder="Masukkan NIP / NRPTT" required>
+
+      <label>Jabatan</label>
+      <input class="input-cuti" type="text" name="jabatan" placeholder="Masukkan jabatan" required>
+
+      <label>Unit Kerja</label>
+      <input class="input-cuti" type="text" name="unitKerja" placeholder="Contoh: Sekretariat / UPTD / Bidang" required>
+
+      <label>Masa Kerja</label>
+      <input class="input-cuti" type="text" name="masaKerja" placeholder="Contoh: 10 Tahun 2 Bulan">
+
+      <label>Jenis Cuti</label>
+      <select class="input-cuti" name="jenisCuti" required>
+        <option value="">-- Pilih Jenis Cuti --</option>
+        <option value="Cuti Tahunan">Cuti Tahunan</option>
+        <option value="Cuti Besar">Cuti Besar</option>
+        <option value="Cuti Sakit">Cuti Sakit</option>
+        <option value="Cuti Melahirkan">Cuti Melahirkan</option>
+        <option value="Cuti Karena Alasan Penting">Cuti Karena Alasan Penting</option>
+        <option value="Cuti Diluar Tanggungan Negara">Cuti Diluar Tanggungan Negara</option>
+      </select>
+
+      <label>Tanggal Mulai Cuti</label>
+      <input class="input-cuti" type="date" name="tanggalMulai" required>
+
+      <label>Tanggal Selesai Cuti</label>
+      <input class="input-cuti" type="date" name="tanggalSelesai" required>
+
+      <label>Lama Cuti</label>
+      <input class="input-cuti" type="text" name="lamaCuti" placeholder="Contoh: 5 Hari Kerja" required>
+
+      <label>Alasan Cuti</label>
+      <textarea class="input-cuti" name="alasanCuti" placeholder="Tuliskan alasan cuti" rows="4" required></textarea>
+
+      <label>Alamat Selama Menjalankan Cuti</label>
+      <textarea class="input-cuti" name="alamatCuti" placeholder="Masukkan alamat selama menjalankan cuti" rows="3" required></textarea>
+
+      <label>Nomor Telepon / WhatsApp</label>
+      <input class="input-cuti" type="text" name="noTelpon" placeholder="Masukkan nomor HP / WhatsApp" required>
+
+      <label>Nama Atasan Langsung</label>
+      <input class="input-cuti" type="text" name="namaAtasan" placeholder="Masukkan nama atasan langsung" required>
+
+      <label>NIP Atasan Langsung</label>
+      <input class="input-cuti" type="text" name="nipAtasan" placeholder="Masukkan NIP atasan langsung" required>
+
+      <button type="submit" class="btn-kirim">
+        Kirim Usulan Cuti
+      </button>
+
+      <p id="pesan" style="text-align:center; font-weight:bold; margin-top:20px;"></p>
+
+    </form>
+  </section>
+
+</main>
+
+<footer>
+  <p>© 2026 LIKE DPUTR Kabupaten Purwakarta</p>
+  <small>
+    Created by Agus Hilman, S.I.P
+    <br>
+    (Analis SDM Aparatur Ahli Pertama)
+  </small>
+</footer>
+
+<style>
+.input-cuti {
+  width:100%;
+  padding:14px;
+  margin-bottom:15px;
+  border:1px solid #ccc;
+  border-radius:12px;
+  font-size:16px;
+  box-sizing:border-box;
+}
+
+form label {
+  display:block;
+  color:#0d47a1;
+  font-weight:bold;
+  margin-bottom:6px;
+  text-align:left;
+}
+
+.btn-kirim {
+  width:100%;
+  padding:15px;
+  border:none;
+  border-radius:14px;
+  background:linear-gradient(135deg,#0d47a1,#1e88e5);
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.btn-kirim:hover {
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(0,0,0,0.25);
+}
+</style>
+
+<script>
+const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbyA8kxdHI1uK7z6znC-wO0IQRGH1_9oRI7_okQWOPBj_Cd-vtbf_jconHl5T92EyxrS/exec";
+
+document.getElementById("formCuti").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const pesan = document.getElementById("pesan");
+  const tombol = document.querySelector(".btn-kirim");
+
+  pesan.style.color = "#0d47a1";
+  pesan.textContent = "Mengirim usulan cuti...";
+  tombol.disabled = true;
+  tombol.textContent = "Sedang Mengirim...";
+
+  const formData = new FormData(this);
+
+  fetch(URL_APPS_SCRIPT, {
+    method: "POST",
+    body: formData
+  })
+  .then(res => res.text())
+  .then(data => {
+    if (data.trim() === "sukses") {
+      pesan.style.color = "green";
+      pesan.textContent = "Usulan cuti berhasil dikirim. Status: Menunggu.";
+      document.getElementById("formCuti").reset();
+    } else {
+      pesan.style.color = "red";
+      pesan.textContent = "Gagal mengirim data. Periksa Apps Script.";
+    }
+  })
+  .catch(error => {
+    pesan.style.color = "red";
+    pesan.textContent = "Gagal terhubung ke server.";
+    console.error(error);
+  })
+  .finally(() => {
+    tombol.disabled = false;
+    tombol.textContent = "Kirim Usulan Cuti";
+  });
+});
+</script>
+
+</body>
+</html>
