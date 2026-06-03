@@ -23,7 +23,7 @@
 
   <section class="welcome-box">
     <h2>Form Usulan Cuti Online</h2>
-    <p>Silakan isi data usulan cuti dengan lengkap dan benar. Data akan masuk ke database kepegawaian untuk diproses lebih lanjut.</p>
+    <p>Masukkan NIP terlebih dahulu, lalu klik Cari Data Pegawai.</p>
   </section>
 
   <section class="menu-beranda">
@@ -31,20 +31,30 @@
 
     <form id="formCuti" style="max-width:850px; margin:auto;">
 
-      <label>Nama Pegawai</label>
-      <input class="input-cuti" type="text" name="nama" placeholder="Masukkan nama pegawai" required>
-
       <label>NIP / NRPTT</label>
-      <input class="input-cuti" type="text" name="nip" placeholder="Masukkan NIP / NRPTT" required>
+      <input class="input-cuti" type="text" id="nipCari" name="nip" placeholder="Masukkan NIP / NRPTT" required>
+
+      <button type="button" class="btn-cari" onclick="cariPegawai()">Cari Data Pegawai</button>
+
+      <p id="pesanCari" style="text-align:center; font-weight:bold;"></p>
+
+      <label>Nama Pegawai</label>
+      <input class="input-cuti readonly" type="text" id="nama" name="nama" readonly required>
 
       <label>Jabatan</label>
-      <input class="input-cuti" type="text" name="jabatan" placeholder="Masukkan jabatan" required>
+      <input class="input-cuti readonly" type="text" id="jabatan" name="jabatan" readonly required>
 
       <label>Unit Kerja</label>
-      <input class="input-cuti" type="text" name="unitKerja" placeholder="Contoh: Sekretariat / UPTD / Bidang" required>
+      <input class="input-cuti readonly" type="text" id="unitKerja" name="unitKerja" readonly required>
 
       <label>Masa Kerja</label>
       <input class="input-cuti" type="text" name="masaKerja" placeholder="Contoh: 10 Tahun 2 Bulan">
+
+      <label>Nama Atasan Langsung</label>
+      <input class="input-cuti readonly" type="text" id="namaAtasan" name="namaAtasan" readonly required>
+
+      <label>NIP Atasan Langsung</label>
+      <input class="input-cuti readonly" type="text" id="nipAtasan" name="nipAtasan" readonly required>
 
       <label>Jenis Cuti</label>
       <select class="input-cuti" name="jenisCuti" required>
@@ -75,12 +85,6 @@
       <label>Nomor Telepon / WhatsApp</label>
       <input class="input-cuti" type="text" name="noTelpon" placeholder="Masukkan nomor HP / WhatsApp" required>
 
-      <label>Nama Atasan Langsung</label>
-      <input class="input-cuti" type="text" name="namaAtasan" placeholder="Masukkan nama atasan langsung" required>
-
-      <label>NIP Atasan Langsung</label>
-      <input class="input-cuti" type="text" name="nipAtasan" placeholder="Masukkan NIP atasan langsung" required>
-
       <button type="submit" class="btn-kirim">Kirim Usulan Cuti</button>
 
       <p id="pesan" style="text-align:center; font-weight:bold; margin-top:20px;"></p>
@@ -110,12 +114,31 @@
   box-sizing:border-box;
 }
 
+.readonly {
+  background:#e3f2fd;
+  color:#0d47a1;
+  font-weight:bold;
+}
+
 form label {
   display:block;
   color:#0d47a1;
   font-weight:bold;
   margin-bottom:6px;
   text-align:left;
+}
+
+.btn-cari {
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:14px;
+  background:linear-gradient(135deg,#ffb300,#ffca28);
+  color:#0d47a1;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  margin-bottom:15px;
 }
 
 .btn-kirim {
@@ -131,6 +154,7 @@ form label {
   transition:0.3s;
 }
 
+.btn-cari:hover,
 .btn-kirim:hover {
   transform:translateY(-2px);
   box-shadow:0 8px 20px rgba(0,0,0,0.25);
@@ -144,6 +168,98 @@ form label {
 
 <script>
 const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbxyo6D-8zqITTjYstL_2KldXmKnY4vIw-RHORMEyrDx8tQ2xjrRTyaVtSonItBTCar4/exec";
+
+const URL_ASN = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQY8mW8halmyCn7NM7gmZrGusdYEkYL6BxC4ciE0bkGplyHSq0Kd8h7gV9i7NW4b707uWK9xzFQPqR8/pub?gid=190742206&single=true&output=csv";
+
+let dataASN = [];
+
+fetch(URL_ASN)
+.then(res => res.text())
+.then(csv => {
+  dataASN = parseCSV(csv);
+})
+.catch(error => {
+  console.error("Gagal memuat data ASN:", error);
+});
+
+function parseCSV(csv) {
+  const rows = [];
+  let row = [];
+  let value = "";
+  let insideQuote = false;
+
+  for (let i = 0; i < csv.length; i++) {
+    const char = csv[i];
+    const next = csv[i + 1];
+
+    if (char === '"' && insideQuote && next === '"') {
+      value += '"';
+      i++;
+    } else if (char === '"') {
+      insideQuote = !insideQuote;
+    } else if (char === "," && !insideQuote) {
+      row.push(value.trim());
+      value = "";
+    } else if ((char === "\n" || char === "\r") && !insideQuote) {
+      if (value || row.length) {
+        row.push(value.trim());
+        rows.push(row);
+        row = [];
+        value = "";
+      }
+    } else {
+      value += char;
+    }
+  }
+
+  if (value || row.length) {
+    row.push(value.trim());
+    rows.push(row);
+  }
+
+  return rows;
+}
+
+function bersihNip(teks) {
+  return String(teks || "").replace(/\D/g, "").trim();
+}
+
+function cariPegawai() {
+  const nipInput = bersihNip(document.getElementById("nipCari").value);
+  const pesanCari = document.getElementById("pesanCari");
+
+  if (!nipInput) {
+    pesanCari.style.color = "red";
+    pesanCari.textContent = "Silakan masukkan NIP terlebih dahulu.";
+    return;
+  }
+
+  if (dataASN.length === 0) {
+    pesanCari.style.color = "red";
+    pesanCari.textContent = "Data ASN belum terbaca. Refresh halaman dulu.";
+    return;
+  }
+
+  const hasil = dataASN.find(row => row.some(cell => bersihNip(cell) === nipInput));
+
+  if (!hasil) {
+    pesanCari.style.color = "red";
+    pesanCari.textContent = "Data pegawai tidak ditemukan.";
+    return;
+  }
+
+  const nipIndex = hasil.findIndex(cell => bersihNip(cell) === nipInput);
+
+  document.getElementById("nama").value = hasil[nipIndex - 1] || "";
+  document.getElementById("nipCari").value = hasil[nipIndex] || "";
+  document.getElementById("jabatan").value = hasil[nipIndex + 2] || "";
+  document.getElementById("namaAtasan").value = hasil[nipIndex + 3] || "";
+  document.getElementById("nipAtasan").value = hasil[nipIndex + 4] || "";
+  document.getElementById("unitKerja").value = hasil[nipIndex + 5] || "";
+
+  pesanCari.style.color = "green";
+  pesanCari.textContent = "Data pegawai berhasil ditemukan.";
+}
 
 document.getElementById("formCuti").addEventListener("submit", function(e) {
   e.preventDefault();
@@ -167,6 +283,7 @@ document.getElementById("formCuti").addEventListener("submit", function(e) {
     pesan.style.color = "green";
     pesan.textContent = "Usulan cuti berhasil dikirim. Status: Menunggu.";
     document.getElementById("formCuti").reset();
+    document.getElementById("pesanCari").textContent = "";
   })
   .catch(error => {
     pesan.style.color = "red";
