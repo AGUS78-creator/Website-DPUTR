@@ -126,7 +126,11 @@ function bersihNip(teks) {
 function warnaStatus(status) {
   const s = String(status || "").toLowerCase();
 
-  if (s.includes("selesai") || s.includes("disetujui")) {
+  if (s.includes("selesai")) {
+    return "background:#e3f2fd; color:#0d47a1;";
+  }
+
+  if (s.includes("disetujui")) {
     return "background:#e8f5e9; color:#1b5e20;";
   }
 
@@ -138,7 +142,7 @@ function warnaStatus(status) {
     return "background:#fff8e1; color:#e65100;";
   }
 
-  return "background:#e3f2fd; color:#0d47a1;";
+  return "background:#fffde7; color:#827717;";
 }
 
 function cariStatus() {
@@ -174,17 +178,21 @@ function cariStatus() {
     const nipIndex = row.findIndex(cell => bersihNip(cell) === nipInput);
 
     const timestamp = row[0] || "-";
-    const nama = row[nipIndex - 1] || row[1] || "-";
-    const nip = row[nipIndex] || "-";
-    const jabatan = row[nipIndex + 1] || row[3] || "-";
-    const unitKerja = row[nipIndex + 2] || row[4] || "-";
-    const jenisCuti = row[nipIndex + 4] || row[6] || "-";
-    const tanggalMulai = row[nipIndex + 5] || row[7] || "-";
-    const tanggalSelesai = row[nipIndex + 6] || row[8] || "-";
-    const lamaCuti = row[nipIndex + 7] || row[9] || "-";
-    const alasanCuti = row[nipIndex + 8] || row[10] || "-";
-    const status = row[15] || "Menunggu";
-    const keterangan = row[16] || "-";
+    const nama = row[1] || "-";
+    const nip = row[2] || "-";
+    const jabatan = row[3] || "-";
+    const unitKerja = row[4] || "-";
+    const masaKerja = row[5] || "-";
+    const jenisCuti = row[6] || "-";
+    const tanggalMulai = row[7] || "-";
+    const tanggalSelesai = row[8] || "-";
+    const lamaCuti = row[9] || "-";
+    const alasanCuti = row[10] || "-";
+    const alamatCuti = row[11] || "-";
+    const noTelpon = row[12] || "-";
+
+    const status = row[37] || "Menunggu";
+    const keterangan = row[38] || "-";
 
     html += `
       <div style="
@@ -206,6 +214,7 @@ function cariStatus() {
         <p>NIP / NRPTT: <b>${nip}</b></p>
         <p>Jabatan: <b>${jabatan}</b></p>
         <p>Unit Kerja: <b>${unitKerja}</b></p>
+        <p>Masa Kerja: <b>${masaKerja}</b></p>
 
         <hr>
 
@@ -213,6 +222,8 @@ function cariStatus() {
         <p>Tanggal Cuti: <b>${tanggalMulai}</b> s/d <b>${tanggalSelesai}</b></p>
         <p>Lama Cuti: <b>${lamaCuti}</b></p>
         <p>Alasan: <b>${alasanCuti}</b></p>
+        <p>Alamat Selama Cuti: <b>${alamatCuti}</b></p>
+        <p>No. Telpon: <b>${noTelpon}</b></p>
         <p>Tanggal Pengajuan: <b>${timestamp}</b></p>
 
         <p style="
