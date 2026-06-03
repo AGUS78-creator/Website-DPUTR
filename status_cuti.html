@@ -175,21 +175,25 @@ function cariStatus() {
   let html = "";
 
   hasilCari.reverse().forEach(row => {
-    const nipIndex = row.findIndex(cell => bersihNip(cell) === nipInput);
 
-    const timestamp = row[0] || "-";
-    const nama = row[1] || "-";
-    const nip = row[2] || "-";
-    const jabatan = row[3] || "-";
-    const unitKerja = row[4] || "-";
-    const masaKerja = row[5] || "-";
-    const jenisCuti = row[6] || "-";
-    const tanggalMulai = row[7] || "-";
-    const tanggalSelesai = row[8] || "-";
-    const lamaCuti = row[9] || "-";
-    const alasanCuti = row[10] || "-";
-    const alamatCuti = row[11] || "-";
-    const noTelpon = row[12] || "-";
+    const nomor = row[0] || "-";
+
+    const timestamp = row[1] || "-";
+    const nama = row[2] || "-";
+    const nip = row[3] || "-";
+    const jabatan = row[4] || "-";
+    const unitKerja = row[5] || "-";
+    const masaKerja = row[6] || "-";
+    const jenisCuti = row[7] || "-";
+    const tanggalMulai = row[8] || "-";
+    const tanggalSelesai = row[9] || "-";
+    const lamaCuti = row[10] || "-";
+    const alasanCuti = row[11] || "-";
+    const alamatCuti = row[12] || "-";
+    const noTelpon = row[13] || "-";
+
+    const namaAtasan = row[14] || "-";
+    const nipAtasan = row[15] || "-";
 
     const status = row[37] || "Menunggu";
     const keterangan = row[38] || "-";
@@ -210,6 +214,11 @@ function cariStatus() {
           Status Pengajuan Cuti
         </h2>
 
+        <p>No. Usulan: <b>${nomor}</b></p>
+        <p>Tanggal Pengajuan: <b>${timestamp}</b></p>
+
+        <hr>
+
         <p>Nama: <b>${nama}</b></p>
         <p>NIP / NRPTT: <b>${nip}</b></p>
         <p>Jabatan: <b>${jabatan}</b></p>
@@ -224,7 +233,11 @@ function cariStatus() {
         <p>Alasan: <b>${alasanCuti}</b></p>
         <p>Alamat Selama Cuti: <b>${alamatCuti}</b></p>
         <p>No. Telpon: <b>${noTelpon}</b></p>
-        <p>Tanggal Pengajuan: <b>${timestamp}</b></p>
+
+        <hr>
+
+        <p>Atasan Langsung: <b>${namaAtasan}</b></p>
+        <p>NIP Atasan: <b>${nipAtasan}</b></p>
 
         <p style="
           ${warnaStatus(status)}
