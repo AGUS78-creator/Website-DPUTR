@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Status Pengajuan Cuti LIKE DPUTR</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header style="background-color:#1a6fb3; color:white; padding:15px 20px;">
+  <h1 style="margin:0;">LAYANAN INFORMASI KEPEGAWAIAN ( LIKE ) DPUTR</h1>
+  <p style="margin:0;">Dinas Pekerjaan Umum & Tata Ruang Kabupaten Purwakarta</p>
+</header>
+
+<nav class="navbar">
+  <a href="index.html">Beranda</a>
+  <a href="status_cuti.html">Status Cuti</a>
+</nav>
+
+<main class="container">
+
+  <section class="welcome-box">
+    <h2>Status Pengajuan Cuti</h2>
+    <p>Masukkan NIP / NRPTT untuk melihat status pengajuan cuti.</p>
+
+    <input
+      type="text"
+      id="inputNip"
+      placeholder="Masukkan NIP / NRPTT..."
+      style="width:100%; max-width:430px; padding:14px; border-radius:12px; border:1px solid #ccc; font-size:16px;"
+    >
+
+    <br><br>
+
+    <button onclick="cariStatus()" style="padding:12px 25px; border:none; border-radius:12px; background:#0d47a1; color:white; font-weight:bold; cursor:pointer;">
+      Cari Status
+    </button>
+
+    <button onclick="resetCari()" style="padding:12px 25px; border:none; border-radius:12px; background:#fb8c00; color:white; font-weight:bold; cursor:pointer; margin-left:8px;">
+      Reset
+    </button>
+  </section>
+
+  <section class="menu-beranda">
+    <h3>Hasil Pencarian</h3>
+    <div id="hasil">
+      <p style="text-align:center;">Silakan masukkan NIP terlebih dahulu.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>© 2026 LIKE DPUTR Kabupaten Purwakarta</p>
+  <small>
+    Created by Agus Hilman, S.I.P
+    <br>
+    (Analis SDM Aparatur Ahli Pertama)
+  </small>
+</footer>
+
+<script>
+const URL_CUTI =
+"https://docs.google.com/spreadsheets/d/1q_V2_5fP98OoXx5Zlm3VY0gpessQHOGrZu2EIBG-1w0/export?format=csv&gid=873533339";
+
+let dataCuti = [];
+
+fetch(URL_CUTI)
+.then(res => res.text())
+.then(csv => {
+  dataCuti = parseCSV(csv);
+})
+.catch(error => {
+  document.getElementById("hasil").innerHTML = `
+    <p style="color:red; text-align:center;">
+      Gagal memuat data cuti. Pastikan sheet data_base dapat diakses.
+    </p>
+  `;
+  console.error(error);
+});
+
+function parseCSV(csv) {
+  const rows = [];
+  let row = [];
+  let value = "";
+  let insideQuote = false;
+
+  for (let i = 0; i < csv.length; i++) {
+    const char = csv[i];
+    const next = csv[i + 1];
+
+    if (char === '"' && insideQuote && next === '"') {
+      value += '"';
+      i++;
+    } else if (char === '"') {
+      insideQuote = !insideQuote;
+    } else if (char === "," && !insideQuote) {
+      row.push(value.trim());
+      value = "";
+    } else if ((char === "\n" || char === "\r") && !insideQuote) {
+      if (value || row.length) {
+        row.push(value.trim());
+        rows.push(row);
+        row = [];
+        value = "";
+      }
+    } else {
+      value += char;
+    }
+  }
+
+  if (value || row.length) {
+    row.push(value.trim());
+    rows.push(row);
+  }
+
+  return rows;
+}
+
+function bersihNip(teks) {
+  return String(teks || "").replace(/\D/g, "").trim();
+}
+
+function warnaStatus(status) {
+  const s = String(status || "").toLowerCase();
+
+  if (s.includes("selesai") || s.includes("disetujui")) {
+    return "background:#e8f5e9; color:#1b5e20;";
+  }
+
+  if (s.includes("tolak")) {
+    return "background:#ffebee; color:#b71c1c;";
+  }
+
+  if (s.includes("proses") || s.includes("verifikasi")) {
+    return "background:#fff8e1; color:#e65100;";
+  }
+
+  return "background:#e3f2fd; color:#0d47a1;";
+}
+
+function cariStatus() {
+  const nipInput = bersihNip(document.getElementById("inputNip").value);
+  const hasil = document.getElementById("hasil");
+
+  if (!nipInput) {
+    hasil.innerHTML = `<p style="color:red; text-align:center;">Silakan masukkan NIP terlebih dahulu.</p>`;
+    return;
+  }
+
+  if (dataCuti.length === 0) {
+    hasil.innerHTML = `<p style="color:red; text-align:center;">Data belum berhasil dimuat. Coba refresh halaman.</p>`;
+    return;
+  }
+
+  const hasilCari = dataCuti.filter(row => {
+    return row.some(cell => bersihNip(cell) === nipInput);
+  });
+
+  if (hasilCari.length === 0) {
+    hasil.innerHTML = `
+      <p style="color:red; text-align:center;">
+        Data pengajuan cuti dengan NIP <b>${nipInput}</b> tidak ditemukan.
+      </p>
+    `;
+    return;
+  }
+
+  let html = "";
+
+  hasilCari.reverse().forEach(row => {
+    const nipIndex = row.findIndex(cell => bersihNip(cell) === nipInput);
+
+    const timestamp = row[0] || "-";
+    const nama = row[nipIndex - 1] || row[1] || "-";
+    const nip = row[nipIndex] || "-";
+    const jabatan = row[nipIndex + 1] || row[3] || "-";
+    const unitKerja = row[nipIndex + 2] || row[4] || "-";
+    const jenisCuti = row[nipIndex + 4] || row[6] || "-";
+    const tanggalMulai = row[nipIndex + 5] || row[7] || "-";
+    const tanggalSelesai = row[nipIndex + 6] || row[8] || "-";
+    const lamaCuti = row[nipIndex + 7] || row[9] || "-";
+    const alasanCuti = row[nipIndex + 8] || row[10] || "-";
+    const status = row[15] || "Menunggu";
+    const keterangan = row[16] || "-";
+
+    html += `
+      <div style="
+        background:white;
+        color:#222;
+        padding:30px;
+        border-radius:22px;
+        box-shadow:0 8px 25px rgba(0,0,0,0.25);
+        line-height:1.8;
+        font-size:19px;
+        margin-bottom:25px;
+      ">
+
+        <h2 style="color:#0d47a1; text-align:center; margin-top:0;">
+          Status Pengajuan Cuti
+        </h2>
+
+        <p>Nama: <b>${nama}</b></p>
+        <p>NIP / NRPTT: <b>${nip}</b></p>
+        <p>Jabatan: <b>${jabatan}</b></p>
+        <p>Unit Kerja: <b>${unitKerja}</b></p>
+
+        <hr>
+
+        <p>Jenis Cuti: <b>${jenisCuti}</b></p>
+        <p>Tanggal Cuti: <b>${tanggalMulai}</b> s/d <b>${tanggalSelesai}</b></p>
+        <p>Lama Cuti: <b>${lamaCuti}</b></p>
+        <p>Alasan: <b>${alasanCuti}</b></p>
+        <p>Tanggal Pengajuan: <b>${timestamp}</b></p>
+
+        <p style="
+          ${warnaStatus(status)}
+          padding:18px;
+          border-radius:14px;
+          font-weight:bold;
+          text-align:center;
+          margin-top:25px;
+        ">
+          STATUS: ${status}
+        </p>
+
+        <p>Keterangan: <b>${keterangan}</b></p>
+
+      </div>
+    `;
+  });
+
+  hasil.innerHTML = html;
+}
+
+function resetCari() {
+  document.getElementById("inputNip").value = "";
+  document.getElementById("hasil").innerHTML = `
+    <p style="text-align:center;">Silakan masukkan NIP terlebih dahulu.</p>
+  `;
+}
+</script>
+
+</body>
+</html>
