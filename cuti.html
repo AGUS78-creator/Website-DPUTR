@@ -23,10 +23,7 @@
 
   <section class="welcome-box">
     <h2>Form Usulan Cuti Online</h2>
-    <p>
-      Silakan isi data usulan cuti dengan lengkap dan benar.
-      Data akan masuk ke database kepegawaian untuk diproses lebih lanjut.
-    </p>
+    <p>Silakan isi data usulan cuti dengan lengkap dan benar. Data akan masuk ke database kepegawaian untuk diproses lebih lanjut.</p>
   </section>
 
   <section class="menu-beranda">
@@ -84,9 +81,7 @@
       <label>NIP Atasan Langsung</label>
       <input class="input-cuti" type="text" name="nipAtasan" placeholder="Masukkan NIP atasan langsung" required>
 
-      <button type="submit" class="btn-kirim">
-        Kirim Usulan Cuti
-      </button>
+      <button type="submit" class="btn-kirim">Kirim Usulan Cuti</button>
 
       <p id="pesan" style="text-align:center; font-weight:bold; margin-top:20px;"></p>
 
@@ -140,6 +135,11 @@ form label {
   transform:translateY(-2px);
   box-shadow:0 8px 20px rgba(0,0,0,0.25);
 }
+
+.btn-kirim:disabled {
+  opacity:0.7;
+  cursor:not-allowed;
+}
 </style>
 
 <script>
@@ -160,18 +160,13 @@ document.getElementById("formCuti").addEventListener("submit", function(e) {
 
   fetch(URL_APPS_SCRIPT, {
     method: "POST",
-    body: formData
+    body: formData,
+    mode: "no-cors"
   })
-  .then(res => res.text())
-  .then(data => {
-    if (data.trim() === "sukses") {
-      pesan.style.color = "green";
-      pesan.textContent = "Usulan cuti berhasil dikirim. Status: Menunggu.";
-      document.getElementById("formCuti").reset();
-    } else {
-      pesan.style.color = "red";
-      pesan.textContent = "Gagal mengirim data. Periksa Apps Script.";
-    }
+  .then(() => {
+    pesan.style.color = "green";
+    pesan.textContent = "Usulan cuti berhasil dikirim. Status: Menunggu.";
+    document.getElementById("formCuti").reset();
   })
   .catch(error => {
     pesan.style.color = "red";
