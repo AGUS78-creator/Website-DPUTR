@@ -1,80 +1,209 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Struktur Organisasi</title>
-   <!-- SEO META TAG -->
-  <meta name="description" content="Website resmi Layanan Informasi Kepegawaian (LIKE) DPUTR Kabupaten Purwakarta. Menyediakan info mutasi, kenaikan pangkat, dan data kepegawaian terkini.">
-  <meta name="keywords" content="LIKE DPUTR, kepegawaian DPUTR, informasi ASN, mutasi pegawai, kenaikan pangkat, DPUTR Purwakarta">
-  <meta name="author" content="Agus Hilman, S.I.P">
-  
-  <!-- Open Graph (untuk tampilan share WhatsApp/FB) -->
-  <meta property="og:title" content="Layanan Informasi Kepegawaian - DPUTR Kabupaten Purwakarta">
-  <meta property="og:description" content="Portal informasi kepegawaian DPUTR: data ASN, mutasi, kenaikan pangkat, dan lainnya.">
-  <meta property="og:image" content="https://agus78-creator.github.io/Website-DPUTR/gambar/og-image.jpg">
-  <meta property="og:url" content="https://agus78-creator.github.io/Website-DPUTR/">
-  <meta property="og:type" content="website">
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Struktur Organisasi - LIKE DPUTR</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:url('bg.jpeg') center center/cover fixed;
+min-height:100vh;
+}
+
+.overlay{
+background:rgba(13,55,120,0.75);
+min-height:100vh;
+padding-bottom:40px;
+}
+
+.header{
+background:#1a6fb3;
+color:white;
+text-align:center;
+padding:25px;
+box-shadow:0 3px 10px rgba(0,0,0,0.3);
+}
+
+.header h1{
+font-size:34px;
+}
+
+.header p{
+font-size:16px;
+}
+
+.navbar{
+text-align:center;
+padding:20px;
+}
+
+.btn{
+display:inline-block;
+padding:12px 25px;
+border-radius:30px;
+text-decoration:none;
+font-weight:bold;
+margin:5px;
+color:white;
+}
+
+.beranda{
+background:#f5b400;
+color:#003366;
+}
+
+.aktif{
+background:#009688;
+}
+
+.container{
+max-width:1200px;
+margin:auto;
+padding:20px;
+}
+
+.card{
+background:rgba(255,255,255,0.95);
+border-radius:25px;
+padding:35px;
+box-shadow:0 5px 20px rgba(0,0,0,0.2);
+}
+
+.card h2{
+text-align:center;
+color:#0d47a1;
+font-size:40px;
+margin-bottom:15px;
+}
+
+.card p{
+text-align:center;
+font-size:18px;
+line-height:1.8;
+margin-bottom:30px;
+}
+
+.menu-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+}
+
+.menu-item{
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+height:120px;
+border-radius:20px;
+text-decoration:none;
+color:white;
+font-size:20px;
+font-weight:600;
+transition:0.3s;
+}
+
+.menu-item:hover{
+transform:translateY(-5px);
+}
+
+.lengkap{background:#3949ab;}
+.sekretariat{background:#00897b;}
+.pemeliharaan{background:#43a047;}
+.sda{background:#039be5;}
+.tatabangunan{background:#fb8c00;}
+.penataan{background:#8e24aa;}
+.uptd{background:#e53935;}
+
+.footer{
+text-align:center;
+color:white;
+margin-top:30px;
+font-size:14px;
+}
+
+</style>
 </head>
+
 <body>
 
-<header style="background-color: #1a6fb3; color: white; padding: 15px 20px;">
-  <h1 style="margin: 0;">LAYANAN INFORMASI KEPEGAWAIAN ( LIKE ) DPUTR</h1>
-  <p style="margin: 0;">Dinas Pekerjaan Umum & Tata Ruang Kabupaten Purwakarta</p>
-  
-</header>
+<div class="overlay">
 
-<nav class="navbar">
-  <a href="index.html" style="margin-right: 15px; color: white; text-decoration: none;">Beranda</a>
-  
- 
-</nav>
+<div class="header">
+<h1>STRUKTUR ORGANISASI</h1>
+<p>Dinas Pekerjaan Umum dan Tata Ruang Kabupaten Purwakarta</p>
+</div>
 
-<main>
-  <p>Berikut adalah susunan struktur organisasi Dinas Pekerjaan Umum dan Tata Ruang Kabupaten Purwakarta:</p>
+<div class="navbar">
+<a href="index.html" class="btn beranda">Beranda</a>
+<a href="struktur.html" class="btn aktif">Struktur Organisasi</a>
+</div>
 
-  <div style="overflow-x:auto;">
-    <iframe 
-      src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRCr6Fq-FtvYnGqKBLwznR8f_dfzmK2lrtuBnoC9FMgSTllMISl7bxb-CFAOM0Tlw/pubhtml?gid=1884576502&single=true&widget=true&headers=false" 
-      width="100%" 
-      height="600" 
-      style="border: none;">
-    </iframe>
-  </div>
-</main>
-  <div id="foto-bebz">
-    <img src="bapa.jpeg" alt="Foto Admin" />
-  </div>
+<div class="container">
 
-<footer>
-  <p>
-    © 2026 LIKE DPUTR Kabupaten Purwakarta
-  </p>
+<div class="card">
 
-  <small>
-    Created by Agus Hilman, S.I.P
-    <br>
-    (Analis SDM Aparatur Ahli Pertama)
-  </small>
-</footer>
- <!-- Tambahan CSS untuk posisi foto -->
-  <style>
-    #foto-bebz {
-      position: fixed;
-      bottom: 10px;
-      left: 10px;
-      z-index: 999;
-    }
+<h2>Menu Struktur Organisasi</h2>
 
-    #foto-bebz img {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      box-shadow: 0 0 6px rgba(0,0,0,0.3);
-      border: 2px solid white;
-    }
-  </style>
+<p>
+Silakan pilih struktur organisasi yang ingin ditampilkan.
+</p>
+
+<div class="menu-grid">
+
+<a href="struktur-lengkap.html" class="menu-item lengkap">
+Struktur Lengkap
+</a>
+
+<a href="struktur-sekretariat.html" class="menu-item sekretariat">
+Sekretariat
+</a>
+
+<a href="struktur-pemeliharaan.html" class="menu-item pemeliharaan">
+Bidang Pemeliharaan
+</a>
+
+<a href="struktur-sda.html" class="menu-item sda">
+Bidang SDA
+</a>
+
+<a href="struktur-tata-bangunan.html" class="menu-item tatabangunan">
+Bidang Tata Bangunan
+</a>
+
+<a href="struktur-penataan-ruang.html" class="menu-item penataan">
+Bidang Penataan Ruang
+</a>
+
+<a href="struktur-uptd.html" class="menu-item uptd">
+UPTD
+</a>
+
+</div>
+
+</div>
+
+<div class="footer">
+Created By Agus Hilman, S.I.P (Analis SDM Aparatur Ahli Pertama)
+<br>
+💪 Tetap Semangat 45, 46, 47, 48 jeung satuluyna...
+</div>
+
+</div>
+
+</div>
 
 </body>
 </html>
