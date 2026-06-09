@@ -320,8 +320,9 @@ body{
 }
 
 .menu-item.pembangunan{
-  background:#795548;
-  color:white;
+  background:#795548 !important;
+  color:white !important;
+}
 }
 
 .menu-item.pemeliharaan{
