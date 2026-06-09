@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bidang Pembangunan - LIKE DPUTR</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header style="background-color:#1a6fb3; color:white; padding:15px 20px;">
+  <h1 style="margin:0;">LAYANAN INFORMASI KEPEGAWAIAN ( LIKE ) DPUTR</h1>
+  <p style="margin:0;">Dinas Pekerjaan Umum & Tata Ruang Kabupaten Purwakarta</p>
+</header>
+
+<nav class="navbar">
+  <a href="index.html">Beranda</a>
+  <a href="struktur.html">Struktur Organisasi</a>
+</nav>
+
+<main class="container">
+
+  <section class="welcome-box">
+    <h2>Bidang Pembangunan</h2>
+    <p>
+      Struktur Organisasi Bidang Pembangunan Dinas Pekerjaan Umum dan Tata Ruang Kabupaten Purwakarta.
+    </p>
+  </section>
+
+  <section class="menu-beranda">
+
+    <iframe
+      src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRCr6Fq-FtvYnGqKBLwznR8f_dfzmK2lrtuBnoC9FMgSTllMISl7bxb-CFAOM0Tlw/pubhtml?gid=875017307&single=true"
+      width="100%"
+      height="900"
+      style="border:none; border-radius:18px; background:white;">
+    </iframe>
+
+  </section>
+
+</main>
+
+<footer>
+  <p>© 2026 LIKE DPUTR Kabupaten Purwakarta</p>
+  <small>
+    Created by Agus Hilman, S.I.P
+    <br>
+    (Analis SDM Aparatur Ahli Pertama)
+    <br><br>
+    💪 Tetap Semangat 45, 46, 47, 48 dan seterusnya...
+  </small>
+</footer>
+
+</body>
+</html>
