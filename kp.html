@@ -1,1 +1,349 @@
+<!DOCTYPE html>
+
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data KP LIKE DPUTR</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<header style="background-color:#1a6fb3; color:white; padding:15px 20px;">
+<h1 style="margin:0;">LAYANAN INFORMASI KEPEGAWAIAN ( LIKE ) DPUTR</h1>
+<p style="margin:0;">Dinas Pekerjaan Umum & Tata Ruang Kabupaten Purwakarta</p>
+</header>
+
+<nav class="navbar">
+<a href="index.html">Beranda</a>
+<a href="kp.html">Data KP</a>
+</nav>
+
+<main class="container">
+
+<section class="welcome-box">
+
+<h2>Pencarian Data Kenaikan Pangkat</h2>
+
+<p>
+Masukkan NIP untuk mengetahui informasi
+Kenaikan Pangkat ASN DPUTR Kabupaten Purwakarta.
+</p>
+
+<input
+type="text"
+id="inputNip"
+placeholder="Masukkan NIP..."
+style="
+width:100%;
+max-width:430px;
+padding:14px;
+border-radius:12px;
+border:1px solid #ccc;
+font-size:16px;
+">
+
+<br><br>
+
+<button
+onclick="cariData()"
+style="
+padding:12px 25px;
+border:none;
+border-radius:12px;
+background:#0d47a1;
+color:white;
+font-weight:bold;
+cursor:pointer;
+">
+Cari Data </button>
+
+<button
+onclick="resetCari()"
+style="
+padding:12px 25px;
+border:none;
+border-radius:12px;
+background:#fb8c00;
+color:white;
+font-weight:bold;
+cursor:pointer;
+margin-left:8px;
+">
+Reset </button>
+
+</section>
+
+<section class="menu-beranda">
+
+<h3>Hasil Pencarian</h3>
+
+<div id="hasil">
+<p style="text-align:center;">
+Silakan masukkan NIP terlebih dahulu.
+</p>
+</div>
+
+</section>
+
+</main>
+
+<footer>
+<p>© 2026 LIKE DPUTR Kabupaten Purwakarta</p>
+
+<small>
+Created by Agus Hilman, S.I.P
+<br>
+(Analis SDM Aparatur Ahli Pertama)
+</small>
+</footer>
+
+<script>
+
+const urlCSV =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vSAhTzV9qIK6-YjECbaU525OVPuAqRYvW7kOg8Y5J9qeDPb5MTaQMdFIVfHxMbP3BRHFxiomoIc8W9G/pub?gid=0&single=true&output=csv";
+
+let dataKP = [];
+
+fetch(urlCSV)
+.then(response => response.text())
+.then(csv => {
+dataKP = parseCSV(csv);
+})
+.catch(error => {
+
+document.getElementById("hasil").innerHTML = `
+<p style="color:red;text-align:center;">
+Gagal memuat data KP.
+Pastikan Google Sheet sudah dipublikasikan.
+</p>
+`;
+
+});
+
+function parseCSV(csv){
+
+const rows = [];
+let row = [];
+let value = "";
+let insideQuote = false;
+
+for(let i=0;i<csv.length;i++){
+
+const char = csv[i];
+const next = csv[i+1];
+
+if(char === '"' && insideQuote && next === '"'){
+value += '"';
+i++;
+}
+
+else if(char === '"'){
+insideQuote = !insideQuote;
+}
+
+else if(char === "," && !insideQuote){
+row.push(value.trim());
+value="";
+}
+
+else if((char === "\n" || char === "\r") && !insideQuote){
+
+if(value || row.length){
+row.push(value.trim());
+rows.push(row);
+row=[];
+value="";
+}
+
+}
+
+else{
+value += char;
+}
+
+}
+
+if(value || row.length){
+row.push(value.trim());
+rows.push(row);
+}
+
+return rows;
+
+}
+
+function bersihNip(teks){
+
+return String(teks || "")
+.replace(/\D/g,"")
+.trim();
+
+}
+
+function cariData(){
+
+const nipInput =
+bersihNip(document.getElementById("inputNip").value);
+
+const hasil =
+document.getElementById("hasil");
+
+if(!nipInput){
+
+hasil.innerHTML = `
+<p style="color:red;text-align:center;">
+Silakan masukkan NIP terlebih dahulu.
+</p>
+`;
+
+return;
+
+}
+
+const hasilCari = dataKP.find(row => {
+
+return bersihNip(row[1]) === nipInput;
+
+});
+
+if(!hasilCari){
+
+hasil.innerHTML = `
+<p style="color:red;text-align:center;">
+Data dengan NIP <b>${nipInput}</b> tidak ditemukan.
+</p>
+`;
+
+return;
+
+}
+
+const nama = hasilCari[0] || "-";
+const nip = hasilCari[1] || "-";
+const pangkat = hasilCari[2] || "-";
+
+const tglTmt = hasilCari[4] || "-";
+const blnTmt = hasilCari[5] || "-";
+const thnTmt = hasilCari[6] || "-";
+
+const kpYad = hasilCari[7] || "-";
+
+const tglKp = hasilCari[8] || "-";
+const blnKp = hasilCari[9] || "-";
+const thnKp = hasilCari[10] || "-";
+
+const jabatan = hasilCari[11] || "-";
+const unitKerja = hasilCari[12] || "-";
+
+hasil.innerHTML = `
+
+<div style="
+background:white;
+color:#222;
+padding:30px;
+border-radius:22px;
+box-shadow:0 8px 25px rgba(0,0,0,0.25);
+line-height:1.9;
+font-size:20px;
+">
+
+<h2 style="
+color:#0d47a1;
+text-align:center;
+margin-top:0;
+margin-bottom:30px;
+">
+Data Kenaikan Pangkat
+</h2>
+
+<p>
+<b>Nama Pegawai :</b><br>
+${nama}
+</p>
+
+<p>
+<b>NIP :</b><br>
+${nip}
+</p>
+
+<p>
+<b>Jabatan :</b><br>
+${jabatan}
+</p>
+
+<p>
+<b>Unit Kerja :</b><br>
+${unitKerja}
+</p>
+
+<p>
+<b>Pangkat Terakhir :</b><br>
+${pangkat}
+</p>
+
+<p>
+<b>TMT Pangkat :</b><br>
+${tglTmt}-${blnTmt}-${thnTmt}
+</p>
+
+<p>
+<b>Kenaikan Pangkat Yang Akan Datang :</b><br>
+${kpYad}
+</p>
+
+<p>
+<b>TMT KP Yang Akan Datang :</b><br>
+${tglKp}-${blnKp}-${thnKp}
+</p>
+
+<div style="
+background:#e3f2fd;
+padding:18px;
+border-radius:14px;
+margin-top:25px;
+color:#0d47a1;
+">
+
+<b>Catatan :</b>
+<br><br>
+
+Kenaikan Pangkat Yang Akan Datang (KP YAD)
+dapat diproses apabila memenuhi persyaratan
+sesuai ketentuan peraturan perundang-undangan
+yang berlaku.
+
+<br><br>
+
+Apabila terdapat kesalahan data,
+segera hubungi Pengelola Kepegawaian
+DPUTR Kabupaten Purwakarta.
+
+</div>
+
+</div>
+
+`;
+
+}
+
+function resetCari(){
+
+document.getElementById("inputNip").value="";
+
+document.getElementById("hasil").innerHTML=`
+<p style="text-align:center;">
+Silakan masukkan NIP terlebih dahulu.
+</p>
+`;
+
+}
+
+</script>
+
+</body>
+</html>
 
