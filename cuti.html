@@ -272,15 +272,31 @@ document.getElementById("formCuti").addEventListener("submit", function(e) {
   tombol.disabled = true;
   tombol.textContent = "Sedang Mengirim...";
 
-  const formData = new FormData(this);
+ const formData = new FormData(this);
 
-  fetch(URL_APPS_SCRIPT, {
-    method: "POST",
-    body: formData,
-    mode: "no-cors"
-  })
-  .then(() => {
-    pesan.style.color = "green";
+fetch(URL_APPS_SCRIPT, {
+  method: "POST",
+  body: new URLSearchParams(formData)
+})
+.then(res => res.text())
+.then(res => {
+
+  if(res.trim() == "OK"){
+
+      pesan.style.color = "green";
+      pesan.textContent = "Usulan cuti berhasil disimpan.";
+
+      document.getElementById("formCuti").reset();
+      document.getElementById("pesanCari").textContent = "";
+
+  }else{
+
+      pesan.style.color = "red";
+      pesan.textContent = res;
+
+  }
+
+})    pesan.style.color = "green";
     pesan.textContent = "Usulan cuti berhasil disimpan.";
     document.getElementById("formCuti").reset();
     document.getElementById("pesanCari").textContent = "";
