@@ -275,10 +275,9 @@ document.getElementById("formCuti").addEventListener("submit", function(e) {
   const formData = new FormData(this);
 
   fetch(URL_APPS_SCRIPT, {
-    method: "POST",
-    body: formData,
-    mode: "no-cors"
-  })
+  method: "POST",
+  body: new URLSearchParams(formData)
+})
   .then(() => {
     pesan.style.color = "green";
     pesan.textContent = "Usulan cuti berhasil dikirim. Status: Menunggu.";
