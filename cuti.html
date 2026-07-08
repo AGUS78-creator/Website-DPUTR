@@ -23,40 +23,20 @@
 
   <section class="welcome-box">
     <h2>Form Usulan Cuti Online</h2>
-    <p>Masukkan NIP terlebih dahulu, lalu klik Cari Data Pegawai.</p>
+    <p>Silakan isi data usulan cuti dengan lengkap dan benar.</p>
   </section>
 
   <section class="menu-beranda">
     <h3>Data Usulan Cuti</h3>
 
-    <form id="formCuti" style="max-width:850px; margin:auto;">
+    <form id="formCuti" style="max-width:800px; margin:auto;">
 
-      <label>NIP / NRPTT</label>
-      <input class="input-cuti" type="text" id="nipCari" name="nip" placeholder="Masukkan NIP / NRPTT" required>
+      <input class="input-cuti" type="text" name="nama" placeholder="Nama Pegawai" required>
+      <input class="input-cuti" type="text" name="nip" placeholder="NIP / NRPTT" required>
+      <input class="input-cuti" type="text" name="jabatan" placeholder="Jabatan" required>
+      <input class="input-cuti" type="text" name="unitKerja" placeholder="Unit Kerja" required>
+      <input class="input-cuti" type="text" name="masaKerja" placeholder="Masa Kerja, contoh: 10 Tahun 2 Bulan">
 
-      <button type="button" class="btn-cari" onclick="cariPegawai()">Cari Data Pegawai</button>
-
-      <p id="pesanCari" style="text-align:center; font-weight:bold;"></p>
-
-      <label>Nama Pegawai</label>
-      <input class="input-cuti readonly" type="text" id="nama" name="nama" readonly required>
-
-      <label>Jabatan</label>
-      <input class="input-cuti readonly" type="text" id="jabatan" name="jabatan" readonly required>
-
-      <label>Unit Kerja</label>
-      <input class="input-cuti readonly" type="text" id="unitKerja" name="unitKerja" readonly required>
-
-      <label>Masa Kerja</label>
-      <input class="input-cuti" type="text" name="masaKerja" placeholder="Contoh: 10 Tahun 2 Bulan">
-
-      <label>Nama Atasan Langsung</label>
-      <input class="input-cuti readonly" type="text" id="namaAtasan" name="namaAtasan" readonly required>
-
-      <label>NIP Atasan Langsung</label>
-      <input class="input-cuti readonly" type="text" id="nipAtasan" name="nipAtasan" readonly required>
-
-      <label>Jenis Cuti</label>
       <select class="input-cuti" name="jenisCuti" required>
         <option value="">-- Pilih Jenis Cuti --</option>
         <option value="Cuti Tahunan">Cuti Tahunan</option>
@@ -73,19 +53,22 @@
       <label>Tanggal Selesai Cuti</label>
       <input class="input-cuti" type="date" name="tanggalSelesai" required>
 
-      <label>Lama Cuti</label>
-      <input class="input-cuti" type="text" name="lamaCuti" placeholder="Contoh: 5 Hari Kerja" required>
+      <input class="input-cuti" type="text" name="lamaCuti" placeholder="Lama Cuti, contoh: 5 Hari Kerja" required>
 
-      <label>Alasan Cuti</label>
-      <textarea class="input-cuti" name="alasanCuti" placeholder="Tuliskan alasan cuti" rows="4" required></textarea>
+      <textarea class="input-cuti" name="alasanCuti" placeholder="Alasan Cuti" rows="4" required></textarea>
 
-      <label>Alamat Selama Menjalankan Cuti</label>
-      <textarea class="input-cuti" name="alamatCuti" placeholder="Masukkan alamat selama menjalankan cuti" rows="3" required></textarea>
+      <textarea class="input-cuti" name="alamatCuti" placeholder="Alamat selama menjalankan cuti" rows="3" required></textarea>
 
-      <label>Nomor Telepon / WhatsApp</label>
-      <input class="input-cuti" type="text" name="noTelpon" placeholder="Masukkan nomor HP / WhatsApp" required>
+      <input class="input-cuti" type="text" name="noTelpon" placeholder="Nomor Telepon / WhatsApp" required>
 
-      <button type="submit" class="btn-kirim">Kirim Usulan Cuti</button>
+      <input class="input-cuti" type="text" name="namaAtasan" placeholder="Nama Atasan Langsung" required>
+      <input class="input-cuti" type="text" name="nipAtasan" placeholder="NIP Atasan Langsung" required>
+
+      <br>
+
+      <button type="submit" class="btn-kirim">
+        Kirim Usulan Cuti
+      </button>
 
       <p id="pesan" style="text-align:center; font-weight:bold; margin-top:20px;"></p>
 
@@ -114,31 +97,12 @@
   box-sizing:border-box;
 }
 
-.readonly {
-  background:#e3f2fd;
-  color:#0d47a1;
-  font-weight:bold;
-}
-
 form label {
   display:block;
   color:#0d47a1;
   font-weight:bold;
   margin-bottom:6px;
   text-align:left;
-}
-
-.btn-cari {
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:14px;
-  background:linear-gradient(135deg,#ffb300,#ffca28);
-  color:#0d47a1;
-  font-size:16px;
-  font-weight:bold;
-  cursor:pointer;
-  margin-bottom:15px;
 }
 
 .btn-kirim {
@@ -151,164 +115,44 @@ form label {
   font-size:17px;
   font-weight:bold;
   cursor:pointer;
-  transition:0.3s;
 }
 
-.btn-cari:hover,
 .btn-kirim:hover {
   transform:translateY(-2px);
-  box-shadow:0 8px 20px rgba(0,0,0,0.25);
-}
-
-.btn-kirim:disabled {
-  opacity:0.7;
-  cursor:not-allowed;
 }
 </style>
 
 <script>
-const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbzgOSf7qUj13HHASFySlbfsuVEPvY_mGV1zIqV3X01bhY5MtDJWvAM-Zf69155MiYeb/exec";
-
-const URL_ASN = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQY8mW8halmyCn7NM7gmZrGusdYEkYL6BxC4ciE0bkGplyHSq0Kd8h7gV9i7NW4b707uWK9xzFQPqR8/pub?gid=190742206&single=true&output=csv";
-
-let dataASN = [];
-
-fetch(URL_ASN)
-.then(res => res.text())
-.then(csv => {
-  dataASN = parseCSV(csv);
-})
-.catch(error => {
-  console.error("Gagal memuat data ASN:", error);
-});
-
-function parseCSV(csv) {
-  const rows = [];
-  let row = [];
-  let value = "";
-  let insideQuote = false;
-
-  for (let i = 0; i < csv.length; i++) {
-    const char = csv[i];
-    const next = csv[i + 1];
-
-    if (char === '"' && insideQuote && next === '"') {
-      value += '"';
-      i++;
-    } else if (char === '"') {
-      insideQuote = !insideQuote;
-    } else if (char === "," && !insideQuote) {
-      row.push(value.trim());
-      value = "";
-    } else if ((char === "\n" || char === "\r") && !insideQuote) {
-      if (value || row.length) {
-        row.push(value.trim());
-        rows.push(row);
-        row = [];
-        value = "";
-      }
-    } else {
-      value += char;
-    }
-  }
-
-  if (value || row.length) {
-    row.push(value.trim());
-    rows.push(row);
-  }
-
-  return rows;
-}
-
-function bersihNip(teks) {
-  return String(teks || "").replace(/\D/g, "").trim();
-}
-
-function cariPegawai() {
-  const nipInput = bersihNip(document.getElementById("nipCari").value);
-  const pesanCari = document.getElementById("pesanCari");
-
-  if (!nipInput) {
-    pesanCari.style.color = "red";
-    pesanCari.textContent = "Silakan masukkan NIP terlebih dahulu.";
-    return;
-  }
-
-  if (dataASN.length === 0) {
-    pesanCari.style.color = "red";
-    pesanCari.textContent = "Data ASN belum terbaca. Refresh halaman dulu.";
-    return;
-  }
-
-  const hasil = dataASN.find(row => row.some(cell => bersihNip(cell) === nipInput));
-
-  if (!hasil) {
-    pesanCari.style.color = "red";
-    pesanCari.textContent = "Data pegawai tidak ditemukan.";
-    return;
-  }
-
-  const nipIndex = hasil.findIndex(cell => bersihNip(cell) === nipInput);
-
-  document.getElementById("nama").value = hasil[nipIndex - 1] || "";
-  document.getElementById("nipCari").value = hasil[nipIndex] || "";
-  document.getElementById("jabatan").value = hasil[nipIndex + 2] || "";
-  document.getElementById("namaAtasan").value = hasil[nipIndex + 3] || "";
-  document.getElementById("nipAtasan").value = hasil[nipIndex + 4] || "";
-  document.getElementById("unitKerja").value = hasil[nipIndex + 5] || "";
-
-  pesanCari.style.color = "green";
-  pesanCari.textContent = "Data pegawai berhasil ditemukan.";
-}
+const URL_APPS_SCRIPT = "https://docs.google.com/spreadsheets/d/1q_V2_5fP98OoXx5Zlm3VY0gpessQHOGrZu2EIBG-1w0/edit?gid=873533339#gid=873533339";
 
 document.getElementById("formCuti").addEventListener("submit", function(e) {
   e.preventDefault();
 
   const pesan = document.getElementById("pesan");
-  const tombol = document.querySelector(".btn-kirim");
-
   pesan.style.color = "#0d47a1";
   pesan.textContent = "Mengirim usulan cuti...";
-  tombol.disabled = true;
-  tombol.textContent = "Sedang Mengirim...";
 
- const formData = new FormData(this);
+  const formData = new FormData(this);
 
-fetch(URL_APPS_SCRIPT, {
-  method: "POST",
-  body: new URLSearchParams(formData)
-})
-.then(res => res.text())
-.then(res => {
-
-  if(res.trim() == "OK"){
-
+  fetch(URL_APPS_SCRIPT, {
+    method: "POST",
+    body: formData
+  })
+  .then(res => res.text())
+  .then(data => {
+    if (data.trim() === "sukses") {
       pesan.style.color = "green";
-      pesan.textContent = "Usulan cuti berhasil disimpan.";
-
+      pesan.textContent = "Usulan cuti berhasil dikirim. Status: Menunggu.";
       document.getElementById("formCuti").reset();
-      document.getElementById("pesanCari").textContent = "";
-
-  }else{
-
+    } else {
       pesan.style.color = "red";
-      pesan.textContent = res;
-
-  }
-
-})    pesan.style.color = "green";
-    pesan.textContent = "Usulan cuti berhasil disimpan.";
-    document.getElementById("formCuti").reset();
-    document.getElementById("pesanCari").textContent = "";
+      pesan.textContent = "Gagal mengirim data. Periksa Apps Script.";
+    }
   })
   .catch(error => {
     pesan.style.color = "red";
     pesan.textContent = "Gagal terhubung ke server.";
     console.error(error);
-  })
-  .finally(() => {
-    tombol.disabled = false;
-    tombol.textContent = "Kirim Usulan Cuti";
   });
 });
 </script>
