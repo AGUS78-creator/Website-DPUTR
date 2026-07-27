@@ -262,36 +262,45 @@ function cariPegawai() {
 }
 
 document.getElementById("formCuti").addEventListener("submit", function(e) {
+
   e.preventDefault();
 
   const pesan = document.getElementById("pesan");
   const tombol = document.querySelector(".btn-kirim");
 
-  pesan.style.color = "#0d47a1";
-  pesan.textContent = "Mengirim usulan cuti...";
   tombol.disabled = true;
   tombol.textContent = "Sedang Mengirim...";
 
+  pesan.style.color = "#0d47a1";
+  pesan.textContent = "Mengirim usulan cuti...";
+
   const formData = new FormData(this);
 
-  fetch(URL_APPS_SCRIPT, {
-  method: "POST",
-  body: new URLSearchParams(formData)
-})
-  .then(() => {
-    pesan.style.color = "green";
-    pesan.textContent = "Usulan cuti berhasil dikirim. Status: Menunggu.";
-    document.getElementById("formCuti").reset();
-    document.getElementById("pesanCari").textContent = "";
+  fetch(URL_APPS_SCRIPT,{
+    method:"POST",
+    body:new URLSearchParams(formData)
   })
-  .catch(error => {
-    pesan.style.color = "red";
-    pesan.textContent = "Gagal terhubung ke server.";
+  .then(response=>response.text())
+  .then(result=>{
+    console.log(result);
+    if(result.trim()==="OK"){
+      pesan.style.color="green";
+      pesan.textContent="✅ Usulan cuti berhasil dikirim.";
+      document.getElementById("formCuti").reset();
+      document.getElementById("pesanCari").textContent="";
+    }else{
+      pesan.style.color="red";
+      pesan.textContent=result;
+    }
+  })
+  .catch(error=>{
     console.error(error);
+    pesan.style.color="red";
+    pesan.textContent="❌ Gagal terhubung ke Apps Script.";
   })
-  .finally(() => {
-    tombol.disabled = false;
-    tombol.textContent = "Kirim Usulan Cuti";
+  .finally(()=>{
+    tombol.disabled=false;
+    tombol.textContent="Kirim Usulan Cuti";
   });
 });
 </script>
