@@ -210,7 +210,8 @@ dataASN=parseCSV(csv);
 });
 
 function parseCSV(csv){
-return csv.split("\n").map(r=>r.split(","));
+const rows = csv.trim().split("\n");
+return rows.map(row => row.split(","));
 }
 
 function bersih(teks){
