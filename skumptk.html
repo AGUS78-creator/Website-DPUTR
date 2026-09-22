@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SKUMPTK - LIKE DPUTR</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+.input-cuti{
+width:100%;
+padding:12px;
+margin-bottom:12px;
+border:1px solid #ccc;
+border-radius:10px;
+box-sizing:border-box;
+}
+
+.readonly{
+background:#e3f2fd;
+font-weight:bold;
+}
+
+.btn-cari,
+.btn-kirim{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+cursor:pointer;
+font-weight:bold;
+margin-top:10px;
+}
+
+.btn-cari{
+background:#ffc107;
+}
+
+.btn-kirim{
+background:#1976d2;
+color:white;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
+
+table th,
+table td{
+border:1px solid #ccc;
+padding:8px;
+}
+
+h3{
+color:#0d47a1;
+margin-top:25px;
+}
+</style>
+
+</head>
+
+<body>
+
+<header style="background-color:#1a6fb3;color:white;padding:15px;">
+<h1 style="margin:0;">LAYANAN INFORMASI KEPEGAWAIAN (LIKE) DPUTR</h1>
+<p style="margin:0;">Dinas Pekerjaan Umum dan Tata Ruang Kabupaten Purwakarta</p>
+</header>
+
+<nav class="navbar">
+<a href="index.html">Beranda</a>
+<a href="skumptk.html">SKUMPTK</a>
+</nav>
+
+<main class="container">
+
+<section class="welcome-box">
+<h2>Usulan SKUMPTK</h2>
+<p>Surat Keterangan Untuk Mendapatkan Pembayaran Tunjangan Keluarga</p>
+</section>
+
+<form id="formSKUMPTK" style="max-width:900px;margin:auto;">
+
+<h3>DATA ASN</h3>
+
+<label>NIP</label>
+<input type="text" id="nipCari" class="input-cuti">
+
+<button type="button" class="btn-cari" onclick="cariPegawai()">
+Cari Data ASN
+</button>
+
+<p id="pesanCari"></p>
+
+<label>Nama ASN</label>
+<input type="text" id="nama" name="nama" class="input-cuti readonly" readonly>
+
+<label>Tempat Lahir</label>
+<input type="text" id="tempatLahir" name="tempatLahir" class="input-cuti readonly" readonly>
+
+<label>Tanggal Lahir</label>
+<input type="text" id="tanggalLahir" name="tanggalLahir" class="input-cuti readonly" readonly>
+
+<label>Golongan</label>
+<input type="text" id="golongan" name="golongan" class="input-cuti readonly" readonly>
+
+<label>Jabatan</label>
+<input type="text" id="jabatan" name="jabatan" class="input-cuti readonly" readonly>
+
+<label>Unit Kerja</label>
+<input type="text" id="unitKerja" name="unitKerja" class="input-cuti readonly" readonly>
+
+<h3>DATA TAMBAHAN</h3>
+
+<label>Jenis Kelamin</label>
+<select name="jk" class="input-cuti">
+<option value="">Pilih</option>
+<option>Laki-laki</option>
+<option>Perempuan</option>
+</select>
+
+<label>Agama</label>
+<input type="text" name="agama" class="input-cuti">
+
+<label>TMT Golongan</label>
+<input type="date" name="tmtGol" class="input-cuti">
+
+<label>TMT Jabatan</label>
+<input type="date" name="tmtJab" class="input-cuti">
+
+<label>Alamat</label>
+<textarea name="alamat" rows="3" class="input-cuti"></textarea>
+
+<h3>DATA PASANGAN</h3>
+
+<label>Nama Pasangan</label>
+<input type="text" name="namaPasangan" class="input-cuti">
+
+<label>Tanggal Lahir Pasangan</label>
+<input type="date" name="tglLahirPasangan" class="input-cuti">
+
+<label>Tempat Nikah</label>
+<input type="text" name="tempatNikah" class="input-cuti">
+
+<label>Pekerjaan Pasangan</label>
+<input type="text" name="pekerjaanPasangan" class="input-cuti">
+
+<label>Penghasilan Pasangan</label>
+<input type="number" name="penghasilanPasangan" class="input-cuti">
+
+<h3>DATA ANAK</h3>
+
+<table>
+<thead>
+<tr>
+<th>Nama Anak</th>
+<th>Status</th>
+<th>Tgl Lahir</th>
+<th>Sekolah</th>
+</tr>
+</thead>
+
+<tbody id="dataAnak">
+
+<tr>
+<td><input type="text" name="namaAnak[]" class="input-cuti"></td>
+<td><input type="text" name="statusAnak[]" class="input-cuti"></td>
+<td><input type="date" name="tglAnak[]" class="input-cuti"></td>
+<td><input type="text" name="sekolahAnak[]" class="input-cuti"></td>
+</tr>
+
+</tbody>
+</table>
+
+<button type="button" class="btn-cari" onclick="tambahAnak()">
++ Tambah Anak
+</button>
+
+<button type="submit" class="btn-kirim">
+Kirim Usulan SKUMPTK
+</button>
+
+<p id="pesan"></p>
+
+</form>
+
+</main>
+
+<footer style="text-align:center;padding:20px;">
+© 2026 LIKE DPUTR Kabupaten Purwakarta
+<br>
+Created by Agus Hilman, S.I.P
+</footer>
+
+<script>
+
+const URL_ASN =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vQY8mW8halmyCn7NM7gmZrGusdYEkYL6BxC4ciE0bkGplyHSq0Kd8h7gV9i7NW4b707uWK9xzFQPqR8/pub?gid=190742206&single=true&output=csv";
+
+let dataASN=[];
+
+fetch(URL_ASN)
+.then(r=>r.text())
+.then(csv=>{
+dataASN=parseCSV(csv);
+});
+
+function parseCSV(csv){
+return csv.split("\n").map(r=>r.split(","));
+}
+
+function bersih(teks){
+return String(teks||"").replace(/\D/g,"");
+}
+
+function cariPegawai(){
+
+const nipInput=bersih(
+document.getElementById("nipCari").value
+);
+
+const hasil=dataASN.find(row=>
+row.some(cell=>bersih(cell)==nipInput)
+);
+
+if(!hasil){
+document.getElementById("pesanCari").innerHTML=
+"Data tidak ditemukan";
+return;
+}
+
+const idx=hasil.findIndex(
+cell=>bersih(cell)==nipInput
+);
+
+document.getElementById("nama").value=
+hasil[idx-2]||"";
+
+const ttl=hasil[idx-1]||"";
+
+if(ttl.includes(",")){
+
+const pecah=ttl.split(",");
+
+document.getElementById("tempatLahir").value=
+pecah[0].trim();
+
+document.getElementById("tanggalLahir").value=
+pecah[1].trim();
+
+}else{
+
+document.getElementById("tempatLahir").value=ttl;
+
+}
+
+document.getElementById("golongan").value=
+hasil[idx+1]||"";
+
+document.getElementById("jabatan").value=
+hasil[idx+4]||"";
+
+document.getElementById("unitKerja").value=
+hasil[idx+6]||"";
+
+document.getElementById("pesanCari").innerHTML=
+"✅ Data ASN ditemukan";
+
+}
+
+function tambahAnak(){
+
+const tbody=document.getElementById("dataAnak");
+
+const row=document.createElement("tr");
+
+row.innerHTML=`
+<td><input type="text" name="namaAnak[]" class="input-cuti"></td>
+<td><input type="text" name="statusAnak[]" class="input-cuti"></td>
+<td><input type="date" name="tglAnak[]" class="input-cuti"></td>
+<td><input type="text" name="sekolahAnak[]" class="input-cuti"></td>
+`;
+
+tbody.appendChild(row);
+
+}
+
+</script>
+
+</body>
+</html>
