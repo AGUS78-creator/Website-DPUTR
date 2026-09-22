@@ -85,7 +85,7 @@ margin-top:25px;
 <h3>DATA ASN</h3>
 
 <label>NIP</label>
-<input type="text" id="nipCari" class="input-cuti">
+<input type="text" id="nipCari" name="nipCari" class="input-cuti">
 
 <button type="button" class="btn-cari" onclick="cariPegawai()">
 Cari Data ASN
@@ -107,10 +107,10 @@ Cari Data ASN
 
 <label>Jabatan</label>
 <input type="text" id="jabatan" name="jabatan" class="input-cuti readonly" readonly>
-
+  
 <label>Unit Kerja</label>
 <input type="text" id="unitKerja" name="unitKerja" class="input-cuti readonly" readonly>
-
+  
 <h3>DATA TAMBAHAN</h3>
 
 <label>Jenis Kelamin</label>
@@ -176,7 +176,7 @@ Cari Data ASN
 <button type="button" class="btn-cari" onclick="tambahAnak()">
 + Tambah Anak
 </button>
-
+<input type="hidden" id="jumlahAnak" name="jumlahAnak" value="1">
 <button type="submit" class="btn-kirim">
 Kirim Usulan SKUMPTK
 </button>
@@ -192,8 +192,6 @@ Kirim Usulan SKUMPTK
 <br>
 Created by Agus Hilman, S.I.P
 </footer>
-
-<script>
 
 <script>
 
@@ -289,8 +287,51 @@ row.innerHTML=`
 
 tbody.appendChild(row);
 
-}
-</script>
+document.getElementById("jumlahAnak").value=
+document.querySelectorAll("#dataAnak tr").length;
 
-</body>
-</html>
+}
+
+document.getElementById("formSKUMPTK")
+.addEventListener("submit",function(e){
+
+e.preventDefault();
+
+const pesan=document.getElementById("pesan");
+
+pesan.innerHTML="Mengirim data...";
+
+const formData=new FormData(this);
+
+fetch(URL_APPS_SCRIPT,{
+method:"POST",
+body:new URLSearchParams(formData)
+})
+.then(r=>r.text())
+.then(res=>{
+
+if(res=="OK"){
+
+pesan.style.color="green";
+pesan.innerHTML="✅ Usulan SKUMPTK berhasil dikirim";
+
+document.getElementById("formSKUMPTK").reset();
+
+}else{
+
+pesan.style.color="red";
+pesan.innerHTML=res;
+
+}
+
+})
+.catch(err=>{
+
+pesan.style.color="red";
+pesan.innerHTML="❌ Gagal mengirim data";
+
+console.log(err);
+
+});
+
+});
