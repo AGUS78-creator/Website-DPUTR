@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d47a1">
+  <title>Uji Kamera & GPS — LIKE DPUTR</title>
+  <style>
+    :root{font-family:Arial,Helvetica,sans-serif;color:#16324f;background:#f3f7fb}
+    *{box-sizing:border-box}
+    body{margin:0;padding:18px}
+    main{max-width:720px;margin:auto;background:#fff;border-radius:18px;padding:22px;box-shadow:0 8px 28px #1232}
+    h1{font-size:1.45rem;margin:0 0 8px;color:#0d47a1}
+    p{line-height:1.5}
+    .note{padding:12px 14px;background:#fff8e1;border-left:4px solid #ffb300;border-radius:8px}
+    .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+    button,.upload-label{border:0;border-radius:10px;padding:13px 14px;font-size:1rem;font-weight:700;cursor:pointer;text-align:center}
+    button{background:#0d47a1;color:#fff}
+    button.secondary,.upload-label{background:#e3edf9;color:#0d47a1}
+    button:disabled{opacity:.55;cursor:not-allowed}
+    video,img{width:100%;max-height:420px;object-fit:contain;background:#101820;border-radius:12px;display:block;margin-top:10px}
+    img{background:#e9eef5}
+    .status{padding:12px;background:#eef4fa;border-radius:10px;overflow-wrap:anywhere;white-space:pre-wrap}
+    .row{margin:16px 0}
+    .label{font-weight:700;margin-bottom:5px}
+    small{color:#536879}
+    input[type=file]{position:absolute;left:-9999px;width:1px;height:1px}
+    @media(max-width:480px){body{padding:10px}main{padding:16px}.actions{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<main>
+  <h1>Uji Kamera & GPS</h1>
+  <p><b>LIKE DPUTR — halaman pemeriksaan awal</b></p>
+  <div class="note">Halaman ini hanya untuk menguji kamera dan GPS dari GitHub Pages. Foto tidak dikirim dan tidak disimpan ke server. Jangan gunakan untuk absensi resmi.</div>
+
+  <section class="row">
+    <div class="label">1. Uji kamera langsung</div>
+    <p id="cameraStatus" class="status">Belum diuji.</p>
+    <div class="actions">
+      <button id="startCamera">Aktifkan kamera</button>
+      <button id="stopCamera" class="secondary" disabled>Matikan kamera</button>
+    </div>
+    <video id="video" autoplay playsinline muted hidden></video>
+    <div class="actions">
+      <button id="takePhoto" disabled>Ambil foto uji</button>
+      <label class="upload-label" for="cameraFile">Coba kamera alternatif</label>
+      <input id="cameraFile" type="file" accept="image/*" capture="user">
+    </div>
+    <small>Jika tombol kamera langsung gagal, gunakan “Coba kamera alternatif”. Browser mungkin akan membuka aplikasi kamera HP.</small>
+    <canvas id="canvas" hidden></canvas>
+    <img id="photoPreview" alt="Pratinjau foto uji" hidden>
+  </section>
+
+  <section class="row">
+    <div class="label">2. Uji lokasi GPS</div>
+    <p id="gpsStatus" class="status">Belum diuji.</p>
+    <button id="getGps">Ambil koordinat GPS</button>
+  </section>
+
+  <section class="row">
+    <div class="label">3. Informasi browser</div>
+    <p id="browserStatus" class="status"></p>
+  </section>
+</main>
+<script>
+(() => {
+  const video = document.getElementById('video');
+  const cameraStatus = document.getElementById('cameraStatus');
+  const gpsStatus = document.getElementById('gpsStatus');
+  const startBtn = document.getElementById('startCamera');
+  const stopBtn = document.getElementById('stopCamera');
+  const takeBtn = document.getElementById('takePhoto');
+  const canvas = document.getElementById('canvas');
+  const preview = document.getElementById('photoPreview');
+  const cameraFile = document.getElementById('cameraFile');
+  let stream = null;
+
+  document.getElementById('browserStatus').textContent =
+    'Alamat aman HTTPS: ' + (location.protocol === 'https:' ? 'YA' : 'TIDAK') +
+    '\nBrowser: ' + navigator.userAgent +
+    '\ngetUserMedia tersedia: ' + Boolean(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+
+  startBtn.addEventListener('click', async () => {
+    cameraStatus.textContent = 'Meminta izin kamera…';
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      cameraStatus.textContent = 'API kamera langsung tidak tersedia pada browser ini. Coba tombol kamera alternatif di bawah.';
+      return;
+    }
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'user' }, audio: false
+      });
+      video.srcObject = stream;
+      video.hidden = false;
+      await video.play();
+      takeBtn.disabled = false;
+      stopBtn.disabled = false;
+      cameraStatus.textContent = 'BERHASIL: kamera aktif. Tekan “Ambil foto uji” untuk melihat pratinjau.';
+    } catch (err) {
+      cameraStatus.textContent = 'KAMERA GAGAL\nNama error: ' + (err && err.name || 'Tidak diketahui') +
+        '\nPesan: ' + (err && err.message || 'Tidak ada detail') +
+        '\n\nCoba izinkan kamera di pengaturan situs atau gunakan “Coba kamera alternatif”.';
+    }
+  });
+
+  stopBtn.addEventListener('click', stopCamera);
+  function stopCamera() {
+    if (stream) stream.getTracks().forEach(track => track.stop());
+    stream = null;
+    video.srcObject = null;
+    video.hidden = true;
+    takeBtn.disabled = true;
+    stopBtn.disabled = true;
+    cameraStatus.textContent = 'Kamera dimatikan.';
+  }
+
+  takeBtn.addEventListener('click', () => {
+    if (!video.videoWidth || !video.videoHeight) {
+      cameraStatus.textContent = 'Kamera belum siap. Tunggu beberapa detik lalu coba lagi.';
+      return;
+    }
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+    preview.src = canvas.toDataURL('image/jpeg', 0.85);
+    preview.hidden = false;
+    cameraStatus.textContent = 'Foto uji berhasil diambil dan hanya tampil di perangkat ini; belum dikirim ke mana pun.';
+  });
+
+  cameraFile.addEventListener('change', () => {
+    const file = cameraFile.files && cameraFile.files[0];
+    if (!file) return;
+    preview.src = URL.createObjectURL(file);
+    preview.hidden = false;
+    cameraStatus.textContent = 'BERHASIL melalui kamera alternatif: file foto dipilih dan hanya tampil di perangkat ini. Tipe: ' + file.type + ', ukuran: ' + file.size + ' byte.';
+  });
+
+  document.getElementById('getGps').addEventListener('click', () => {
+    gpsStatus.textContent = 'Meminta izin lokasi…';
+    if (!navigator.geolocation) {
+      gpsStatus.textContent = 'API lokasi tidak tersedia pada browser ini.';
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        gpsStatus.textContent = 'BERHASIL\nLatitude: ' + pos.coords.latitude +
+          '\nLongitude: ' + pos.coords.longitude +
+          '\nAkurasi: ±' + Math.round(pos.coords.accuracy) + ' meter';
+      },
+      err => {
+        gpsStatus.textContent = 'GPS GAGAL\nKode: ' + err.code + '\nPesan: ' + err.message;
+      },
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 }
+    );
+  });
+
+  window.addEventListener('pagehide', stopCamera);
+})();
+</script>
+</body>
+</html>
