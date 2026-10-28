@@ -53,7 +53,7 @@ function msg(text,kind){const el=$('globalMessage');el.textContent=text;el.class
 function status(id,text,kind){const el=$(id);el.textContent=text;el.className='status'+(kind?' '+kind:'');}
 function randomId(){const a=new Uint8Array(16);crypto.getRandomValues(a);return Array.from(a,x=>x.toString(16).padStart(2,'0')).join('');}
 // GitHub Pages and Apps Script are different origins. POST sends the body, and an unguessable short-lived request ID retrieves the result.
-function api(action,payload){const id=randomId(),callback='__likeAbsensi_'+id;const body=new URLSearchParams({requestId:id,action:action,payload:JSON.stringify(payload||{})});let done=false,tries=0,timer=null,script=null,frame=null,form=null;
+function api(action,payload){const id=randomId(),callback='__likeAbsensi_'+id;const body=new URLSearchParams({requestId:id,requestAction:action,payload:JSON.stringify(payload||{})});let done=false,tries=0,timer=null,script=null,frame=null,form=null;
  return new Promise((resolve,reject)=>{function cleanup(){if(timer)clearTimeout(timer);if(script)script.remove();if(form)form.remove();if(frame)frame.remove();try{delete window[callback];}catch(e){window[callback]=undefined;}}
  function finish(err,result){if(done)return;done=true;cleanup();if(err)reject(err);else resolve(result);}
  function schedule(){if(done)return;if(tries++>55)return finish(new Error('Belum menerima jawaban Apps Script. Pastikan kode backend/jembatan sudah dipasang dan deployment terbaru diterapkan.'));timer=setTimeout(poll,tries<5?350:650);}
