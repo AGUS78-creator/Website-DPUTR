@@ -528,3 +528,58 @@ footer small{
     gap:10px;
   }
 }
+
+
+/* ========================= */
+/* PUSAT TAUTAN KEPEGAWAIAN */
+/* ========================= */
+.resource-hub{
+  margin-top:28px;
+}
+.resource-intro{
+  color:#455a64;
+  text-align:center;
+  font-size:17px;
+  line-height:1.6;
+  margin:-18px auto 28px;
+  max-width:850px;
+}
+.resource-group-title{
+  color:#164d7b;
+  font-size:24px;
+  margin:26px 0 18px;
+  padding-bottom:9px;
+  border-bottom:2px solid #d5e3f0;
+}
+.resource-hub .card-menu{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  min-height:128px;
+  padding:24px 18px;
+  font-size:19px;
+}
+.resource-hub .card-menu strong{
+  display:block;
+}
+.resource-hub .card-menu small{
+  display:block;
+  margin-top:8px;
+  font-size:13px;
+  line-height:1.45;
+  font-weight:400;
+  opacity:.96;
+}
+.resource-note{
+  color:#5d6d7e;
+  font-size:13px;
+  line-height:1.6;
+  margin:24px 0 0;
+  text-align:center;
+}
+@media(max-width:768px){
+  .resource-intro{font-size:15px}
+  .resource-group-title{font-size:20px}
+  .resource-hub .card-menu{min-height:105px;padding:20px 15px;font-size:17px}
+  .resource-hub .card-menu small{font-size:12px}
+}
