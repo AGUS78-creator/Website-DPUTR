@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#176fb3">
+<title>Uji Koneksi Absensi LIKE</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#edf3f9;color:#1c3148;font-family:Arial,Helvetica,sans-serif}main{max-width:680px;margin:36px auto;padding:18px}.card{background:#fff;border-radius:16px;padding:22px;box-shadow:0 5px 20px #16324f1a}h1{color:#164d7b;font-size:1.35rem;margin:0 0 8px}p{line-height:1.5}.small{font-size:.9rem;color:#5a6e82}button{width:100%;border:0;border-radius:10px;background:#176fb3;color:white;padding:14px;font-size:1rem;font-weight:bold;cursor:pointer}button:disabled{opacity:.55}.status{padding:13px;background:#edf4fa;border-radius:10px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5;margin-top:14px}.good{background:#e8f6eb;color:#176335}.bad{background:#fff0f0;color:#942626}.warn{background:#fff8e1;color:#765300}a{color:#176fb3}
+</style>
+</head>
+<body><main><section class="card">
+<h1>Uji Koneksi Server Absensi LIKE</h1>
+<p class="small">Pengujian ini hanya memanggil bridgePing. Tidak membutuhkan login, tidak membaca data pegawai, dan tidak mencatat absensi.</p>
+<button id="test">Uji koneksi server</button>
+<div id="result" class="status" role="status">Belum diuji.</div>
+<p class="small"><a href="absensi.html">Kembali ke halaman Absensi Digital</a></p>
+</section></main>
+<script>
+(function(){
+'use strict';
+const API_URL='https://script.google.com/macros/s/AKfycbxfo0BtwU8Xb6oGH2X0xRug0R74ctjItvn5mj3wTXhSuqoWC-reRdL5dwW8C4ANuNs1/exec';
+const button=document.getElementById('test');
+const result=document.getElementById('result');
+button.addEventListener('click',async()=>{
+ button.disabled=true;result.className='status warn';result.textContent='Menghubungi Apps Script melalui POST fetch seperti modul Cuti…';
+ const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),30000);
+ try{
+  const response=await fetch(API_URL,{
+   method:'POST',
+   body:new URLSearchParams({action:'bridgePing',payload:'{}'}),
+   redirect:'follow',cache:'no-store',credentials:'omit',
+   signal:controller.signal
+  });
+  const raw=await response.text();
+  let data;try{data=JSON.parse(raw);}catch(_){throw new Error('Server merespons, tetapi jawabannya bukan JSON. HTTP '+response.status+'. Cuplikan: '+raw.replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim().slice(0,180));}
+  if(!response.ok||!data.ok)throw new Error(data.message||('HTTP '+response.status));
+  result.className='status good';
+  result.textContent='BERHASIL\n'+(data.message||'Apps Script merespons.')+'\nWaktu server: '+(data.serverTime||'-')+'\nHTTP: '+response.status;
+ }catch(error){
+  result.className='status bad';
+  if(error.name==='AbortError')result.textContent='GAGAL: Waktu tunggu 30 detik habis.\nPermintaan tidak mendapat jawaban tepat waktu.';
+  else if(error instanceof TypeError)result.textContent='GAGAL MEMBACA JAWABAN: Browser menghalangi atau tidak dapat menyelesaikan fetch lintas domain.\nJenis error: '+error.name+'\nPesan: '+error.message;
+  else result.textContent='GAGAL\n'+error.message;
+ }finally{clearTimeout(timer);button.disabled=false;}
+});
+})();
+</script></body></html>
