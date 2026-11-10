@@ -144,7 +144,7 @@ async function loadMyHistory(){
  if(!a.ok)throw new Error(a.message||'Riwayat absensi gagal dimuat.');
  if(!r.ok)throw new Error(r.message||'Riwayat RKH gagal dimuat.');
  $('myAttendanceRows').innerHTML='';
- (a.data||[]).forEach(x=>{const tr=document.createElement('tr');[x.TANGGAL,x.JAM,x.JENIS,x.MODE,x.LOKASI,x.STATUS].forEach(v=>appendHistoryCell(tr,v));$('myAttendanceRows').appendChild(tr);});
+ (a.data||[]).forEach(x=>{const tr=document.createElement('tr');[x.TANGGAL,formatJamRekap(x.JAM),x.JENIS,x.MODE,x.LOKASI,x.STATUS].forEach(v=>appendHistoryCell(tr,v));$('myAttendanceRows').appendChild(tr);});
  $('myRkhRows').innerHTML='';
  (r.data||[]).forEach(x=>{const tr=document.createElement('tr');[x.TANGGAL,x.NO_URUT,x.RENCANA_KERJA,x.TARGET_OUTPUT,x.REALISASI,x.STATUS].forEach(v=>appendHistoryCell(tr,v));const td=document.createElement('td');if(x.LINK_EVIDEN&&/^https:\/\/(drive|docs)\.google\.com\//i.test(x.LINK_EVIDEN)){const link=document.createElement('a');link.href=x.LINK_EVIDEN;link.target='_blank';link.rel='noopener noreferrer';link.textContent='Buka eviden';td.appendChild(link);}tr.appendChild(td);$('myRkhRows').appendChild(tr);});
  status('myAttendanceHistoryStatus','Riwayat absensi: '+(a.data||[]).length+' catatan.','good');
