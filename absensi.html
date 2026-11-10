@@ -78,7 +78,7 @@
         <div style="height:1px;background:#e3eaf1;margin:14px 0"></div>
         <h3>Arsip Foto Selfie</h3>
         <p class="small">Buat ZIP foto dalam beberapa bagian. Unduh semua bagian dan pastikan file dapat dibuka sebelum meminta pembersihan.</p>
-        <div class="row-actions"><button id="createPhotoArchive">Buat ZIP Foto Bulanan</button><button id="loadPhotoArchiveStatus" class="secondary">Muat Arsip Tertunda</button></div>
+        <div class="row-actions"><button id="createPhotoArchive">Buat / Lanjutkan ZIP Foto Bulanan</button><button id="loadPhotoArchiveStatus" class="secondary">Muat Arsip Tertunda</button></div>
         <p id="photoArchiveStatus" class="status">Belum ada arsip foto yang dimuat.</p>
         <div id="photoArchiveLinks" class="small"></div>
         <label for="archiveBatchId">ID batch arsip foto</label><input id="archiveBatchId" readonly placeholder="Akan terisi setelah ZIP dibuat atau arsip dimuat">
@@ -198,20 +198,42 @@ async function loadPhotoArchiveStatus(){
   if(!r.ok)throw new Error(r.message||'Status arsip gagal dimuat.');
   if(!r.batch){$('archiveBatchId').value='';$('archiveCleanupConfirm').value='';showPhotoArchiveLinks([]);status('photoArchiveStatus',r.message||'Tidak ada arsip foto tertunda.','good');return;}
   $('archiveBatchId').value=r.batch.id;showPhotoArchiveLinks(r.zips||[]);
-  status('photoArchiveStatus','Arsip '+month+' ditemukan: '+r.batch.photoCount+' foto, '+r.batch.zipCount+' ZIP. Status: '+r.batch.status+'. Unduh dan periksa semua ZIP sebelum pembersihan.','good');
+  status('photoArchiveStatus','Arsip '+month+': '+r.batch.processed+' dari '+r.batch.photoCount+' foto sudah dikemas, '+r.batch.zipCount+' ZIP. Status: '+r.batch.status+'.'+(r.batch.status==='SEDANG_DIPROSES'?' Tekan Buat / Lanjutkan ZIP Foto Bulanan untuk meneruskan.':' Unduh dan periksa semua ZIP sebelum pembersihan.'),'good');
  }catch(e){status('photoArchiveStatus',e.message||'Gagal memuat arsip.','bad');}
  finally{setBusy(false);}
 }
 async function createMonthlyPhotoArchive(){
  if(busy)return;
  let month;try{month=selectedArchiveMonth();}catch(e){return status('photoArchiveStatus',e.message,'bad');}
- setBusy(true);status('photoArchiveStatus','Membaca foto dan membuat ZIP privat di Google Drive…');
+ setBusy(true);status('photoArchiveStatus','Memeriksa arsip foto yang mungkin masih berjalan…');
  try{
-  const r=await api('monthlyArchive',{token,operation:'createPhotos',month});
-  if(!r.ok)throw new Error(r.message||'ZIP foto gagal dibuat.');
-  $('archiveBatchId').value=r.batchId;$('archiveCleanupConfirm').value='';showPhotoArchiveLinks(r.zips||[]);
-  status('photoArchiveStatus','Berhasil: '+r.photoCount+' foto dikemas menjadi '+r.zipCount+' ZIP. Unduh SEMUA bagian dan pastikan dapat dibuka. Belum ada foto yang dihapus.','good');
- }catch(e){status('photoArchiveStatus',e.message||'Gagal membuat ZIP foto.','bad');}
+  let state=await api('monthlyArchive',{token,operation:'status',month});
+  if(!state.ok)throw new Error(state.message||'Status arsip gagal diperiksa.');
+  let batchId='',finished=false,processed=0,total=0;
+  if(state.batch){
+   batchId=state.batch.id;processed=state.batch.processed||0;total=state.batch.photoCount||0;
+   $('archiveBatchId').value=batchId;showPhotoArchiveLinks(state.zips||[]);
+   if(state.batch.status!=='SEDANG_DIPROSES'){
+    status('photoArchiveStatus','Arsip '+month+' sudah dibuat dengan status '+state.batch.status+'. Unduh dan periksa semua ZIP, atau selesaikan pembersihan yang tertunda.','good');
+    return;
+   }
+   status('photoArchiveStatus','Melanjutkan arsip: '+processed+' dari '+total+' foto sudah dikemas…');
+  }else{
+   state=await api('monthlyArchive',{token,operation:'createPhotos',month});
+   if(!state.ok)throw new Error(state.message||'Batch arsip gagal dibuat.');
+   batchId=state.batchId;processed=state.processed||0;total=state.total||0;finished=!!state.finished;
+   $('archiveBatchId').value=batchId;showPhotoArchiveLinks(state.zips||[]);
+   status('photoArchiveStatus','Membuat ZIP foto: '+processed+' dari '+total+' foto…');
+  }
+  while(!finished){
+   state=await api('monthlyArchive',{token,operation:'continuePhotos',batchId});
+   if(!state.ok)throw new Error(state.message||'Pembuatan bagian ZIP berikutnya gagal.');
+   processed=state.processed||processed;total=state.total||total;finished=!!state.finished;
+   showPhotoArchiveLinks(state.zips||[]);
+   status('photoArchiveStatus','Proses ZIP foto: '+processed+' dari '+total+' foto sudah dikemas ('+(state.zipCount||0)+' bagian).'+(finished?' Semua bagian selesai. Unduh dan periksa semuanya.':''),finished?'good':'');
+  }
+  $('archiveCleanupConfirm').value='';
+ }catch(e){status('photoArchiveStatus',e.message||'Gagal membuat ZIP foto. Arsip yang belum selesai dapat dilanjutkan melalui tombol ini.','bad');}
  finally{setBusy(false);}
 }
 async function purgeMonthlyPhotoArchive(){
