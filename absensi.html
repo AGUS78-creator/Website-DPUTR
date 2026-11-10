@@ -149,13 +149,13 @@ function archiveCsvCell(value,isNip){
  let v=String(value==null?'':value);
  const allDigits=v.length>0&&Array.from(v).every(ch=>ch>='0'&&ch<='9');
  if(isNip&&allDigits)v='="'+v+'"';
- else if(['=','+','-','@','\\t','\\r'].includes(v.charAt(0)))v="'"+v;
+ else if(['=','+','-','@','\t','\r'].includes(v.charAt(0)))v="'"+v;
  return '"'+v.replace(/"/g,'""')+'"';
 }
 function downloadCsvFile(filename,headers,items,nipKey){
  const lines=[headers.map(h=>archiveCsvCell(h,false)).join(';')];
  items.forEach(item=>lines.push(headers.map(h=>archiveCsvCell(item[h],h===nipKey)).join(';')));
- const blob=new Blob(['\\uFEFF'+lines.join('\\r\\n')],{type:'text/csv;charset=utf-8;'});
+ const blob=new Blob(['\uFEFF'+lines.join('\r\n')],{type:'text/csv;charset=utf-8;'});
  const url=URL.createObjectURL(blob),a=document.createElement('a');
  a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();
  setTimeout(()=>URL.revokeObjectURL(url),1500);
