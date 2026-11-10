@@ -70,6 +70,22 @@
       <fieldset><legend>Daftarkan penugasan lapangan</legend><div class="grid"><div><label for="taskName">Nama tugas/proyek</label><input id="taskName"></div><div><label for="taskPlace">Lokasi tugas</label><input id="taskPlace"></div><div><label for="taskNip">NIP pegawai yang ditugaskan</label><input id="taskNip"></div><div><label for="taskRadius">Radius (meter)</label><input id="taskRadius" type="number" min="30" value="500"></div><div><label for="taskStart">Tanggal mulai</label><input id="taskStart" type="date"></div><div><label for="taskEnd">Tanggal selesai</label><input id="taskEnd" type="date"></div></div><label for="taskCoords">Koordinat titik tugas</label><input id="taskCoords" readonly placeholder="Belum diambil"><p id="taskGpsStatus" class="status">Ambil GPS saat perangkat berada di titik tugas.</p><div class="row-actions"><button id="useGpsForTask" class="secondary">Ambil titik tugas sekarang</button><button id="addTaskButton">Daftarkan tugas</button></div></fieldset>
       <fieldset><legend>Rekap absensi harian</legend><label for="reportDate">Tanggal</label><input id="reportDate" type="date"><div class="row-actions"><button id="loadSummaryButton">Tampilkan rekap</button></div><p id="summaryStatus" class="status">Pilih tanggal untuk menampilkan rekap.</p><div class="table-scroll"><table><thead><tr><th>Jam</th><th>NIP</th><th>Nama</th><th>Jenis</th><th>Mode</th><th>Lokasi</th><th>Status</th><th>Foto</th></tr></thead><tbody id="summaryRows"></tbody></table></div></fieldset>
 
+      <fieldset><legend>Arsip Bulanan Absensi dan RKH</legend>
+        <p class="small">Unduh rekap bulanan untuk Excel. Arsip foto selfie hanya dapat dibuat untuk bulan yang sudah berakhir.</p>
+        <label for="archiveMonth">Bulan arsip</label><input id="archiveMonth" type="month">
+        <div class="row-actions"><button id="downloadAttendanceCsv" class="secondary">Unduh Rekap Absensi (CSV Excel)</button><button id="downloadRkhCsv" class="secondary">Unduh Rekap RKH (CSV Excel)</button></div>
+        <p id="archiveDataStatus" class="status">Pilih bulan, lalu unduh rekap yang diperlukan.</p>
+        <div style="height:1px;background:#e3eaf1;margin:14px 0"></div>
+        <h3>Arsip Foto Selfie</h3>
+        <p class="small">Buat ZIP foto dalam beberapa bagian. Unduh semua bagian dan pastikan file dapat dibuka sebelum meminta pembersihan.</p>
+        <div class="row-actions"><button id="createPhotoArchive">Buat / Lanjutkan ZIP Foto Bulanan</button><button id="loadPhotoArchiveStatus" class="secondary">Muat Arsip Tertunda</button></div>
+        <p id="photoArchiveStatus" class="status">Belum ada arsip foto yang dimuat.</p>
+        <div id="photoArchiveLinks" class="small"></div>
+        <label for="archiveBatchId">ID batch arsip foto</label><input id="archiveBatchId" readonly placeholder="Akan terisi setelah ZIP dibuat atau arsip dimuat">
+        <label for="archiveCleanupConfirm">Konfirmasi setelah semua ZIP diunduh dan diperiksa</label><input id="archiveCleanupConfirm" placeholder="Ketik: ARSIP AMAN YYYY-MM">
+        <div class="row-actions"><button id="purgePhotoArchive" class="secondary">Bersihkan Foto Asli dan ZIP dari Drive</button></div>
+        <p class="small">Pembersihan hanya memindahkan foto asli dan ZIP sementara ke Sampah Drive. Catatan absensi dan RKH di Google Sheets tetap disimpan. Untuk benar-benar membebaskan kuota, Admin perlu mengosongkan Sampah Drive setelah memastikan tidak ada file yang masih dibutuhkan.</p>
+      </fieldset>
       <fieldset><legend>Monitoring Rencana dan Realisasi Kerja Harian</legend><label for="adminRkhDate">Tanggal RKH</label><input id="adminRkhDate" type="date"><div class="row-actions"><button id="loadRkhSummaryButton">Tampilkan RKH</button></div><p id="rkhSummaryStatus" class="status">Pilih tanggal untuk menampilkan RKH.</p><div class="table-scroll"><table><thead><tr><th>NIP</th><th>Nama</th><th>No.</th><th>Rencana</th><th>Target</th><th>Realisasi</th><th>Link eviden</th><th>Status</th></tr></thead><tbody id="rkhSummaryRows"></tbody></table></div></fieldset>
     </section>
   </section>
@@ -112,7 +128,7 @@ async function api(action,payload){
   throw error;
  }finally{clearTimeout(timeout);}
 }
-function setBusy(v){busy=v;['loginButton','bridgeTestButton','sendAttendance','loadMyHistoryButton','addUserButton','resetUserPasswordButton','changePasswordButton','addLocationButton','addTaskButton','loadSummaryButton','rkhSavePlansButton','rkhSaveRealizationButton','loadRkhSummaryButton'].forEach(id=>{if($(id))$(id).disabled=v;});}
+function setBusy(v){busy=v;['loginButton','bridgeTestButton','sendAttendance','loadMyHistoryButton','addUserButton','resetUserPasswordButton','changePasswordButton','addLocationButton','addTaskButton','loadSummaryButton','rkhSavePlansButton','rkhSaveRealizationButton','loadRkhSummaryButton','downloadAttendanceCsv','downloadRkhCsv','createPhotoArchive','loadPhotoArchiveStatus','purgePhotoArchive'].forEach(id=>{if($(id))$(id).disabled=v;});}
 function getGps(target){target=target||'attendance';const sid=target==='office'?'officeGpsStatus':target==='task'?'taskGpsStatus':'gpsStatus';return new Promise((resolve,reject)=>{if(!navigator.geolocation){const e=new Error('Browser ini tidak menyediakan akses lokasi. Buka di Chrome atau browser yang mendukung GPS.');status(sid,e.message,'bad');reject(e);return;}status(sid,'Meminta izin lokasi dan membaca GPS…');navigator.geolocation.getCurrentPosition(pos=>{const val={lat:pos.coords.latitude,lng:pos.coords.longitude,accuracy:pos.coords.accuracy};if(target==='office')officeGps=val;else if(target==='task')taskGps=val;else gps=val;const acc=Math.round(val.accuracy),text='GPS terdeteksi otomatis\nAkurasi: ±'+acc+' meter'+(val.accuracy>100?'\nAkurasi belum memenuhi batas 100 meter. Coba lagi di area terbuka.':'\nAkurasi memenuhi batas maksimal 100 meter.');status(sid,text,val.accuracy<=100?'good':'bad');if(target==='office')$('locationCoords').value=val.lat.toFixed(6)+', '+val.lng.toFixed(6)+' (±'+acc+' m)';if(target==='task')$('taskCoords').value=val.lat.toFixed(6)+', '+val.lng.toFixed(6)+' (±'+acc+' m)';resolve(val);},err=>{const e=new Error('GPS gagal: '+err.message+'. Pastikan izin lokasi diizinkan dan layanan lokasi HP aktif.');status(sid,e.message,'bad');reject(e);},{enableHighAccuracy:true,timeout:20000,maximumAge:0});});}
 async function login(){if(busy)return;const nip=$('nip').value.trim(),password=$('password').value;if(!nip||!password)return msg('Isi NIP dan kata sandi terlebih dahulu.','bad');setBusy(true);msg('Memeriksa akun…');try{const r=await api('login',{nip,password});if(!r.ok)return msg(r.message||'Login gagal.','bad');token=r.token;me=r.user;$('loginCard').classList.add('hidden');$('attendanceApp').classList.remove('hidden');$('welcome').textContent='Halo, '+me.nama+' ('+me.nip+')';$('reportDate').value=new Date().toLocaleDateString('en-CA');if(me.role==='ADMIN')$('adminPanel').classList.remove('hidden');await loadAssignments();try{await loadRkh();}catch(rkhError){$('rkhPanel').classList.add('hidden');console.warn('Endpoint RKH belum aktif:',rkhError);}try{await loadMyHistory();}catch(historyError){status('myAttendanceHistoryStatus','Riwayat belum dapat dimuat: '+historyError.message,'bad');status('myRkhHistoryStatus','Riwayat belum dapat dimuat: '+historyError.message,'bad');}msg('Login berhasil. GPS sedang dibaca otomatis.','good');getGps().catch(()=>{});}catch(e){msg(e.message||'Tidak dapat menghubungi backend absensi.','bad');}finally{setBusy(false);}}
 async function testBridge(){if(busy)return;setBusy(true);msg('Menguji koneksi server tanpa login…');try{const r=await api('bridgePing',{});if(!r||!r.ok)throw new Error((r&&r.message)||'Server tidak memberikan konfirmasi.');msg((r.message||'Jembatan server aktif.')+(r.serverTime?' Waktu server: '+r.serverTime:''),'good');}catch(e){msg('Uji koneksi gagal: '+(e.message||'Tidak menerima jawaban server.'),'bad');}finally{setBusy(false);}}
@@ -128,6 +144,114 @@ async function loadRkh(){const r=await api('getRkh',{token});if(!r.ok)throw new 
 async function saveRkhPlans(){if(busy)return;const items=[1,2,3].map(n=>({rencana:$('rkhPlan'+n).value,target:$('rkhTarget'+n).value}));if(items.some(x=>!x.rencana.trim()||!x.target.trim()))return msg('Lengkapi rencana dan target output untuk ketiga kegiatan.','bad');setBusy(true);msg('Menyimpan tiga rencana kerja…');try{const r=await api('saveRkh',{token,items});if(!r.ok)throw new Error(r.message||'RKH gagal disimpan.');setRkhForm(r.data||[]);status('rkhStatus',r.message||'Tiga RKH berhasil disimpan.','good');msg(r.message||'Tiga RKH berhasil disimpan.','good');}catch(e){msg(e.message||'Gagal menyimpan RKH.','bad');}finally{setBusy(false);}}
 async function saveRkhRealizations(){if(busy)return;const items=[1,2,3].map(n=>({realisasi:$('rkhRealization'+n).value,linkEviden:$('rkhEvidence'+n).value.trim(),status:$('rkhStatus'+n).value}));setBusy(true);msg('Menyimpan realisasi pekerjaan…');try{const r=await api('updateRkh',{token,items});if(!r.ok)throw new Error(r.message||'Realisasi gagal disimpan.');setRkhForm(r.data||[]);status('rkhStatus',r.message||'Realisasi berhasil diperbarui.','good');msg(r.message||'Realisasi berhasil diperbarui.','good');}catch(e){msg(e.message||'Gagal menyimpan realisasi.','bad');}finally{setBusy(false);}}
 async function loadRkhSummary(){const date=$('adminRkhDate').value;if(!date)return status('rkhSummaryStatus','Pilih tanggal RKH.','bad');$('rkhSummaryRows').innerHTML='';status('rkhSummaryStatus','Memuat RKH…');const r=await api('rkhSummary',{token,date});if(!r.ok)return status('rkhSummaryStatus',r.message||'RKH gagal dimuat.','bad');(r.data||[]).forEach(x=>{const tr=document.createElement('tr');[x.NIP,x.NAMA,x.NO_URUT,x.RENCANA_KERJA,x.TARGET_OUTPUT,x.REALISASI].forEach(v=>{const td=document.createElement('td');td.textContent=v||'';tr.appendChild(td);});const ev=document.createElement('td');if(x.LINK_EVIDEN&&/^https:\/\/(drive|docs)\.google\.com\//i.test(x.LINK_EVIDEN)){const a=document.createElement('a');a.href=x.LINK_EVIDEN;a.target='_blank';a.rel='noopener noreferrer';a.textContent='Buka eviden';ev.appendChild(a);}tr.appendChild(ev);const st=document.createElement('td');st.textContent=x.STATUS||'';tr.appendChild(st);$('rkhSummaryRows').appendChild(tr);});status('rkhSummaryStatus','RKH dimuat: '+(r.data||[]).length+' kegiatan.','good');}
+
+function archiveCsvCell(value,isNip){
+ let v=String(value==null?'':value);
+ const allDigits=v.length>0&&Array.from(v).every(ch=>ch>='0'&&ch<='9');
+ if(isNip&&allDigits)v='="'+v+'"';
+ else if(['=','+','-','@','\t','\r'].includes(v.charAt(0)))v="'"+v;
+ return '"'+v.replace(/"/g,'""')+'"';
+}
+function downloadCsvFile(filename,headers,items,nipKey){
+ const lines=[headers.map(h=>archiveCsvCell(h,false)).join(';')];
+ items.forEach(item=>lines.push(headers.map(h=>archiveCsvCell(item[h],h===nipKey)).join(';')));
+ const blob=new Blob(['\uFEFF'+lines.join('\r\n')],{type:'text/csv;charset=utf-8;'});
+ const url=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),1500);
+}
+function selectedArchiveMonth(){
+ const m=$('archiveMonth').value,parts=m.split('-'),year=Number(parts[0]),month=Number(parts[1]);
+ if(parts.length!==2||m.length!==7||!year||!month||month<1||month>12)throw new Error('Pilih bulan arsip terlebih dahulu.');
+ return m;
+}
+async function downloadMonthlyCsv(kind){
+ if(busy)return;
+ let month;try{month=selectedArchiveMonth();}catch(e){return status('archiveDataStatus',e.message,'bad');}
+ setBusy(true);status('archiveDataStatus','Mengambil data bulanan dari server…');
+ try{
+  const r=await api('monthlyArchive',{token,operation:'data',month});
+  if(!r.ok)throw new Error(r.message||'Data bulanan gagal dimuat.');
+  if(kind==='attendance'){
+   const headers=['WAKTU_SERVER','TANGGAL','JAM','NIP','NAMA','JENIS','MODE','LOKASI','LAT','LNG','AKURASI_M','JARAK_M','STATUS','FOTO_URL'];
+   const attendanceRows=(r.attendance||[]).map(x=>Object.assign({},x,{JAM:formatJamRekap(x.JAM)}));
+   downloadCsvFile('LIKE_REKAP_ABSENSI_'+month+'.csv',headers,attendanceRows,'NIP');
+   status('archiveDataStatus','Rekap absensi '+month+' berhasil diunduh: '+(r.attendance||[]).length+' catatan.','good');
+  }else{
+   const headers=['TANGGAL','NIP','NAMA','NO_URUT','RENCANA_KERJA','TARGET_OUTPUT','REALISASI','STATUS','LINK_EVIDEN','CREATED_AT','UPDATED_AT'];
+   downloadCsvFile('LIKE_REKAP_RKH_'+month+'.csv',headers,r.rkh||[],'NIP');
+   status('archiveDataStatus','Rekap RKH '+month+' berhasil diunduh: '+(r.rkh||[]).length+' kegiatan.','good');
+  }
+ }catch(e){status('archiveDataStatus',e.message||'Gagal mengunduh rekap.','bad');}
+ finally{setBusy(false);}
+}
+function showPhotoArchiveLinks(zips){
+ const box=$('photoArchiveLinks');box.innerHTML='';
+ (zips||[]).forEach((z,i)=>{const row=document.createElement('p');row.style.margin='7px 0';const a=document.createElement('a');a.href=z.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent='Unduh '+(z.name||('ZIP bagian '+(i+1)))+' ('+(z.photoCount||0)+' foto)';row.appendChild(a);box.appendChild(row);});
+}
+async function loadPhotoArchiveStatus(){
+ if(busy)return;
+ let month;try{month=selectedArchiveMonth();}catch(e){return status('photoArchiveStatus',e.message,'bad');}
+ setBusy(true);status('photoArchiveStatus','Memeriksa arsip foto tertunda…');
+ try{
+  const r=await api('monthlyArchive',{token,operation:'status',month});
+  if(!r.ok)throw new Error(r.message||'Status arsip gagal dimuat.');
+  if(!r.batch){$('archiveBatchId').value='';$('archiveCleanupConfirm').value='';showPhotoArchiveLinks([]);status('photoArchiveStatus',r.message||'Tidak ada arsip foto tertunda.','good');return;}
+  $('archiveBatchId').value=r.batch.id;showPhotoArchiveLinks(r.zips||[]);
+  status('photoArchiveStatus','Arsip '+month+': '+r.batch.processed+' dari '+r.batch.photoCount+' foto sudah dikemas, '+r.batch.zipCount+' ZIP. Status: '+r.batch.status+'.'+(r.batch.status==='SEDANG_DIPROSES'?' Tekan Buat / Lanjutkan ZIP Foto Bulanan untuk meneruskan.':' Unduh dan periksa semua ZIP sebelum pembersihan.'),'good');
+ }catch(e){status('photoArchiveStatus',e.message||'Gagal memuat arsip.','bad');}
+ finally{setBusy(false);}
+}
+async function createMonthlyPhotoArchive(){
+ if(busy)return;
+ let month;try{month=selectedArchiveMonth();}catch(e){return status('photoArchiveStatus',e.message,'bad');}
+ setBusy(true);status('photoArchiveStatus','Memeriksa arsip foto yang mungkin masih berjalan…');
+ try{
+  let state=await api('monthlyArchive',{token,operation:'status',month});
+  if(!state.ok)throw new Error(state.message||'Status arsip gagal diperiksa.');
+  let batchId='',finished=false,processed=0,total=0;
+  if(state.batch){
+   batchId=state.batch.id;processed=state.batch.processed||0;total=state.batch.photoCount||0;
+   $('archiveBatchId').value=batchId;showPhotoArchiveLinks(state.zips||[]);
+   if(state.batch.status!=='SEDANG_DIPROSES'){
+    status('photoArchiveStatus','Arsip '+month+' sudah dibuat dengan status '+state.batch.status+'. Unduh dan periksa semua ZIP, atau selesaikan pembersihan yang tertunda.','good');
+    return;
+   }
+   status('photoArchiveStatus','Melanjutkan arsip: '+processed+' dari '+total+' foto sudah dikemas…');
+  }else{
+   state=await api('monthlyArchive',{token,operation:'createPhotos',month});
+   if(!state.ok)throw new Error(state.message||'Batch arsip gagal dibuat.');
+   batchId=state.batchId;processed=state.processed||0;total=state.total||0;finished=!!state.finished;
+   $('archiveBatchId').value=batchId;showPhotoArchiveLinks(state.zips||[]);
+   status('photoArchiveStatus','Membuat ZIP foto: '+processed+' dari '+total+' foto…');
+  }
+  while(!finished){
+   state=await api('monthlyArchive',{token,operation:'continuePhotos',batchId});
+   if(!state.ok)throw new Error(state.message||'Pembuatan bagian ZIP berikutnya gagal.');
+   processed=state.processed||processed;total=state.total||total;finished=!!state.finished;
+   showPhotoArchiveLinks(state.zips||[]);
+   status('photoArchiveStatus','Proses ZIP foto: '+processed+' dari '+total+' foto sudah dikemas ('+(state.zipCount||0)+' bagian).'+(finished?' Semua bagian selesai. Unduh dan periksa semuanya.':''),finished?'good':'');
+  }
+  $('archiveCleanupConfirm').value='';
+ }catch(e){status('photoArchiveStatus',e.message||'Gagal membuat ZIP foto. Arsip yang belum selesai dapat dilanjutkan melalui tombol ini.','bad');}
+ finally{setBusy(false);}
+}
+async function purgeMonthlyPhotoArchive(){
+ if(busy)return;
+ const batchId=$('archiveBatchId').value.trim(),month=$('archiveMonth').value,confirmation=$('archiveCleanupConfirm').value.trim();
+ if(!batchId)return status('photoArchiveStatus','Muat atau buat arsip foto terlebih dahulu.','bad');
+ if(confirmation!=='ARSIP AMAN '+month)return status('photoArchiveStatus','Ketik tepat: ARSIP AMAN '+month,'bad');
+ if(!window.confirm('Anda sudah mengunduh dan memeriksa SEMUA ZIP bulan '+month+'? Foto asli dan ZIP di Drive akan dipindahkan ke Sampah.'))return;
+ if(!window.confirm('Konfirmasi terakhir: lanjutkan pembersihan foto bulan '+month+'?'))return;
+ setBusy(true);status('photoArchiveStatus','Memindahkan foto dan ZIP sementara ke Sampah Drive…');
+ try{
+  const r=await api('monthlyArchive',{token,operation:'purge',batchId,confirmation});
+  if(!r.ok)throw new Error(r.message||'Pembersihan gagal.');
+  $('archiveBatchId').value='';$('archiveCleanupConfirm').value='';showPhotoArchiveLinks([]);
+  status('photoArchiveStatus',r.message||'Pembersihan selesai.','good');
+ }catch(e){status('photoArchiveStatus',e.message||'Pembersihan gagal.','bad');}
+ finally{setBusy(false);}
+}
 
 function setHistoryDefaultDates(){const end=new Date();const start=new Date(end);start.setDate(start.getDate()-29);$('historyFrom').value=start.toLocaleDateString('en-CA');$('historyTo').value=end.toLocaleDateString('en-CA');}
 function appendHistoryCell(tr,value){const td=document.createElement('td');td.textContent=value==null?'':String(value);tr.appendChild(td);return td;}
@@ -160,7 +284,7 @@ async function addTask(){if(!taskGps)return msg('Ambil titik GPS ketika perangka
 function formatJamRekap(value){const s=String(value||'').trim();const m=s.match(/(?:^|\s)(\d{2}:\d{2}:\d{2})$/);return m?m[1]:s;}
 async function loadSummary(){const date=$('reportDate').value;if(!date)return status('summaryStatus','Pilih tanggal rekap.','bad');$('summaryRows').innerHTML='';status('summaryStatus','Memuat rekap…');const r=await api('summary',{token,date});if(!r.ok)return status('summaryStatus',r.message||'Rekap gagal dimuat.','bad');(r.data||[]).forEach(x=>{const tr=document.createElement('tr');[formatJamRekap(x.JAM),x.NIP,x.NAMA,x.JENIS,x.MODE,x.LOKASI,x.STATUS].forEach(v=>{const td=document.createElement('td');td.textContent=v||'';tr.appendChild(td);});const td=document.createElement('td');if(x.FOTO_URL){const a=document.createElement('a');a.href=x.FOTO_URL;a.target='_blank';a.rel='noopener';a.textContent='Buka foto';td.appendChild(a);}tr.appendChild(td);$('summaryRows').appendChild(tr);});status('summaryStatus','Rekap dimuat: '+(r.data||[]).length+' catatan.','good');}
 function logout(){stopCamera();token='';me=null;gps=null;photo='';officeGps=null;taskGps=null;$('attendanceApp').classList.add('hidden');$('rkhPanel').classList.add('hidden');$('loginCard').classList.remove('hidden');$('password').value='';$('privacyConsent').checked=false;$('photoPreview').classList.add('hidden');$('cameraFile').value='';$('adminPanel').classList.add('hidden');$('taskBox').classList.add('hidden');status('gpsStatus','GPS belum diambil ulang.');status('cameraStatus','Tekan Aktifkan kamera untuk memulai kamera depan.');msg('Anda telah keluar.','good');}
-$('loadMyHistoryButton').addEventListener('click',()=>loadMyHistory().catch(e=>{status('myAttendanceHistoryStatus',e.message,'bad');status('myRkhHistoryStatus',e.message,'bad');}));$('rkhSavePlansButton').addEventListener('click',saveRkhPlans);$('rkhSaveRealizationButton').addEventListener('click',saveRkhRealizations);$('loadRkhSummaryButton').addEventListener('click',()=>loadRkhSummary().catch(e=>status('rkhSummaryStatus',e.message,'bad')));$('loginButton').addEventListener('click',login);$('password').addEventListener('keydown',e=>{if(e.key==='Enter')login();});$('mode').addEventListener('change',()=>{const lap=$('mode').value==='LAPANGAN';$('taskBox').classList.toggle('hidden',!lap);if(lap)loadAssignments().catch(e=>msg(e.message,'bad'));});$('refreshGps').addEventListener('click',()=>getGps().catch(()=>{}));$('startCamera').addEventListener('click',startCamera);$('takePhoto').addEventListener('click',()=>takePhoto().catch(e=>msg(e.message,'bad')));$('retakePhoto').addEventListener('click',()=>{$('photoPreview').classList.add('hidden');photo='';$('photoStatus').textContent='Silakan ambil selfie ulang.';$('retakePhoto').classList.add('hidden');});$('sendAttendance').addEventListener('click',sendAttendance);$('logoutButton').addEventListener('click',logout);$('addUserButton').addEventListener('click',()=>addUser().catch(e=>msg(e.message,'bad')));$('resetUserPasswordButton').addEventListener('click',()=>resetUserPasswordToNip().catch(e=>msg(e.message,'bad')));$('changePasswordButton').addEventListener('click',()=>changeMyPassword().catch(e=>status('passwordStatus',e.message,'bad')));$('useGpsForLocation').addEventListener('click',()=>getGps('office').catch(()=>{}));$('addLocationButton').addEventListener('click',()=>addLocation().catch(e=>msg(e.message,'bad')));$('useGpsForTask').addEventListener('click',()=>getGps('task').catch(()=>{}));$('addTaskButton').addEventListener('click',()=>addTask().catch(e=>msg(e.message,'bad')));$('loadSummaryButton').addEventListener('click',()=>loadSummary().catch(e=>status('summaryStatus',e.message,'bad')));setHistoryDefaultDates();$('reportDate').value=new Date().toLocaleDateString('en-CA');$('adminRkhDate').value=new Date().toLocaleDateString('en-CA');window.addEventListener('pagehide',stopCamera);
+$('downloadAttendanceCsv').addEventListener('click',()=>downloadMonthlyCsv('attendance'));$('downloadRkhCsv').addEventListener('click',()=>downloadMonthlyCsv('rkh'));$('createPhotoArchive').addEventListener('click',createMonthlyPhotoArchive);$('loadPhotoArchiveStatus').addEventListener('click',loadPhotoArchiveStatus);$('purgePhotoArchive').addEventListener('click',purgeMonthlyPhotoArchive);$('loadMyHistoryButton').addEventListener('click',()=>loadMyHistory().catch(e=>{status('myAttendanceHistoryStatus',e.message,'bad');status('myRkhHistoryStatus',e.message,'bad');}));$('rkhSavePlansButton').addEventListener('click',saveRkhPlans);$('rkhSaveRealizationButton').addEventListener('click',saveRkhRealizations);$('loadRkhSummaryButton').addEventListener('click',()=>loadRkhSummary().catch(e=>status('rkhSummaryStatus',e.message,'bad')));$('loginButton').addEventListener('click',login);$('password').addEventListener('keydown',e=>{if(e.key==='Enter')login();});$('mode').addEventListener('change',()=>{const lap=$('mode').value==='LAPANGAN';$('taskBox').classList.toggle('hidden',!lap);if(lap)loadAssignments().catch(e=>msg(e.message,'bad'));});$('refreshGps').addEventListener('click',()=>getGps().catch(()=>{}));$('startCamera').addEventListener('click',startCamera);$('takePhoto').addEventListener('click',()=>takePhoto().catch(e=>msg(e.message,'bad')));$('retakePhoto').addEventListener('click',()=>{$('photoPreview').classList.add('hidden');photo='';$('photoStatus').textContent='Silakan ambil selfie ulang.';$('retakePhoto').classList.add('hidden');});$('sendAttendance').addEventListener('click',sendAttendance);$('logoutButton').addEventListener('click',logout);$('addUserButton').addEventListener('click',()=>addUser().catch(e=>msg(e.message,'bad')));$('resetUserPasswordButton').addEventListener('click',()=>resetUserPasswordToNip().catch(e=>msg(e.message,'bad')));$('changePasswordButton').addEventListener('click',()=>changeMyPassword().catch(e=>status('passwordStatus',e.message,'bad')));$('useGpsForLocation').addEventListener('click',()=>getGps('office').catch(()=>{}));$('addLocationButton').addEventListener('click',()=>addLocation().catch(e=>msg(e.message,'bad')));$('useGpsForTask').addEventListener('click',()=>getGps('task').catch(()=>{}));$('addTaskButton').addEventListener('click',()=>addTask().catch(e=>msg(e.message,'bad')));$('loadSummaryButton').addEventListener('click',()=>loadSummary().catch(e=>status('summaryStatus',e.message,'bad')));setHistoryDefaultDates();$('archiveMonth').value=new Date().toLocaleDateString('en-CA').slice(0,7);$('reportDate').value=new Date().toLocaleDateString('en-CA');$('adminRkhDate').value=new Date().toLocaleDateString('en-CA');window.addEventListener('pagehide',stopCamera);
 })();
 </script>
 </body></html>
