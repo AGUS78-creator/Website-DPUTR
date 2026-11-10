@@ -174,7 +174,8 @@ async function downloadMonthlyCsv(kind){
   if(!r.ok)throw new Error(r.message||'Data bulanan gagal dimuat.');
   if(kind==='attendance'){
    const headers=['WAKTU_SERVER','TANGGAL','JAM','NIP','NAMA','JENIS','MODE','LOKASI','LAT','LNG','AKURASI_M','JARAK_M','STATUS','FOTO_URL'];
-   downloadCsvFile('LIKE_REKAP_ABSENSI_'+month+'.csv',headers,r.attendance||[],'NIP');
+   const attendanceRows=(r.attendance||[]).map(x=>Object.assign({},x,{JAM:formatJamRekap(x.JAM)}));
+   downloadCsvFile('LIKE_REKAP_ABSENSI_'+month+'.csv',headers,attendanceRows,'NIP');
    status('archiveDataStatus','Rekap absensi '+month+' berhasil diunduh: '+(r.attendance||[]).length+' catatan.','good');
   }else{
    const headers=['TANGGAL','NIP','NAMA','NO_URUT','RENCANA_KERJA','TARGET_OUTPUT','REALISASI','STATUS','LINK_EVIDEN','CREATED_AT','UPDATED_AT'];
