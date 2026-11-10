@@ -187,42 +187,64 @@ async function downloadMonthlyCsv(kind){
 }
 function showPhotoArchiveLinks(zips){
  const box=$('photoArchiveLinks');box.innerHTML='';
- (zips||[]).forEach((z,i)=>{const row=document.createElement('p');row.style.margin='7px 0';const a=document.createElement('a');a.href=z.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent='Unduh '+(z.name||('ZIP bagian '+(i+1)))+' ('+(z.photoCount||0)+' foto)';row.appendChild(a);box.appendChild(row);});
+ (zips||[]).forEach((z,i)=>{
+  const row=document.createElement('div');row.style.margin='8px 0';row.style.display='flex';row.style.flexWrap='wrap';row.style.alignItems='center';row.style.gap='8px';
+  const a=document.createElement('a');a.href=z.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent='Unduh '+(z.name||('ZIP bagian '+(i+1)))+' ('+(z.photoCount||0)+' foto)';row.appendChild(a);
+  if(z.batchId){
+   const pick=document.createElement('button');pick.type='button';pick.className='secondary';pick.textContent='Pilih batch ini';
+   pick.addEventListener('click',()=>{$('archiveBatchId').value=z.batchId;$('archiveCleanupConfirm').value='';status('photoArchiveStatus','Batch '+z.batchId+' dipilih. Pembersihan hanya boleh dilakukan setelah seluruh ZIP bulan ini diunduh dan diperiksa.','good');});
+   row.appendChild(pick);
+  }
+  box.appendChild(row);
+ });
 }
 async function loadPhotoArchiveStatus(){
  if(busy)return;
  let month;try{month=selectedArchiveMonth();}catch(e){return status('photoArchiveStatus',e.message,'bad');}
- setBusy(true);status('photoArchiveStatus','Memeriksa arsip foto tertunda…');
+ setBusy(true);status('photoArchiveStatus','Memeriksa semua batch arsip foto…');
  try{
   const r=await api('monthlyArchive',{token,operation:'status',month});
   if(!r.ok)throw new Error(r.message||'Status arsip gagal dimuat.');
-  if(!r.batch){$('archiveBatchId').value='';$('archiveCleanupConfirm').value='';showPhotoArchiveLinks([]);status('photoArchiveStatus',r.message||'Tidak ada arsip foto tertunda.','good');return;}
-  $('archiveBatchId').value=r.batch.id;showPhotoArchiveLinks(r.zips||[]);
-  status('photoArchiveStatus','Arsip '+month+': '+r.batch.processed+' dari '+r.batch.photoCount+' foto sudah dikemas, '+r.batch.zipCount+' ZIP. Status: '+r.batch.status+'.'+(r.batch.status==='SEDANG_DIPROSES'?' Tekan Buat / Lanjutkan ZIP Foto Bulanan untuk meneruskan.':' Unduh dan periksa semua ZIP sebelum pembersihan.'),'good');
+  const batches=Array.isArray(r.batches)?r.batches:(r.batch?[r.batch]:[]);
+  if(!batches.length){
+   $('archiveBatchId').value='';$('archiveCleanupConfirm').value='';showPhotoArchiveLinks([]);
+   status('photoArchiveStatus',r.message||'Tidak ada arsip foto yang menunggu pembersihan.','good');return;
+  }
+  $('archiveBatchId').value='';$('archiveCleanupConfirm').value='';
+  showPhotoArchiveLinks(r.zips||[]);
+  const photos=batches.reduce((n,b)=>n+Number(b.photoCount||0),0);
+  const zipCount=batches.reduce((n,b)=>n+Number(b.zipCount||0),0);
+  const statuses=batches.map((b,i)=>'Batch '+(i+1)+': '+b.status+' ('+Number(b.processed||0)+'/'+Number(b.photoCount||0)+' foto)').join('; ');
+  status('photoArchiveStatus','Arsip '+month+': '+batches.length+' batch, '+photos+' foto, '+zipCount+' ZIP. '+statuses+'. Unduh dan periksa SEMUA ZIP. Tombol "Pilih batch ini" hanya memilih satu batch untuk proses pembersihan setelah arsip lengkap.','good');
  }catch(e){status('photoArchiveStatus',e.message||'Gagal memuat arsip.','bad');}
  finally{setBusy(false);}
 }
 async function createMonthlyPhotoArchive(){
  if(busy)return;
  let month;try{month=selectedArchiveMonth();}catch(e){return status('photoArchiveStatus',e.message,'bad');}
- setBusy(true);status('photoArchiveStatus','Memeriksa arsip foto yang mungkin masih berjalan…');
+ setBusy(true);status('photoArchiveStatus','Memeriksa arsip foto bulan '+month+'…');
  try{
   let state=await api('monthlyArchive',{token,operation:'status',month});
   if(!state.ok)throw new Error(state.message||'Status arsip gagal diperiksa.');
+  const existing=Array.isArray(state.batches)?state.batches:(state.batch?[state.batch]:[]);
   let batchId='',finished=false,processed=0,total=0;
-  if(state.batch){
-   batchId=state.batch.id;processed=state.batch.processed||0;total=state.batch.photoCount||0;
-   $('archiveBatchId').value=batchId;showPhotoArchiveLinks(state.zips||[]);
-   if(state.batch.status!=='SEDANG_DIPROSES'){
-    status('photoArchiveStatus','Arsip '+month+' sudah dibuat dengan status '+state.batch.status+'. Unduh dan periksa semua ZIP, atau selesaikan pembersihan yang tertunda.','good');
+  if(existing.length){
+   const inProgress=existing.find(b=>b.status==='SEDANG_DIPROSES');
+   if(!inProgress){
+    $('archiveBatchId').value='';showPhotoArchiveLinks(state.zips||[]);
+    const photos=existing.reduce((n,b)=>n+Number(b.photoCount||0),0);
+    const zipCount=existing.reduce((n,b)=>n+Number(b.zipCount||0),0);
+    status('photoArchiveStatus','Sudah ada '+existing.length+' batch menunggu unduhan ('+photos+' foto, '+zipCount+' ZIP). Unduh dan periksa semua ZIP yang ditampilkan. Tidak perlu membuat ZIP baru.','good');
     return;
    }
-   status('photoArchiveStatus','Melanjutkan arsip: '+processed+' dari '+total+' foto sudah dikemas…');
+   batchId=inProgress.id;processed=inProgress.processed||0;total=inProgress.photoCount||0;
+   $('archiveBatchId').value='';showPhotoArchiveLinks(state.zips||[]);
+   status('photoArchiveStatus','Melanjutkan batch yang masih diproses: '+processed+' dari '+total+' foto…');
   }else{
    state=await api('monthlyArchive',{token,operation:'createPhotos',month});
    if(!state.ok)throw new Error(state.message||'Batch arsip gagal dibuat.');
    batchId=state.batchId;processed=state.processed||0;total=state.total||0;finished=!!state.finished;
-   $('archiveBatchId').value=batchId;showPhotoArchiveLinks(state.zips||[]);
+   $('archiveBatchId').value='';showPhotoArchiveLinks(state.zips||[]);
    status('photoArchiveStatus','Membuat ZIP foto: '+processed+' dari '+total+' foto…');
   }
   while(!finished){
@@ -230,9 +252,12 @@ async function createMonthlyPhotoArchive(){
    if(!state.ok)throw new Error(state.message||'Pembuatan bagian ZIP berikutnya gagal.');
    processed=state.processed||processed;total=state.total||total;finished=!!state.finished;
    showPhotoArchiveLinks(state.zips||[]);
-   status('photoArchiveStatus','Proses ZIP foto: '+processed+' dari '+total+' foto sudah dikemas ('+(state.zipCount||0)+' bagian).'+(finished?' Semua bagian selesai. Unduh dan periksa semuanya.':''),finished?'good':'');
+   status('photoArchiveStatus','Proses ZIP foto: '+processed+' dari '+total+' foto sudah dikemas ('+(state.zipCount||0)+' bagian).'+(finished?' Semua bagian batch ini selesai. Periksa status semua batch.':''),finished?'good':'');
   }
-  $('archiveCleanupConfirm').value='';
+  if(finished){
+   const refreshed=await api('monthlyArchive',{token,operation:'status',month});
+   if(refreshed.ok){showPhotoArchiveLinks(refreshed.zips||[]);status('photoArchiveStatus','Batch selesai dibuat. Status seluruh batch bulan '+month+' sudah dimuat. Unduh dan periksa semua ZIP.','good');}
+  }
  }catch(e){status('photoArchiveStatus',e.message||'Gagal membuat ZIP foto. Arsip yang belum selesai dapat dilanjutkan melalui tombol ini.','bad');}
  finally{setBusy(false);}
 }
